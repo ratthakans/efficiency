@@ -1,0 +1,502 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────
+   Design Tokens  — single source of truth
+   ───────────────────────────────────────────────────────────────── */
+:root {
+  /* Background palette */
+  --clr-bg: #030507;
+  --clr-surface: #080c10;
+  --clr-border: rgba(255, 255, 255, 0.07);
+
+  /* Studio accent colours */
+  --clr-red: #e06c75;
+  --clr-yellow: #e5c07b;
+  --clr-green: #98c379;
+  --clr-cyan: #56b6c2;
+  --clr-blue: #61afef;
+  --clr-purple: #c678dd;
+
+  /* Typography */
+  --font-mono:
+    "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-sans:
+    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  /* Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+}
+
+/* Tailwind v4 theme layer */
+@theme {
+  --color-studio-bg: var(--clr-bg);
+  --color-studio-surface: var(--clr-surface);
+  --color-studio-border: var(--clr-border);
+  --color-studio-red: var(--clr-red);
+  --color-studio-yellow: var(--clr-yellow);
+  --color-studio-green: var(--clr-green);
+  --color-studio-cyan: var(--clr-cyan);
+  --color-studio-blue: var(--clr-blue);
+  --color-studio-purple: var(--clr-purple);
+  --font-mono: var(--font-mono);
+  --font-sans: var(--font-sans);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Base
+   ───────────────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--clr-bg);
+    color: #fff;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  /* Focus visible (keyboard nav) */
+  :focus-visible {
+    outline: 2px solid var(--clr-blue);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Selection & Scrollbar
+   ───────────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(97, 175, 239, 0.22);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--clr-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(97, 175, 239, 0.4);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Dot-grid background
+   ───────────────────────────────────────────────────────────────── */
+.dot-grid {
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.13) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Accent colour helpers
+   ───────────────────────────────────────────────────────────────── */
+.accent-red {
+  color: var(--clr-red);
+}
+.accent-yellow {
+  color: var(--clr-yellow);
+}
+.accent-green {
+  color: var(--clr-green);
+}
+.accent-cyan {
+  color: var(--clr-cyan);
+}
+.accent-blue {
+  color: var(--clr-blue);
+}
+.accent-purple {
+  color: var(--clr-purple);
+}
+
+/* Gradient text */
+.accent-grad-rb {
+  background: linear-gradient(135deg, var(--clr-red), var(--clr-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.accent-grad-gc {
+  background: linear-gradient(135deg, var(--clr-green), var(--clr-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.accent-grad-yp {
+  background: linear-gradient(135deg, var(--clr-yellow), var(--clr-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Typography helpers
+   ───────────────────────────────────────────────────────────────── */
+
+/* Small ALL-CAPS label used above section titles and in data labels */
+.code-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+}
+
+/* Section separator glow line */
+.separator-glow {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(97, 175, 239, 0.28) 30%,
+    rgba(152, 195, 121, 0.28) 60%,
+    transparent 100%
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Icon box — centred square container for lucide icons
+   ───────────────────────────────────────────────────────────────── */
+.icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Tech card — dark card with accent hover
+   ───────────────────────────────────────────────────────────────── */
+.tech-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(8, 12, 16, 0.7);
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* Accent sweep on hover — driven by CSS custom property set inline */
+.tech-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    var(--row-accent, transparent) 0%,
+    transparent 55%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.tech-card:hover {
+  background: rgba(12, 16, 22, 0.9);
+  border-color: color-mix(in srgb, var(--row-accent, #fff) 30%, transparent);
+  box-shadow: 0 0 40px
+    color-mix(in srgb, var(--row-accent, #000) 10%, transparent);
+}
+.tech-card:hover::before {
+  opacity: 1;
+}
+
+/* Accent bottom line — rendered via <span className="accent-line"> */
+.accent-line {
+  display: block;
+  height: 1px;
+  margin-top: 1.5rem;
+  width: 2rem;
+  border-radius: 999px;
+  opacity: 0;
+  transform: scaleX(0.4);
+  transform-origin: left;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+.tech-card:hover .accent-line {
+  opacity: 0.6;
+  transform: scaleX(1);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Row card — full-width alternating section with accent hover stripe
+   ───────────────────────────────────────────────────────────────── */
+.row-card {
+  position: relative;
+  transition: background-color 0.4s ease;
+}
+.row-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: var(--row-accent, transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.row-card:hover {
+  background-color: rgba(255, 255, 255, 0.012);
+}
+.row-card:hover::before {
+  opacity: 0.6;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Value card — left-border accent card (About / principles-style)
+   Same visual language as row-card but self-contained (not full-width)
+   Set --card-accent inline: style={{ '--card-accent': a.hex }}
+   ───────────────────────────────────────────────────────────────── */
+.value-card {
+  position: relative;
+  overflow: hidden;
+  border-left: 2px solid
+    color-mix(in srgb, var(--card-accent, #fff) 25%, transparent);
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease;
+}
+.value-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--card-accent, #fff) 6%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.value-card:hover {
+  background-color: rgba(255, 255, 255, 0.012);
+  border-color: color-mix(in srgb, var(--card-accent, #fff) 55%, transparent);
+}
+.value-card:hover::before {
+  opacity: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Stack item — individual tech row inside a stack category card
+   ───────────────────────────────────────────────────────────────── */
+.stack-item {
+  position: relative;
+  transition: background-color 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.stack-item:hover {
+  background-color: rgba(255, 255, 255, 0.025);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Glowing pill / tag
+   ───────────────────────────────────────────────────────────────── */
+.tag-glow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(97, 175, 239, 0.07);
+  border: 1px solid rgba(97, 175, 239, 0.22);
+  color: var(--clr-blue);
+}
+.tag-glow::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--clr-blue);
+  box-shadow: 0 0 6px var(--clr-blue);
+  animation: pulse-dot 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Form inputs — global styling
+   ───────────────────────────────────────────────────────────────── */
+.field-input {
+  font-family: var(--font-mono);
+  background: rgba(8, 8, 8, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  outline: none;
+}
+.field-input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+.field-input:focus {
+  border-color: rgba(97, 175, 239, 0.4);
+  box-shadow: 0 0 0 3px rgba(97, 175, 239, 0.08);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Background orb animations (CSS-only — no JS/framer overhead)
+   ───────────────────────────────────────────────────────────────── */
+@keyframes orb1 {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translate(0px, 0px);
+  }
+  33% {
+    transform: translate(-50%, -50%) translate(48px, 60px);
+  }
+  66% {
+    transform: translate(-50%, -50%) translate(-30px, 90px);
+  }
+}
+@keyframes orb2 {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translate(0px, 0px);
+  }
+  40% {
+    transform: translate(-50%, -50%) translate(-80px, -40px);
+  }
+  80% {
+    transform: translate(-50%, -50%) translate(40px, 60px);
+  }
+}
+@keyframes orb3 {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translate(0px, 0px);
+  }
+  50% {
+    transform: translate(-50%, -50%) translate(-60px, 80px);
+  }
+}
+@keyframes orb4 {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translate(0px, 0px);
+  }
+  30% {
+    transform: translate(-50%, -50%) translate(70px, -30px);
+  }
+  70% {
+    transform: translate(-50%, -50%) translate(-40px, 60px);
+  }
+}
+@keyframes orb5 {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translate(0px, 0px);
+  }
+  45% {
+    transform: translate(-50%, -50%) translate(-60px, -70px);
+  }
+  85% {
+    transform: translate(-50%, -50%) translate(50px, 30px);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Keyframe animations (general purpose)
+   ───────────────────────────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.65);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s ease-out forwards;
+}
+
+.animation-delay-100 {
+  animation-delay: 0.1s;
+}
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+.animation-delay-500 {
+  animation-delay: 0.5s;
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Reduced motion — respect user preferences
+   ───────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
