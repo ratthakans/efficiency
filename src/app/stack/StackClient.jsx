@@ -2,78 +2,81 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Server, Monitor, Zap, Cloud, CreditCard, Wrench, ArrowRight, ExternalLink } from 'lucide-react';
-import Section, { SectionLabel, FadeIn } from '@/components/ui/Section';
+import { Smartphone, Server, Cpu, Cloud, Wrench, Database, ArrowRight, ExternalLink } from 'lucide-react';
+import Section, { SectionLabel, SectionTitle, FadeIn } from '@/components/ui/Section';
 import { accentAt } from '@/lib/accents';
 
 const STACKS = [
   {
-    icon: Server, category: 'Backend',
+    icon: Smartphone, category: 'Mobile Engineering',
+    accentIdx: 4,
     items: [
-      { name: 'Node.js / TypeScript', desc: 'Typed, scalable server-side runtime',       logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg' },
-      { name: 'REST API Architecture', desc: 'Clean, predictable interface design',       logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg' },
-      { name: 'PostgreSQL',            desc: 'Reliable relational database',              logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
-      { name: 'Role-based Auth',       desc: 'Granular access control by user role',     logo: 'https://cdn.auth0.com/styleguide/components/1.0.8/media/logos/img/badge.png' },
+      { name: 'Flutter (Dart)', desc: 'Cross-platform iOS + Android from a single codebase — our primary mobile technology.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg' },
+      { name: 'Swift / SwiftUI', desc: 'Native iOS for performance-critical or Apple-specific features.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg' },
+      { name: 'Kotlin / Jetpack Compose', desc: 'Native Android for hardware SDK integrations requiring low-level access.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg' },
+      { name: 'React Native', desc: 'Chosen when a project requires tight JavaScript ecosystem integration.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
     ],
   },
   {
-    icon: Monitor, category: 'Frontend',
+    icon: Cpu, category: 'Embedded & Device',
+    accentIdx: 5,
     items: [
-      { name: 'Flutter',          desc: 'Cross-platform mobile development',    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg' },
-      { name: 'React / Next.js',  desc: 'Modern web interface framework',       logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
-      { name: 'Tailwind CSS',     desc: 'Utility-first styling system',         logo: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg' },
-      { name: 'Responsive UI',    desc: 'Consistent across all screen sizes',   logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
+      { name: 'C / C++ (Embedded)', desc: 'Firmware development on microcontrollers: ESP32, STM32, nRF52.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg' },
+      { name: 'Rust', desc: 'Memory-safe systems programming for safety-critical embedded applications.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-plain.svg' },
+      { name: 'BLE / NFC / RFID SDK', desc: 'Bluetooth 5.0 protocol stack, NFC/RFID integration via platform SDK.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg' },
+      { name: 'MQTT / CoAP / OCPP', desc: 'IoT messaging protocols, EV charging (OCPP 1.6/2.0), industrial IoT.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/raspberrypi/raspberrypi-original.svg' },
     ],
   },
   {
-    icon: Zap, category: 'Automation & Integration',
+    icon: Server, category: 'Backend & API',
+    accentIdx: 0,
     items: [
-      { name: 'API Integrations',        desc: 'Connecting systems via standard interfaces', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swagger/swagger-original.svg' },
-      { name: 'Webhooks',                desc: 'Real-time event-driven data exchange',       logo: 'https://static.cdnlogo.com/logos/w/78/webhook.svg' },
-      { name: 'Workflow Automation',     desc: 'Structured rule-based process execution',    logo: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/n8n.webp' },
-      { name: 'Event-driven Processes',  desc: 'Systems that react to operational signals',  logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg' },
+      { name: 'Node.js / TypeScript', desc: 'Primary backend runtime — typed, scalable, broad ecosystem compatibility.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg' },
+      { name: 'Go', desc: 'Performance-critical services: high-throughput APIs, concurrent processing.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg' },
+      { name: 'Python', desc: 'Data processing, ML model serving, scripting and automation pipelines.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
+      { name: 'REST + GraphQL + WebSocket', desc: 'API patterns chosen by use case — REST for CRUD, WebSocket for real-time.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg' },
     ],
   },
   {
-    icon: Cloud, category: 'Infrastructure',
+    icon: Database, category: 'Database & Storage',
+    accentIdx: 2,
     items: [
-      { name: 'Cloud Deployment', desc: 'VPS and container-based hosting',         logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/digitalocean/digitalocean-original.svg' },
-      { name: 'Docker',           desc: 'Consistent, portable environments',       logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
-      { name: 'Version Control',  desc: 'Reproducible and auditable deployments',  logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' },
-      { name: 'Nginx',            desc: 'Reliable reverse proxy and web server',   logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg' },
+      { name: 'PostgreSQL', desc: 'Primary relational database — ACID compliance, complex queries, multi-tenant schemas.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
+      { name: 'Firebase / Firestore', desc: 'Real-time sync, push notifications and auth for mobile apps.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg' },
+      { name: 'Supabase', desc: 'PostgreSQL + auth + storage + real-time for projects that need to move fast.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg' },
+      { name: 'Redis', desc: 'Caching, session storage, pub/sub for real-time features.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg' },
     ],
   },
   {
-    icon: CreditCard, category: 'Optional / Extended',
+    icon: Cloud, category: 'Cloud & Infrastructure',
+    accentIdx: 1,
     items: [
-      { name: 'Stripe',             desc: 'Global payment gateway integration',      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/1280px-Stripe_Logo%2C_revised_2016.svg.png' },
-      { name: 'QR Payment Systems', desc: 'Thai standard PromptPay QR payments',    logo: 'https://www.bot.or.th/content/dam/bot/icons/icon-thaiqr.png' },
-      { name: 'Firebase',           desc: 'Push notifications and real-time sync',  logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg' },
-      { name: 'Google Maps API',    desc: 'Location and mapping services',          logo: 'https://developers.google.com/static/maps/images/maps-icon.svg' },
+      { name: 'AWS', desc: 'EC2, RDS, S3, Lambda, IoT Core — primary cloud platform for enterprise projects.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+      { name: 'Google Cloud / Firebase', desc: 'Firebase Hosting, Cloud Run, BigQuery for analytics-heavy projects.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg' },
+      { name: 'Docker + CI/CD', desc: 'Containerised deployments, GitHub Actions / GitLab CI pipeline on every project.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+      { name: 'Nginx + VPS', desc: 'Reverse proxy, SSL termination for projects that don\'t require managed cloud.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg' },
     ],
   },
   {
     icon: Wrench, category: 'Engineering Environment',
+    accentIdx: 3,
     items: [
-      { name: 'VS Code',  desc: 'Primary code editor and workspace',          logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/3840px-Visual_Studio_Code_1.35_icon.svg.png', url: 'https://code.visualstudio.com/' },
-      { name: 'Postman',  desc: 'API design, testing, and documentation',     logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg',                                                           url: 'https://www.postman.com/' },
-      { name: 'GitHub',   desc: 'Source control and collaboration',           logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-white-icon.png',                                         url: 'https://github.com/' },
-      { name: 'Claude',   desc: 'AI-assisted development and reasoning',      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Claude_AI_symbol.svg/1280px-Claude_AI_symbol.svg.png',                           url: 'https://claude.ai/' },
+      { name: 'VS Code / Xcode / Android Studio', desc: 'Platform-appropriate IDEs matching each tech stack.', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/3840px-Visual_Studio_Code_1.35_icon.svg.png', url: 'https://code.visualstudio.com/' },
+      { name: 'Figma', desc: 'UI design, prototyping and design system — our design team works in Figma as the primary tool.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg', url: 'https://www.figma.com/' },
+      { name: 'Postman / Insomnia', desc: 'API design, testing, documentation and mock server for parallel development.', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg', url: 'https://www.postman.com/' },
+      { name: 'GitHub / GitLab', desc: 'Source control, code review and CI/CD pipeline integration.', logo: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-white-icon.png', url: 'https://github.com/' },
     ],
   },
 ];
 
 function StackItem({ item, accentHex }) {
   return (
-    <div
-      className="stack-item p-6 flex items-start gap-4 group/item"
-      style={{ background: 'rgba(0,0,0,0.6)' }}
-    >
-      <div className="w-7 h-7 flex-shrink-0 flex items-center justify-center mt-0.5 opacity-75 group-hover/item:opacity-100 transition-opacity">
+    <div className="stack-item p-6 flex items-start gap-4 group/item" style={{ background: 'rgba(0,0,0,0.6)' }}>
+      <div className="w-7 h-7 flex-shrink-0 flex items-center justify-center mt-0.5 opacity-70 group-hover/item:opacity-100 transition-opacity">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={item.logo} alt={item.name} className="w-6 h-6 object-contain" onError={e => { e.target.style.display = 'none'; }} />
       </div>
-      <div>
+      <div className="flex-1">
         <p className="text-white/80 text-sm font-mono font-medium mb-0.5 group-hover/item:text-white transition-colors">{item.name}</p>
         <p className="text-white/38 text-xs leading-relaxed group-hover/item:text-white/55 transition-colors">{item.desc}</p>
       </div>
@@ -86,7 +89,6 @@ function StackItem({ item, accentHex }) {
   );
 }
 
-
 export default function StackPage() {
   return (
     <div className="pt-16">
@@ -95,20 +97,21 @@ export default function StackPage() {
       <Section className="pt-24 pb-16">
         <div className="max-w-3xl">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-            <SectionLabel>Technology</SectionLabel>
+            <SectionLabel>Technology Stack</SectionLabel>
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-mono font-semibold tracking-tight leading-[1.08] mb-6"
           >
-            We use modern,<br />maintainable technologies.
+            Mobile-First<br />
+            <span className="accent-blue">Technology Stack</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }}
             className="text-lg text-white/50 font-light max-w-2xl leading-relaxed"
           >
-            Every tool we use is chosen for long-term reliability, developer clarity,
-            and operational fit. No unnecessary complexity.
+            Every tool is chosen to fit the real use case — Flutter for cross-platform mobile,
+            C++ for embedded firmware, Go for high-performance backends.
           </motion.p>
         </div>
       </Section>
@@ -116,7 +119,7 @@ export default function StackPage() {
       {/* Stack sections */}
       <div className="border-t border-white/[0.05]">
         {STACKS.map((stack, i) => {
-          const a    = accentAt(i);
+          const a    = accentAt(stack.accentIdx);
           const Icon = stack.icon;
           return (
             <div
@@ -171,7 +174,10 @@ export default function StackPage() {
         <div className="text-center max-w-xl mx-auto">
           <FadeIn>
             <p className="text-2xl md:text-3xl font-mono font-semibold text-white mb-4">
-              Want to discuss the right stack for your project?
+              Wondering what tech stack fits your project?
+            </p>
+            <p className="text-white/38 text-sm mb-10">
+              We choose tech based on real requirements, not trends — talk to our team for free.
             </p>
           </FadeIn>
           <FadeIn delay={0.15}>
@@ -180,7 +186,7 @@ export default function StackPage() {
               className="group inline-flex items-center gap-2 px-7 py-3.5 text-sm font-mono font-semibold text-black rounded-sm mt-8"
               style={{ background: 'linear-gradient(135deg, #61afef, #56b6c2)', boxShadow: '0 0 28px rgba(97,175,239,0.25)' }}
             >
-              Start a Conversation
+              Talk to the Team
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
           </FadeIn>

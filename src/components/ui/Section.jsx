@@ -12,7 +12,7 @@ const VIEWPORT_OPTS = { once: true, margin: '-60px' };
 /** Full-width section wrapper with max-width container */
 export default function Section({ children, className = '', id }) {
   return (
-    <section id={id} className={`py-24 md:py-32 ${className}`}>
+    <section id={id} className={`py-20 md:py-28 ${className}`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {children}
       </div>
@@ -29,7 +29,7 @@ export function SectionLabel({ children }) {
       whileInView="visible"
       viewport={VIEWPORT_OPTS}
       transition={{ duration: 0.45, ease: 'easeOut' }}
-      className="code-label mb-5"
+      className="code-label mb-4"
     >
       {children}
     </motion.p>
@@ -45,7 +45,7 @@ export function SectionTitle({ children, className = '' }) {
       whileInView="visible"
       viewport={VIEWPORT_OPTS}
       transition={{ duration: 0.55, ease: 'easeOut' }}
-      className={`text-3xl md:text-4xl lg:text-5xl font-mono font-semibold tracking-tight leading-tight ${className}`}
+      className={`text-3xl md:text-4xl font-mono font-semibold tracking-tight leading-snug ${className}`}
     >
       {children}
     </motion.h2>

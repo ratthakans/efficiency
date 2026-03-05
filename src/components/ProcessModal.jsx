@@ -5,86 +5,98 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 
 const PROCESS_DETAILS = {
-  Define: {
-    title:       'Define',
-    description: 'Understanding the problem before solving it.',
+  Discovery: {
+    title:       'Discovery',
+    description: 'Before opening a code editor, we need to understand your business — what the real problem is, who the actual end-users are.',
     details: [
-      'Meet with stakeholders to understand business goals and constraints',
-      'Document current processes and pain points',
-      'Define success metrics and project scope',
-      'Clarify requirements and user needs',
-      'Identify risks and dependencies',
+      'Stakeholder interviews with product owner and real end-users',
+      'User persona + journey mapping',
+      'Technical requirements workshop',
+      'Scope definition with clear boundaries',
+      'Risk identification and mitigation planning',
     ],
   },
-  Design: {
-    title:       'Design',
-    description: 'Creating the blueprint for the solution.',
+  'UX / UI': {
+    title:       'UX / UI Design',
+    description: 'A clickable prototype before any developer writes code — UX that works in practice, not just something that looks good.',
     details: [
-      'Architecture planning and system design',
-      'User experience and interface design',
-      'Database schema and data flow planning',
-      'Integration points with existing systems',
-      'Security and scalability considerations',
+      'Information architecture and user flow',
+      'Low-fidelity wireframe + feedback round',
+      'High-fidelity UI design + Design System',
+      'Interactive Figma prototype (fully clickable)',
+      'Accessibility review (WCAG 2.1)',
+      'Micro-interaction specifications',
     ],
   },
   Build: {
     title:       'Build',
-    description: 'Implementing the designed solution.',
+    description: 'Sprint-based every 2 weeks — you see real progress with a demo at every sprint, not a 3-month wait.',
     details: [
-      'Write clean, maintainable code',
-      'Develop backend services and APIs',
-      'Build user interfaces and applications',
-      'Integrate third-party services',
-      'Document code and systems',
+      'Sprint planning every 2 weeks',
+      'Mobile app development (Flutter / Native iOS / Android)',
+      'Backend API + database development',
+      'Hardware SDK integration (if in scope)',
+      'Demo at each sprint end — your feedback shapes the next sprint',
+      'Unit + integration tests alongside development',
     ],
   },
-  Test: {
-    title:       'Test',
-    description: 'Ensuring quality before deployment.',
+  'QA & Test': {
+    title:       'QA & Testing',
+    description: 'Tested on real physical devices across 10+ models — not just simulators, covering the edge cases real users will encounter.',
     details: [
-      'Automated testing and quality assurance',
-      'Performance and security testing',
-      'User acceptance testing with stakeholders',
-      'Bug fixes and refinements',
-      'Edge case and stress testing',
+      'Functional testing: every user flow',
+      'Real device matrix: 10+ models, multiple iOS/Android versions',
+      'Performance profiling (startup time, scroll, API latency)',
+      'Security: input validation, auth flows, secure storage',
+      'Accessibility: screen reader, dynamic text size',
+      'Regression testing after every bug fix',
     ],
   },
-  Deploy: {
-    title:       'Deploy',
-    description: 'Getting the solution into production.',
+  Launch: {
+    title:       'Launch',
+    description: 'App Store submission, production deployment, monitoring setup — we stay with you through go-live.',
     details: [
-      'Infrastructure setup and configuration',
-      'Data migration and system integration',
-      'Deployment planning and execution',
-      'User training and documentation',
-      'Monitoring and ongoing support',
+      'App Store Connect + Google Play Store submission',
+      'Store listing: screenshots, description, keyword optimisation',
+      'Production server deployment + health checks',
+      'Error monitoring setup (Sentry / Firebase Crashlytics)',
+      'Performance monitoring dashboard',
+      'Handover documentation + team training',
+    ],
+  },
+  Maintain: {
+    title:       'Maintain',
+    description: 'Maintenance packages — keeping your app running on the latest OS versions, with bug fixes and minor feature additions.',
+    details: [
+      'iOS / Android OS compatibility updates (every major release)',
+      'Dependency security patches',
+      'P1 bug hotfix within 24 hours',
+      'Monthly performance monitoring review',
+      'Minor feature additions (within 8h/month)',
+      'Monthly technical health report',
     ],
   },
 };
 
-const ACCENT_COLOURS = ['#e06c75', '#e5c07b', '#98c379', '#56b6c2', '#61afef'];
+const ACCENT_COLOURS = ['#e06c75', '#e5c07b', '#98c379', '#56b6c2', '#61afef', '#c678dd'];
 const STEP_KEYS      = Object.keys(PROCESS_DETAILS);
 
 export default function ProcessModal({ step, isOpen, onClose }) {
   const content      = PROCESS_DETAILS[step] ?? null;
   const stepIndex    = step ? STEP_KEYS.indexOf(step) : 0;
-  const accentColour = ACCENT_COLOURS[stepIndex] ?? ACCENT_COLOURS[0];
+  const accentColour = ACCENT_COLOURS[stepIndex >= 0 ? stepIndex : 0];
 
-  // Escape key + body scroll lock
   useEffect(() => {
     if (!isOpen) return;
-
     const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', handleKey);
     document.body.style.overflow = 'hidden';
-
     return () => {
       document.removeEventListener('keydown', handleKey);
       document.body.style.overflow = '';
     };
   }, [isOpen, onClose]);
 
-  // Guard: don't render if no content
   if (!content) return null;
 
   return (
@@ -129,12 +141,7 @@ export default function ProcessModal({ step, isOpen, onClose }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.08 }}
             >
-              <p
-                className="code-label mb-3"
-                style={{ color: accentColour }}
-              >
-                Process Step
-              </p>
+              <p className="code-label mb-4" style={{ color: accentColour }}>Process Phase</p>
               <h2 id="process-modal-title" className="text-3xl md:text-4xl font-mono font-light mb-3">
                 {content.title}
               </h2>
@@ -149,7 +156,7 @@ export default function ProcessModal({ step, isOpen, onClose }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.16 }}
             >
-              <p className="code-label mb-5">What happens in this phase</p>
+              <p className="code-label mb-5">Activities</p>
               <ul className="space-y-4">
                 {content.details.map((detail, i) => (
                   <motion.li

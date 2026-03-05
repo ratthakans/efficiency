@@ -1,9 +1,9 @@
 export const metadata = {
-  title:       'Contact',
-  description: 'Start with clarity. Tell us about your project — we will discuss whether we are the right fit and how we might work together.',
+  title:       'Contact — ขอประเมินโปรเจกต์ฟรี',
+  description: 'ติดต่อ Efficiency สำหรับ Mobile App, POS System หรือ Embedded Software — ขอ free assessment ภายใน 1 วันทำการ ไม่มี commitment',
   openGraph: {
     title:       'Contact | EFFICIENCY',
-    description: 'Start a conversation about your project. Based in Bangkok, working globally.',
+    description: 'ขอประเมินโปรเจกต์ Mobile App, POS, Embedded Software — ฟรี ภายใน 1 วันทำการ',
     url:         'https://efficiency.co.th/contact',
   },
 };

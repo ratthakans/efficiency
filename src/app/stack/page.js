@@ -1,9 +1,9 @@
 export const metadata = {
-  title:       'Stack',
-  description: 'The technology we use: Node.js, TypeScript, PostgreSQL, React/Next.js, Flutter, Docker, and more — chosen for long-term reliability and operational fit.',
+  title:       'Tech Stack — Flutter, Swift, Kotlin, C++, Go',
+  description: 'Technology stack ของ Efficiency: Flutter สำหรับ cross-platform mobile, Swift/Kotlin สำหรับ native, C++/Rust สำหรับ embedded, Node.js/Go สำหรับ backend',
   openGraph: {
-    title:       'Stack | EFFICIENCY',
-    description: 'Modern, maintainable technologies chosen for reliability and operational fit.',
+    title:       'Tech Stack | EFFICIENCY',
+    description: 'Mobile-first tech stack: Flutter · Swift · Kotlin · C++ · Rust · Node.js · Go · AWS · Firebase',
     url:         'https://efficiency.co.th/stack',
   },
 };
