@@ -55,12 +55,16 @@ export const metadata = {
     title: SITE_TITLE,
     description: SITE_DESC,
   },
+  // ใส่โค้ดยืนยันสิทธิ์จาก Search Console ผ่าน NEXT_PUBLIC_GSC_ID ได้ถ้าต้องการ
+  // (ถ้ายืนยันผ่าน Google Analytics อยู่แล้ว ไม่ต้องใช้)
+  ...(process.env.NEXT_PUBLIC_GSC_ID
+    ? { verification: { google: process.env.NEXT_PUBLIC_GSC_ID } }
+    : {}),
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
   },
-  icons: { icon: '/favicon.ico' },
 };
 
 // ─── JSON-LD ─────────────────────────────────────────────────────

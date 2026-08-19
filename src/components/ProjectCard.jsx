@@ -58,6 +58,12 @@ export default function ProjectCard({ project }) {
 
         <h3 className="text-[19px] font-semibold text-ink mb-1">{project.name}</h3>
         <p className="text-[14.5px] text-ink-3 mb-3">{project.type}</p>
+        <p
+          className="inline-flex items-center gap-1.5 text-[13px] font-medium mb-3 px-2.5 py-1 rounded-md"
+          style={{ background: accent.soft, color: accent.hex }}
+        >
+          บทบาทของเรา · {project.role}
+        </p>
         <p className="text-[14.5px] text-ink-2 leading-relaxed">{project.summary}</p>
 
         <ul className="mt-5 space-y-2">

@@ -9,6 +9,7 @@ import {
 import Section, { SectionHead, FadeIn, PageHero } from '@/components/ui/Section';
 import ProjectModal from '@/components/ProjectModal';
 import ProjectCard from '@/components/ProjectCard';
+import Testimonials from '@/components/Testimonials';
 import { accentAt } from '@/lib/accents';
 import { PROJECTS } from '@/lib/content';
 
@@ -171,6 +172,8 @@ export default function WorkClient() {
           ))}
         </div>
       </Section>
+
+      <Testimonials tone="soft" />
 
       {/* ══ ตัวอย่างขอบเขตงานตามแพ็กเกจ ═══════════════════════ */}
       <Section tone="soft">

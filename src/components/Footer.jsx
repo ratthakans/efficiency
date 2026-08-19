@@ -117,6 +117,10 @@ export default function Footer() {
               © {year} {CONTACT.companyTh} · สงวนลิขสิทธิ์ ·{' '}
               <Link href="/privacy" className="hover:text-brand transition-colors underline underline-offset-2">
                 นโยบายความเป็นส่วนตัว
+              </Link>{' '}
+              ·{' '}
+              <Link href="/terms" className="hover:text-brand transition-colors underline underline-offset-2">
+                เงื่อนไขการให้บริการ
               </Link>
             </p>
             <p className="text-[13px] text-ink-3">

@@ -12,6 +12,7 @@ export default function sitemap() {
     { url: '/about',    priority: 0.7,  changeFrequency: 'monthly' },
     { url: '/contact',  priority: 0.9,  changeFrequency: 'yearly' },
     { url: '/privacy',  priority: 0.3,  changeFrequency: 'yearly' },
+    { url: '/terms',    priority: 0.4,  changeFrequency: 'yearly' },
   ];
 
   return routes.map(r => ({

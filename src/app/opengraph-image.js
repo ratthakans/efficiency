@@ -27,14 +27,14 @@ export default function OpengraphImage() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ fontSize: 68, fontWeight: 700, color: '#0b1526', lineHeight: 1.15 }}>
-            Web Development
+          <div style={{ fontSize: 62, fontWeight: 700, color: '#0b1526', lineHeight: 1.2 }}>
+            Web Development Studio
           </div>
-          <div style={{ fontSize: 68, fontWeight: 700, color: '#2563eb', lineHeight: 1.15 }}>
-            Studio
-          </div>
-          <div style={{ fontSize: 30, color: '#46566c', marginTop: 24 }}>
+          <div style={{ fontSize: 34, color: '#2563eb', marginTop: 14, fontWeight: 700 }}>
             Company Profile · Lead Generation · Web System
+          </div>
+          <div style={{ fontSize: 26, color: '#46566c', marginTop: 18 }}>
+            Clear scope and pricing agreed before we start
           </div>
         </div>
 
@@ -53,8 +53,9 @@ export default function OpengraphImage() {
           >
             <span style={{ fontSize: 20 }}>Packages from</span>
             <span style={{ fontWeight: 700 }}>THB 29,000</span>
+            <span style={{ fontSize: 18, opacity: 0.85 }}>incl. VAT</span>
           </div>
-          <span style={{ fontSize: 24, color: '#7b8899' }}>efficiency.co.th</span>
+          <span style={{ fontSize: 24, color: '#7b8899' }}>efficiency.co.th · 063 859 8423</span>
         </div>
       </div>
     ),

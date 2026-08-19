@@ -11,6 +11,7 @@ import {
 import Section, { SectionHead, FadeIn } from '@/components/ui/Section';
 import PackageCard from '@/components/PackageCard';
 import KeyTermsStrip from '@/components/KeyTermsStrip';
+import Testimonials from '@/components/Testimonials';
 import { accentAt } from '@/lib/accents';
 import {
   PACKAGES, PROJECTS, PROCESS_STEPS, FAQS, NO_CHECKOUT_NOTE,
@@ -279,6 +280,7 @@ export default function HomePage() {
                       {p.category}
                     </p>
                     <p className="text-[14.5px] text-ink-2 leading-relaxed">{p.type}</p>
+                    <p className="text-[13px] text-ink-3 mt-2">{p.role}</p>
                     <p className="mt-auto pt-4 font-mono text-[12.5px] text-ink-3 group-hover:text-brand transition-colors">
                       {p.domain}
                     </p>
@@ -305,6 +307,9 @@ export default function HomePage() {
           </FadeIn>
         </div>
       </Section>
+
+      {/* ══ คำรับรองจากลูกค้า (แสดงเมื่อมีข้อความที่อนุมัติแล้ว) ══ */}
+      <Testimonials tone="soft" />
 
       {/* ══ แพ็กเกจ ═══════════════════════════════════════════ */}
       <Section id="packages" tone="soft">

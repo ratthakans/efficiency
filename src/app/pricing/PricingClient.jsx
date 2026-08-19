@@ -12,7 +12,8 @@ import PackageCard from '@/components/PackageCard';
 import KeyTermsStrip from '@/components/KeyTermsStrip';
 import { accentAt } from '@/lib/accents';
 import {
-  PACKAGES, COMPARISON_ROWS, SYSTEM_SCOPE, CARE_PLANS, SCOPE_TERMS, FAQS, NO_CHECKOUT_NOTE,
+  PACKAGES, COMPARISON_ROWS, SYSTEM_SCOPE, CARE_PLANS, SCOPE_TERMS, FAQS,
+  NO_CHECKOUT_NOTE, ADD_ONS, EXTERNAL_COSTS,
 } from '@/lib/content';
 
 const SCOPE_ICONS = [Workflow, Users, LayoutDashboard];
@@ -368,8 +369,76 @@ export default function PricingClient() {
         </FadeIn>
       </Section>
 
+      {/* ══ งานส่วนเพิ่มนอกแพ็กเกจ ═════════════════════════════ */}
+      <Section id="add-ons" className="scroll-mt-24">
+        <SectionHead
+          label="Add-ons"
+          title="อยากได้เกินขอบเขตแพ็กเกจ คิดเพิ่มเท่าไร"
+          desc="ราคาต่อไปนี้อ้างอิงจากส่วนต่างของแพ็กเกจหลัก ใช้ประเมินงบล่วงหน้าได้ทันที ไม่ต้องรอใบเสนอราคา"
+        />
+
+        <div className="grid lg:grid-cols-2 gap-5 mt-12">
+          {ADD_ONS.map((g, gi) => {
+            const accent = accentAt(g.accentIdx);
+            return (
+              <FadeIn key={g.group} delay={gi * 0.08} className="h-full">
+                <div
+                  className="card h-full p-7 md:p-8"
+                  style={{ '--accent': accent.hex, '--accent-soft': accent.soft }}
+                >
+                  <p className="font-mono text-[11.5px] tracking-[0.16em] mb-1" style={{ color: accent.hex }}>
+                    ADD-ONS
+                  </p>
+                  <h3 className="text-[19px] font-semibold text-ink mb-6">{g.group}</h3>
+
+                  <ul className="divide-y divide-line-soft border-t border-line-soft">
+                    {g.items.map((it) => (
+                      <li key={it.name} className="py-4">
+                        <div className="flex items-baseline justify-between gap-4">
+                          <span className="text-[15.5px] text-ink font-medium">{it.name}</span>
+                          <span className="text-right shrink-0">
+                            <span className="num text-[16px] font-semibold text-ink">{it.price}</span>
+                            {it.unit && <span className="block text-[12.5px] text-ink-3">{it.unit}</span>}
+                          </span>
+                        </div>
+                        <p className="text-[14px] text-ink-2 leading-relaxed mt-1.5">{it.note}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </FadeIn>
+            );
+          })}
+        </div>
+
+        <FadeIn delay={0.12}>
+          <div className="card mt-5 p-7 md:p-8">
+            <h3 className="text-[18px] font-semibold text-ink mb-2">ค่าใช้จ่ายภายนอกที่ไม่รวมในทุกแพ็กเกจ</h3>
+            <p className="text-[14.5px] text-ink-2 leading-relaxed mb-6">
+              รายการเหล่านี้จ่ายตรงกับผู้ให้บริการ เราไม่บวกเพิ่มและไม่รับค่าคอมมิชชัน
+              แต่ช่วยแนะนำและตั้งค่าให้ทั้งหมด
+            </p>
+            <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
+              {EXTERNAL_COSTS.map((c) => (
+                <li key={c.name}>
+                  <p className="text-[15px] font-medium text-ink">{c.name}</p>
+                  <p className="text-[14px] text-ink-2 leading-relaxed mt-0.5">{c.note}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.16}>
+          <p className="mt-5 text-[14px] text-ink-3 leading-relaxed">
+            ราคางานส่วนเพิ่มทั้งหมดรวมภาษีมูลค่าเพิ่มแล้ว เป็นราคาอ้างอิงสำหรับงานที่มีขอบเขตชัดเจน
+            หากงานซับซ้อนกว่าปกติ เราจะแจ้งส่วนต่างให้ทราบก่อนเริ่มเสมอ
+          </p>
+        </FadeIn>
+      </Section>
+
       {/* ══ ดูแลหลังเปิดเว็บไซต์ ═══════════════════════════════ */}
-      <Section>
+      <Section tone="soft">
         <SectionHead
           label="Care plans"
           title="ดูแลให้เว็บไซต์พร้อมทำงานต่อเนื่อง"
@@ -404,7 +473,7 @@ export default function PricingClient() {
       </Section>
 
       {/* ══ ขอบเขตสำคัญ ═══════════════════════════════════════ */}
-      <Section tone="soft">
+      <Section>
         <SectionHead
           label="Terms"
           title="ชัดก่อนเริ่ม จบงานง่าย"
@@ -428,7 +497,7 @@ export default function PricingClient() {
       </Section>
 
       {/* ══ คำถามที่พบบ่อย ════════════════════════════════════ */}
-      <Section id="faq" className="scroll-mt-24">
+      <Section id="faq" tone="soft" className="scroll-mt-24">
         <SectionHead
           label="FAQ"
           title="คำถามที่พบบ่อย"
