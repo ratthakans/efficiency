@@ -11,7 +11,7 @@ import ProjectModal from '@/components/ProjectModal';
 import ProjectCard from '@/components/ProjectCard';
 import Testimonials from '@/components/Testimonials';
 import { accentAt } from '@/lib/accents';
-import { PROJECTS } from '@/lib/content';
+import { PROJECTS, getWorkFacts } from '@/lib/content';
 
 const EXAMPLES = [
   {
@@ -173,7 +173,41 @@ export default function WorkClient() {
         </div>
       </Section>
 
-      <Testimonials tone="soft" />
+      {/* ══ ตัวเลขจากงานจริง ═══════════════════════════════════ */}
+      <Section tone="soft">
+        <SectionHead
+          label="By the numbers"
+          title="ตัวเลขจากงานที่ทำจริง"
+          desc="ทุกตัวเลขด้านล่างตรวจสอบได้เองจากเว็บไซต์ทั้ง 5 ที่เปิดใช้งานอยู่"
+        />
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+          {getWorkFacts().map((f, i) => (
+            <FadeIn key={f.label} delay={i * 0.06} className="h-full">
+              <div className="card h-full p-6">
+                <p className="flex items-baseline gap-2">
+                  <span className="num text-[38px] font-semibold text-ink leading-none">{f.value}</span>
+                  <span className="text-[14.5px] text-ink-3">{f.unit}</span>
+                </p>
+                <p className="text-[14.5px] text-ink-2 leading-relaxed mt-3">{f.label}</p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+
+        <FadeIn delay={0.12}>
+          <div className="mt-6 rounded-xl border border-line bg-white px-6 py-5">
+            <p className="text-[14.5px] text-ink-2 leading-relaxed">
+              เราไม่ใส่ตัวเลขอย่างยอดขายที่เพิ่มขึ้นหรือจำนวนผู้เข้าชมของลูกค้าไว้ที่นี่
+              เพราะเป็นข้อมูลภายในของลูกค้าที่เรายืนยันแทนไม่ได้
+              ตัวเลขที่แสดงจึงเป็นข้อเท็จจริงเรื่องงานที่ส่งมอบเท่านั้น
+              และคุณเปิดเว็บไซต์แต่ละแห่งตรวจสอบเองได้ทันที
+            </p>
+          </div>
+        </FadeIn>
+      </Section>
+
+      <Testimonials />
 
       {/* ══ ตัวอย่างขอบเขตงานตามแพ็กเกจ ═══════════════════════ */}
       <Section tone="soft">

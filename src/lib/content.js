@@ -204,6 +204,7 @@ export const PROJECTS = [
   {
     key: 'orions',
     image: '/work/orions.webp',
+    bilingual: true,
     name: 'ØRIONS',
     domain: 'orions.agency',
     url: 'https://www.orions.agency/',
@@ -225,6 +226,7 @@ export const PROJECTS = [
   {
     key: 'hongmove',
     image: '/work/hongmove.webp',
+    linkedToApp: true,
     name: 'HONG MOVE',
     domain: 'hongmove.co.th',
     url: 'https://hongmove.co.th/',
@@ -246,6 +248,7 @@ export const PROJECTS = [
   {
     key: 'bhealthy',
     image: '/work/bhealthy.webp',
+    bilingual: true,
     name: 'B-Healthy',
     domain: 'b-healthy.co',
     url: 'https://www.b-healthy.co/',
@@ -353,6 +356,36 @@ export const EXTERNAL_COSTS = [
    { quote: 'ข้อความจากลูกค้า', name: 'ชื่อผู้พูด', role: 'ตำแหน่ง', company: 'บริษัท', projectKey: 'orions' }
    ห้ามใส่ข้อความที่ลูกค้ายังไม่ได้อ่านและอนุมัติ */
 export const TESTIMONIALS = [];
+
+/* ── ตัวเลขจากงานจริง ────────────────────────────────────────
+   ทุกตัวเลขคำนวณจาก PROJECTS ด้านบน และตรวจสอบได้จากเว็บไซต์ที่เปิดใช้งานอยู่
+   ตั้งใจไม่ใส่ตัวเลขผลลัพธ์ทางธุรกิจของลูกค้า เช่น ยอดขายหรือจำนวนผู้เข้าชม
+   เพราะเป็นข้อมูลของลูกค้าที่เรายืนยันเองไม่ได้ */
+export function getWorkFacts() {
+  const industries = new Set(PROJECTS.map((p) => p.category));
+  return [
+    {
+      value: String(PROJECTS.length),
+      unit: 'เว็บไซต์',
+      label: 'เปิดใช้งานจริง กดเข้าไปดูได้ทุกเว็บ',
+    },
+    {
+      value: String(industries.size),
+      unit: 'ประเภทธุรกิจ',
+      label: 'ตั้งแต่เอเจนซี แพลตฟอร์มเดินทาง จนถึงสนามกอล์ฟ',
+    },
+    {
+      value: String(PROJECTS.filter((p) => p.bilingual).length),
+      unit: 'เว็บไซต์',
+      label: 'รองรับสองภาษาไทย-อังกฤษในระบบเดียว',
+    },
+    {
+      value: String(PROJECTS.filter((p) => p.linkedToApp).length),
+      unit: 'แพลตฟอร์ม',
+      label: 'ทำงานร่วมกับแอปมือถือของลูกค้า',
+    },
+  ];
+}
 
 /* ── ตารางเปรียบเทียบ ──────────────────────────────────────── */
 export const COMPARISON_ROWS = [
