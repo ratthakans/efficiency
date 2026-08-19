@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import ContactClient from './ContactClient';
 
 export const metadata = {
@@ -8,10 +7,11 @@ export const metadata = {
   alternates: { canonical: '/contact' },
 };
 
-export default function ContactPage() {
-  return (
-    <Suspense>
-      <ContactClient />
-    </Suspense>
-  );
+export default async function ContactPage({ searchParams }) {
+  // มาจากปุ่ม "ขอใบเสนอราคาแพ็กเกจนี้" — อ่านฝั่งเซิร์ฟเวอร์
+  // เพื่อให้ฟอร์มอยู่ใน HTML ตั้งแต่แรกและ hydrate ได้ตามปกติ
+  const params = await searchParams;
+  const pkgKey = typeof params?.pkg === 'string' ? params.pkg : null;
+
+  return <ContactClient pkgKey={pkgKey} />;
 }

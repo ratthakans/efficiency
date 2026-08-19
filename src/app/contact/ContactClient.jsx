@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
-  Mail, Phone, MapPin, Clock, Send, CheckCircle2, ArrowRight,
+  Mail, Phone, MapPin, Clock, Send, CheckCircle2, ArrowRight, Copy, Check,
 } from 'lucide-react';
 import Section, { FadeIn, PageHero, CheckItem } from '@/components/ui/Section';
 import { CONTACT, PACKAGES, AFTER_SUBMIT, NO_CHECKOUT_NOTE } from '@/lib/content';
@@ -40,9 +39,12 @@ const CHANNELS = [
   { icon: Mail, label: 'อีเมล', value: CONTACT.email, href: `mailto:${CONTACT.email}` },
 ];
 
-function buildMailto(form) {
-  const subject = `ขอใบเสนอราคาเว็บไซต์ — ${form.company || form.name}`;
-  const body = [
+function buildSubject(form) {
+  return `ขอใบเสนอราคาเว็บไซต์ — ${form.company || form.name}`;
+}
+
+function buildBody(form) {
+  return [
     `ชื่อผู้ติดต่อ: ${form.name}`,
     `บริษัท / แบรนด์: ${form.company || '-'}`,
     `อีเมล: ${form.email}`,
@@ -52,36 +54,42 @@ function buildMailto(form) {
     'รายละเอียดโปรเจกต์:',
     form.message,
   ].join('\n');
-  return `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
-export default function ContactClient() {
+function buildMailto(form) {
+  return `mailto:${CONTACT.email}?subject=${encodeURIComponent(buildSubject(form))}` +
+    `&body=${encodeURIComponent(buildBody(form))}`;
+}
+
+export default function ContactClient({ pkgKey = null }) {
   // มาจากปุ่ม "ขอใบเสนอราคาแพ็กเกจนี้" — เลือกแพ็กเกจไว้ให้ล่วงหน้า
-  const searchParams = useSearchParams();
-  const preselected = PACKAGES.find((p) => p.key === searchParams.get('pkg'));
+  const preselected = PACKAGES.find((p) => p.key === pkgKey);
 
   const [form, setForm] = useState({
     ...INITIAL_FORM,
     packageType: preselected ? optionFor(preselected) : INITIAL_FORM.packageType,
   });
-  const [status, setStatus] = useState('idle'); // idle | sending | sent | fallback
+  const [composed, setComposed] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus('sending');
+    setComposed(true);
+    // เปิดโปรแกรมอีเมลในรอบถัดไป เพื่อให้หน้าจอยืนยันแสดงผลก่อนเสมอ
+    window.setTimeout(() => {
+      window.location.href = buildMailto(form);
+    }, 0);
+  };
 
+  const handleCopy = async () => {
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json().catch(() => ({ ok: false }));
-      setStatus(data.ok ? 'sent' : 'fallback');
+      await navigator.clipboard.writeText(`${buildSubject(form)}\n\n${buildBody(form)}`);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2500);
     } catch {
-      setStatus('fallback');
+      setCopied(false);
     }
   };
 
@@ -99,50 +107,53 @@ export default function ContactClient() {
           {/* ── แบบฟอร์ม ── */}
           <FadeIn>
             <div className="card p-7 md:p-9">
-              {status === 'sent' || status === 'fallback' ? (
+              {composed ? (
                 <div className="py-6">
                   <div className="text-center">
                     <CheckCircle2 size={44} className="text-teal mx-auto mb-5" strokeWidth={1.6} />
                     <h2 className="text-[21px] font-semibold text-ink mb-3">
-                      {status === 'sent' ? 'ส่งรายละเอียดเรียบร้อยแล้ว' : 'ส่งต่อให้เราอีกช่องทางได้เลย'}
+                      เตรียมอีเมลไว้ให้แล้ว
                     </h2>
                     <p className="text-[15px] text-ink-2 leading-relaxed max-w-md mx-auto">
-                      {status === 'sent'
-                        ? `เราได้รับข้อมูลของคุณแล้ว และจะ${CONTACT.replyTime}`
-                        : 'ระบบรับข้อมูลอัตโนมัติยังไม่พร้อมใช้งานในขณะนี้ เพื่อไม่ให้ข้อความของคุณตกหล่น กรุณาส่งผ่านช่องทางด้านล่าง — ข้อมูลที่กรอกไว้ถูกเตรียมใส่อีเมลให้แล้ว'}
+                      เราใส่รายละเอียดที่คุณกรอกลงในโปรแกรมอีเมลให้แล้ว กดส่งได้เลย
+                      ถ้าโปรแกรมอีเมลไม่เปิดขึ้นมา ใช้ปุ่มด้านล่างแทนได้
                     </p>
                   </div>
 
-                  {status === 'fallback' && (
-                    <div className="mt-7 flex flex-col sm:flex-row gap-3 justify-center">
-                      <a href={buildMailto(form)} className="btn btn-primary btn-sm">
-                        <Mail size={16} />
-                        ส่งทางอีเมล
-                      </a>
-                      <a href={CONTACT.phoneHref} className="btn btn-secondary btn-sm">
-                        <Phone size={16} />
-                        โทร {CONTACT.phone}
-                      </a>
-                    </div>
-                  )}
+                  <div className="mt-7 flex flex-col sm:flex-row gap-3 justify-center">
+                    <button onClick={handleCopy} className="btn btn-primary btn-sm">
+                      {copied ? <Check size={16} /> : <Copy size={16} />}
+                      {copied ? 'คัดลอกแล้ว' : 'คัดลอกรายละเอียด'}
+                    </button>
+                    <a href={CONTACT.phoneHref} className="btn btn-secondary btn-sm">
+                      <Phone size={16} />
+                      โทร {CONTACT.phone}
+                    </a>
+                    <a href={buildMailto(form)} className="btn btn-secondary btn-sm">
+                      <Mail size={16} />
+                      เปิดอีเมลอีกครั้ง
+                    </a>
+                  </div>
 
-                  {status === 'sent' && (
-                    <ol className="mt-8 pt-7 border-t border-line-soft space-y-4">
-                      <li className="label-th">ขั้นตอนถัดไป</li>
-                      {AFTER_SUBMIT.map((step, i) => (
-                        <li key={step} className="flex items-start gap-3 text-[15px] text-ink-2 leading-relaxed">
-                          <span className="num w-6 h-6 rounded-md bg-brand-soft text-brand-dark flex items-center justify-center text-[11.5px] font-semibold shrink-0 mt-0.5">
-                            {i + 1}
-                          </span>
-                          {step}
-                        </li>
-                      ))}
-                    </ol>
-                  )}
+                  <p className="mt-4 text-center text-[13px] text-ink-3">
+                    ปุ่มคัดลอกจะได้ข้อความครบทั้งหมด นำไปวางส่งทางไหนก็ได้ที่สะดวก
+                  </p>
+
+                  <ol className="mt-8 pt-7 border-t border-line-soft space-y-4">
+                    <li className="label-th">หลังเราได้รับข้อความ</li>
+                    {AFTER_SUBMIT.map((step, i) => (
+                      <li key={step} className="flex items-start gap-3 text-[15px] text-ink-2 leading-relaxed">
+                        <span className="num w-6 h-6 rounded-md bg-brand-soft text-brand-dark flex items-center justify-center text-[11.5px] font-semibold shrink-0 mt-0.5">
+                          {i + 1}
+                        </span>
+                        {step}
+                      </li>
+                    ))}
+                  </ol>
 
                   <div className="mt-7 text-center">
                     <button
-                      onClick={() => { setStatus('idle'); setForm(INITIAL_FORM); }}
+                      onClick={() => { setComposed(false); setForm(INITIAL_FORM); }}
                       className="text-[14.5px] text-ink-3 hover:text-brand transition-colors underline underline-offset-4"
                     >
                       กรอกฟอร์มใหม่
@@ -235,13 +246,14 @@ export default function ContactClient() {
                     />
                   </div>
 
-                  <button type="submit" className="btn btn-primary w-full" disabled={status === 'sending'}>
-                    {status === 'sending' ? 'กำลังส่ง…' : 'ส่งรายละเอียด'}
+                  <button type="submit" className="btn btn-primary w-full">
+                    เขียนอีเมลจากรายละเอียดนี้
                     <Send size={16} />
                   </button>
 
                   <p className="text-[13px] text-ink-3 leading-relaxed">
-                    {NO_CHECKOUT_NOTE}
+                    {NO_CHECKOUT_NOTE} เมื่อกดปุ่ม ระบบจะเปิดโปรแกรมอีเมลพร้อมข้อความที่กรอกไว้
+                    ข้อมูลส่งตรงถึงเราโดยไม่ผ่านตัวกลาง
                   </p>
                   <p className="text-[13px] text-ink-3 leading-relaxed">
                     {CONTACT.replyTime} · หากต้องการคำตอบเร็วกว่านั้น โทรหาเราได้ที่{' '}

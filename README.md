@@ -7,7 +7,7 @@
 - **Styling:** Tailwind CSS v4 — design token ทั้งหมดอยู่ใน `src/app/globals.css`
 - **Fonts:** IBM Plex Sans Thai + IBM Plex Mono ผ่าน `next/font/google`
 - **Motion:** framer-motion (ใช้เฉพาะ entrance / modal)
-- **Env vars:** `CONTACT_WEBHOOK_URL` (ไม่บังคับ — ดูหัวข้อฟอร์มติดต่อด้านล่าง)
+- **Env vars:** ไม่มี
 
 ## เริ่มพัฒนา
 
@@ -28,7 +28,6 @@ npm run dev
 | `src/components/ui/Section.jsx` | ส่วนประกอบ layout ของทุกหน้า (`Section`, `SectionHead`, `FadeIn`, `PageHero`) |
 | `src/components/PackageCard.jsx` | การ์ดแพ็กเกจแบบย่อ ใช้ทั้งหน้าแรกและหน้าแพ็กเกจ |
 | `src/components/MobileActionBar.jsx` | แถบ LINE / โทร / ขอใบเสนอราคา ค้างท้ายจอบนมือถือ |
-| `src/app/api/contact/route.js` | รับข้อมูลจากฟอร์มติดต่อและส่งต่อไปยัง Webhook |
 | `public/work/*.webp` | ภาพหน้าแรกของเว็บไซต์ผลงาน |
 
 การแก้ราคา ขอบเขตงาน หรือระยะเวลา ให้แก้ที่ `src/lib/content.js`
@@ -40,16 +39,19 @@ npm run dev
 
 ## ฟอร์มติดต่อ
 
-ฟอร์มในหน้า `/contact` ส่งข้อมูลไปที่ `POST /api/contact` ซึ่งจะส่งต่อไปยัง Webhook
-ที่ตั้งไว้ในตัวแปร `CONTACT_WEBHOOK_URL` (ใช้ได้กับ Make, Zapier, n8n,
-Google Apps Script หรือ endpoint ของทีมเอง)
+ฟอร์มในหน้า `/contact` **ไม่มี backend และไม่ต้องตั้งค่าอะไรเลย** เมื่อกดปุ่มจะประกอบ
+ข้อความจากช่องที่กรอกแล้วเปิดโปรแกรมอีเมลของผู้ใช้ผ่าน `mailto:` — ข้อมูลส่งตรงถึง
+`CONTACT.email` โดยไม่ผ่านเซิร์ฟเวอร์ของเรา
 
-```bash
-CONTACT_WEBHOOK_URL="https://hook.example.com/xxxx"
-```
+หน้าจอหลังกดส่งมีปุ่มสำรองไว้ให้ด้วย เผื่อเครื่องที่ไม่ได้ตั้งค่าโปรแกรมอีเมลไว้:
 
-**ถ้ายังไม่ได้ตั้งค่า** ระบบจะไม่แสดงว่าส่งสำเร็จ แต่จะสลับไปโหมดสำรอง
-คือแสดงปุ่ม LINE / อีเมล / โทร พร้อมข้อมูลที่กรอกไว้ เพื่อไม่ให้ Lead หายไปเงียบ ๆ
+- **คัดลอกรายละเอียด** — คัดลอกข้อความทั้งหมดไปวางส่งช่องทางไหนก็ได้
+- **โทร** — เปิดแอปโทรศัพท์ด้วยเบอร์ใน `CONTACT.phoneHref`
+- **เปิดอีเมลอีกครั้ง** — ยิง `mailto:` ซ้ำ
+
+ถ้าวันหนึ่งอยากเก็บ Lead อัตโนมัติ ให้เพิ่ม API route แล้วเปลี่ยน `handleSubmit`
+ใน `src/app/contact/ContactClient.jsx` — ตัวประกอบข้อความ (`buildSubject` / `buildBody`)
+ใช้ซ้ำได้ทันที
 
 ## หมายเหตุ
 
