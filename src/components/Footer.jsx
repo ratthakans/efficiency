@@ -69,13 +69,13 @@ export default function Footer() {
             <p className="label-th mb-4">ติดต่อ</p>
             <ul className="space-y-3 text-[15px] text-ink-2">
               <li>
-                <a href={`mailto:${CONTACT.email}`} className="inline-flex items-start gap-2.5 py-2 hover:text-brand transition-colors">
+                <a href={`mailto:${CONTACT.email}`} className="inline-flex items-start gap-2.5 py-2.5 hover:text-brand transition-colors">
                   <Mail size={16} className="mt-1 shrink-0 text-ink-3" />
                   {CONTACT.email}
                 </a>
               </li>
               <li>
-                <a href={CONTACT.phoneHref} className="inline-flex items-start gap-2.5 py-2 hover:text-brand transition-colors">
+                <a href={CONTACT.phoneHref} className="inline-flex items-start gap-2.5 py-2.5 hover:text-brand transition-colors">
                   <Phone size={16} className="mt-1 shrink-0 text-ink-3" />
                   <span className="num">{CONTACT.phone}</span>
                 </a>
