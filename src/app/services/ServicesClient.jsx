@@ -221,7 +221,7 @@ export default function ServicesClient() {
             />
             <FadeIn delay={0.12}>
               <Link href="/contact" className="btn btn-primary mt-8">
-                เริ่มตอบคำถามกับเรา
+                โทรมาคุยกับเรา
                 <ArrowRight size={16} />
               </Link>
             </FadeIn>
@@ -250,11 +250,11 @@ export default function ServicesClient() {
               บอกเป้าหมายมา เราจะบอกขอบเขตที่เหมาะสมกลับไป
             </h2>
             <p className="lead text-[16px] mt-4 max-w-xl mx-auto">
-              ไม่ต้องมีเอกสารพร้อมก็คุยได้ เริ่มจากเล่าธุรกิจและสิ่งที่อยากให้เว็บไซต์ทำ
+              ไม่ต้องมีเอกสารพร้อมก็คุยได้ โทรมาเล่าธุรกิจและสิ่งที่อยากให้เว็บไซต์ทำได้เลย
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/contact" className="btn btn-primary">
-                ปรึกษาโปรเจกต์ฟรี
+                โทรมาถามได้เลย
                 <ArrowRight size={16} />
               </Link>
               <Link href="/pricing" className="btn btn-secondary">

@@ -157,12 +157,12 @@ export default function ProcessClient() {
               พร้อมเริ่มขั้นแรกแล้วหรือยัง
             </h2>
             <p className="lead text-[16px] mt-4 max-w-xl mx-auto">
-              ขั้นตอนแรกคือคุยเก็บโจทย์ ใช้เวลาไม่นานและไม่มีค่าใช้จ่าย
+              ขั้นตอนแรกคือคุยเก็บโจทย์ โทรมาได้เลยในเวลาทำการ ใช้เวลาไม่นานและไม่มีค่าใช้จ่าย
               จบการคุยคุณจะได้ข้อสรุปว่าแพ็กเกจไหนเหมาะกับงานของคุณ
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/contact" className="btn btn-primary">
-                นัดคุยเก็บโจทย์
+                โทรมาถามได้เลย
                 <ArrowRight size={16} />
               </Link>
               <Link href="/pricing" className="btn btn-secondary">

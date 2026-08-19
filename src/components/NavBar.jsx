@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CONTACT } from '@/lib/content';
 
 export const NAV_LINKS = [
   { label: 'หน้าแรก', href: '/' },
@@ -81,10 +82,10 @@ export default function NavBar() {
           </div>
 
           {/* ปุ่มหลัก */}
-          <Link href="/contact" className="btn btn-primary btn-sm hidden sm:inline-flex shrink-0">
-            ขอใบเสนอราคา
-            <ArrowRight size={15} />
-          </Link>
+          <a href={CONTACT.phoneHref} className="btn btn-primary btn-sm hidden sm:inline-flex shrink-0">
+            <Phone size={15} />
+            <span className="num">{CONTACT.phone}</span>
+          </a>
 
           {/* ปุ่มเมนูมือถือ */}
           <button
@@ -131,10 +132,10 @@ export default function NavBar() {
                   );
                 })}
               </ul>
-              <Link href="/contact" onClick={() => setMobileOpen(false)} className="btn btn-primary w-full mt-5">
-                ขอใบเสนอราคา
-                <ArrowRight size={16} />
-              </Link>
+              <a href={CONTACT.phoneHref} className="btn btn-primary w-full mt-5">
+                <Phone size={16} />
+                โทร <span className="num">{CONTACT.phone}</span>
+              </a>
             </div>
           </motion.div>
         )}

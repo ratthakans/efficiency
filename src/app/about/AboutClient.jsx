@@ -52,7 +52,7 @@ export default function AboutClient() {
         desc="EFFICIENCY คือทีมออกแบบและพัฒนาเว็บไซต์ที่ทำงานกับธุรกิจไทย ตั้งแต่เว็บไซต์แนะนำบริษัท จนถึงระบบที่มีสมาชิกและหลังบ้าน โดยยึดหลักว่าขอบเขตงานต้องชัดเจนก่อนเริ่มเสมอ"
       >
         <Link href="/contact" className="btn btn-primary">
-          เริ่มคุยกับเรา
+          โทรมาถามได้เลย
           <ArrowRight size={16} />
         </Link>
       </PageHero>
@@ -142,11 +142,11 @@ export default function AboutClient() {
               อยากรู้ว่างานของคุณอยู่ในขอบเขตไหน
             </h2>
             <p className="lead text-[16px] mt-4 max-w-xl mx-auto">
-              เล่าโจทย์มาได้เลย เราจะตอบกลับพร้อมแพ็กเกจที่เหมาะสม ขอบเขตงาน และระยะเวลาโดยประมาณ
+              โทรมาเล่าโจทย์ได้เลย เราตอบได้ทันทีว่าแพ็กเกจไหนเหมาะสม ขอบเขตงานแค่ไหน และใช้เวลาประมาณเท่าไร
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/contact" className="btn btn-primary">
-                ติดต่อเรา
+                โทรมาถามได้เลย
                 <ArrowRight size={16} />
               </Link>
               <Link href="/work" className="btn btn-secondary">

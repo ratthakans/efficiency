@@ -75,7 +75,7 @@ function PackageDetail({ pkg }) {
             href={`/contact?pkg=${pkg.key}`}
             className={`btn btn-sm w-full mt-7 ${pkg.featured ? 'btn-primary' : 'btn-secondary'}`}
           >
-            ขอใบเสนอราคาแพ็กเกจนี้
+            โทรถามแพ็กเกจนี้
             <ArrowRight size={15} />
           </Link>
         </div>
@@ -198,7 +198,7 @@ export default function PricingClient() {
       >
         <div className="flex flex-col sm:flex-row gap-3">
           <Link href="/contact" className="btn btn-primary">
-            ขอใบเสนอราคา
+            โทรมาถามได้เลย
             <ArrowRight size={16} />
           </Link>
           <a href="#compare" className="btn btn-secondary">
@@ -268,14 +268,14 @@ export default function PricingClient() {
                     </tr>
                   ))}
                   <tr>
-                    <th scope="row" className="text-ink font-medium">เริ่มต้นกับแพ็กเกจนี้</th>
+                    <th scope="row" className="text-ink font-medium">สนใจแพ็กเกจนี้</th>
                     {PACKAGES.map((p) => (
                       <td key={p.key} className={p.featured ? 'cmp-col-featured' : ''}>
                         <Link
                           href={`/contact?pkg=${p.key}`}
                           className={`btn btn-sm w-full ${p.featured ? 'btn-primary' : 'btn-secondary'}`}
                         >
-                          ขอใบเสนอราคา
+                          โทรมาถาม
                         </Link>
                       </td>
                     ))}
@@ -470,12 +470,12 @@ export default function PricingClient() {
               ยังไม่แน่ใจว่าควรเริ่มที่แพ็กเกจไหน
             </h2>
             <p className="lead text-[16px] mt-4 max-w-xl mx-auto">
-              เล่าสั้น ๆ ว่าอยากให้เว็บไซต์ทำอะไรได้บ้าง เราจะสรุปแพ็กเกจที่เหมาะสม
-              พร้อมขอบเขตและระยะเวลากลับไปให้ ไม่มีค่าใช้จ่าย
+              โทรมาเล่าสั้น ๆ ว่าอยากให้เว็บไซต์ทำอะไรได้บ้าง เราสรุปแพ็กเกจที่เหมาะสม
+              พร้อมขอบเขตและระยะเวลาให้ได้ในสายเดียว ไม่มีค่าใช้จ่าย
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/contact" className="btn btn-primary">
-                ปรึกษาโปรเจกต์ฟรี
+                โทรมาถามได้เลย
                 <ArrowRight size={16} />
               </Link>
               <Link href="/process" className="btn btn-secondary">

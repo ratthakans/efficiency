@@ -113,7 +113,7 @@ export default function HomePage() {
 
               <div className="mt-9 flex flex-col sm:flex-row gap-3 animate-fade-in-up animation-delay-300">
                 <Link href="/contact" className="btn btn-primary">
-                  ขอใบเสนอราคา
+                  โทรมาถามได้เลย
                   <ArrowRight size={16} />
                 </Link>
                 <Link href="/pricing" className="btn btn-secondary">
@@ -589,15 +589,15 @@ export default function HomePage() {
                 Get started
               </p>
               <h2 className="text-[27px] md:text-[36px] font-semibold text-white mt-4 max-w-2xl mx-auto leading-snug">
-                เริ่มจากคุยขอบเขตงานให้ชัด ก่อนเสนอราคา
+                ยกหูโทรมาคุยกันก่อนได้เลย
               </h2>
               <p className="text-[16px] text-white/65 mt-4 max-w-xl mx-auto leading-relaxed">
-                ส่งรายละเอียดธุรกิจและสิ่งที่อยากให้เว็บไซต์ทำได้ เราจะสรุปแพ็กเกจที่เหมาะสม
-                พร้อมขอบเขตและระยะเวลากลับไปให้
+                ไม่ต้องกรอกฟอร์มหรือเตรียมเอกสารก่อน โทรมาเล่าสั้น ๆ ว่าอยากได้เว็บไซต์แบบไหน
+                เราบอกได้ทันทีว่าอยู่ในแพ็กเกจไหนและใช้เวลาประมาณเท่าไร
               </p>
               <div className="mt-9 flex flex-col sm:flex-row gap-3 justify-center">
                 <Link href="/contact" className="btn btn-primary">
-                  ขอใบเสนอราคา
+                  โทรมาถามได้เลย
                   <ArrowRight size={16} />
                 </Link>
                 <Link

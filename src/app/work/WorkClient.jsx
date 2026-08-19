@@ -233,12 +233,12 @@ export default function WorkClient() {
             <SectionHead
               label="Your project"
               title="งานของคุณใกล้เคียงกับตัวอย่างไหน"
-              desc="ส่งรายละเอียดมาได้เลย เราจะเทียบกับขอบเขตมาตรฐานและบอกให้ชัดว่าอยู่ในแพ็กเกจใด หรือควรทำ Discovery เพิ่ม"
+              desc="โทรมาเล่าให้ฟังได้เลย เราเทียบกับขอบเขตมาตรฐานและบอกให้ชัดว่าอยู่ในแพ็กเกจใด หรือควรทำ Discovery เพิ่ม"
               align="center"
             />
             <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/contact" className="btn btn-primary">
-                ส่งรายละเอียดโปรเจกต์
+                โทรมาถามได้เลย
                 <ArrowRight size={16} />
               </Link>
               <Link href="/pricing" className="btn btn-secondary">
