@@ -13,7 +13,7 @@ import PackageCard from '@/components/PackageCard';
 import KeyTermsStrip from '@/components/KeyTermsStrip';
 import { accentAt } from '@/lib/accents';
 import {
-  PACKAGES, PROJECTS, FIT_GUIDE, PROCESS_STEPS, FAQS, CONTACT, NO_CHECKOUT_NOTE,
+  PACKAGES, PROJECTS, PROCESS_STEPS, FAQS, NO_CHECKOUT_NOTE,
 } from '@/lib/content';
 
 /* ── ข้อมูลเฉพาะหน้าแรก ─────────────────────────────────────── */
@@ -99,7 +99,7 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <h1 className="mt-7 text-[38px] sm:text-[48px] lg:text-[58px] font-semibold tracking-tight text-ink leading-[1.22] animate-fade-in-up animation-delay-100">
+              <h1 className="mt-7 text-[38px] sm:text-[46px] xl:text-[56px] font-semibold tracking-tight text-ink leading-[1.22] animate-fade-in-up animation-delay-100">
                 ให้เว็บไซต์ของคุณ
                 <br />
                 <span className="text-brand">เป็นคำตอบ</span>ที่ลูกค้ามั่นใจ
@@ -127,9 +127,7 @@ export default function HomePage() {
                   <span className="num text-[17px] font-semibold">29,000</span>
                   <span className="text-[12.5px]">บาท</span>
                 </span>
-                <span className="text-ink-3">
-                  ราคาชัดเจน ไม่มีค่าใช้จ่ายแอบแฝง · {CONTACT.replyTime}
-                </span>
+                <span className="text-ink-3">ราคาชัดเจน ไม่มีค่าใช้จ่ายแอบแฝง</span>
               </div>
             </div>
 
@@ -417,44 +415,8 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ══ เลือกจากลักษณะงาน ═════════════════════════════════ */}
-      <Section>
-        <SectionHead
-          label="How to choose"
-          title="แพ็กเกจไหน เหมาะกับเว็บไซต์แบบไหน"
-          desc="เริ่มจากสิ่งที่คุณต้องการให้เว็บไซต์ทำ ไม่ใช่เริ่มจากจำนวนหน้าเพียงอย่างเดียว"
-        />
-
-        <div className="mt-12 space-y-3">
-          {FIT_GUIDE.map((f, i) => {
-            const accent = accentAt(f.accentIdx);
-            return (
-              <FadeIn key={f.tier} delay={i * 0.06}>
-                <div
-                  className="rule-card p-6 md:px-7 grid md:grid-cols-[190px_1fr_auto] gap-4 md:gap-8 md:items-center"
-                  style={{ '--accent': accent.hex }}
-                >
-                  <p className="font-mono text-[13px] font-semibold tracking-[0.12em]" style={{ color: accent.hex }}>
-                    {f.tier}
-                  </p>
-                  <div>
-                    <h3 className="text-[17px] font-semibold text-ink">{f.title}</h3>
-                    <p className="text-[14.5px] text-ink-2 mt-1.5 leading-relaxed">{f.desc}</p>
-                  </div>
-                  <div className="flex flex-wrap gap-1.5 md:justify-end md:max-w-[300px]">
-                    {f.audience.map((a) => (
-                      <span key={a} className="tag">{a}</span>
-                    ))}
-                  </div>
-                </div>
-              </FadeIn>
-            );
-          })}
-        </div>
-      </Section>
-
       {/* ══ ขั้นตอนการทำงาน ═══════════════════════════════════ */}
-      <Section tone="soft">
+      <Section>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <SectionHead
             label="Process"
@@ -494,7 +456,7 @@ export default function HomePage() {
       </Section>
 
       {/* ══ สิ่งที่ได้รับ ══════════════════════════════════════ */}
-      <Section>
+      <Section tone="soft">
         <div className="grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-16 items-end">
           <SectionHead
             label="Deliverables"
@@ -527,7 +489,7 @@ export default function HomePage() {
       </Section>
 
       {/* ══ คำถามที่พบบ่อย ════════════════════════════════════ */}
-      <Section tone="soft">
+      <Section>
         <SectionHead
           label="FAQ"
           title="คำถามที่พบบ่อย"

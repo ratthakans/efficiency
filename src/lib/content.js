@@ -6,12 +6,19 @@
 
 /* ── ข้อมูลติดต่อ ───────────────────────────────────────────── */
 export const CONTACT = {
+  companyTh: 'บริษัท เอฟฟิเชียนซี่ จำกัด',
+  companyEn: 'EFFICIENCY Co., Ltd.',
+  registrationNo: '0105568220629',
   email: 'hello@efficiency.co.th',
   phone: '063 859 8423',
   phoneHref: 'tel:+66638598423',
   callToAction: 'โทรมาถามได้เลย',
-  replyTime: 'รับสายในเวลาทำการ ตอบอีเมลภายใน 1 วันทำการ',
-  address: ['246/8 ซอยโยธินพัฒนา', 'บางกะปิ กรุงเทพฯ 10240'],
+  replyTime: 'รับสายในเวลาทำการ',
+  address: [
+    '246/8 ซอยโยธินพัฒนา แขวงคลองจั่น',
+    'เขตบางกะปิ กรุงเทพมหานคร 10240',
+  ],
+  mapsUrl: 'https://maps.app.goo.gl/SFcj3BFkfncTS9jz5',
   hours: 'จันทร์ – ศุกร์ 09:00 – 18:00 น.',
 };
 

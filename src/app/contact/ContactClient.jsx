@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { Phone, Mail, MapPin, Clock, ArrowRight } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, ArrowRight, ExternalLink } from 'lucide-react';
 import Section, { FadeIn, PageHero, CheckItem } from '@/components/ui/Section';
 import { CONTACT, PACKAGES, AFTER_CALL, NO_CHECKOUT_NOTE } from '@/lib/content';
+import { trackCall } from '@/lib/track';
 
 const PREPARE = [
   'ธุรกิจของคุณทำอะไร และกลุ่มลูกค้าคือใคร',
@@ -47,9 +48,10 @@ export default function ContactClient({ pkgKey = null }) {
                 </p>
               )}
 
-              <p className="label-th mb-2">โทรหาเราได้ที่</p>
+              <h2 className="label-th mb-2 font-normal">โทรหาเราได้ที่</h2>
               <a
                 href={CONTACT.phoneHref}
+                onClick={() => trackCall('contact-number')}
                 className="num block text-[34px] md:text-[44px] font-semibold text-ink tracking-tight hover:text-brand transition-colors"
               >
                 {CONTACT.phone}
@@ -59,7 +61,11 @@ export default function ContactClient({ pkgKey = null }) {
                 {CONTACT.hours} · คุยสั้น ๆ ไม่เกิน 15 นาทีก็พอเห็นภาพแล้วว่างานของคุณอยู่ในขอบเขตไหน
               </p>
 
-              <a href={CONTACT.phoneHref} className="btn btn-primary w-full mt-8">
+              <a
+                href={CONTACT.phoneHref}
+                onClick={() => trackCall('contact-button')}
+                className="btn btn-primary w-full mt-8"
+              >
                 <Phone size={17} />
                 โทรเลย {CONTACT.phone}
               </a>
@@ -78,7 +84,7 @@ export default function ContactClient({ pkgKey = null }) {
           <div className="space-y-5">
             <FadeIn delay={0.08}>
               <div className="card p-7">
-                <p className="label-th mb-4">คุยเรื่องนี้กันในสายเดียว</p>
+                <h2 className="label-th mb-4 font-normal">คุยเรื่องนี้กันในสายเดียว</h2>
                 <ol className="space-y-4">
                   {AFTER_CALL.map((step, i) => (
                     <li key={step} className="flex items-start gap-3 text-[15px] text-ink-2 leading-relaxed">
@@ -90,6 +96,10 @@ export default function ContactClient({ pkgKey = null }) {
                   ))}
                 </ol>
                 <p className="mt-6 pt-5 border-t border-line-soft text-[13.5px] text-ink-3 leading-relaxed">
+                  เราตั้งใจไม่ทำแบบฟอร์มไว้ในหน้านี้ เพราะงานเว็บไซต์ตัดสินใจจากบทสนทนา
+                  ไม่ใช่จากช่องกรอกข้อมูล — คุณจึงได้คุยกับคนที่ทำงานจริงตั้งแต่สายแรก
+                </p>
+                <p className="mt-3 text-[13.5px] text-ink-3 leading-relaxed">
                   {NO_CHECKOUT_NOTE}
                 </p>
               </div>
@@ -97,7 +107,7 @@ export default function ContactClient({ pkgKey = null }) {
 
             <FadeIn delay={0.14}>
               <div className="card p-7">
-                <p className="label-th mb-4">รู้เรื่องพวกนี้ไว้จะคุยได้เร็วขึ้น</p>
+                <h2 className="label-th mb-4 font-normal">รู้เรื่องพวกนี้ไว้จะคุยได้เร็วขึ้น</h2>
                 <ul className="space-y-3">
                   {PREPARE.map((p) => (
                     <CheckItem key={p}>{p}</CheckItem>
@@ -111,6 +121,7 @@ export default function ContactClient({ pkgKey = null }) {
 
             <FadeIn delay={0.2}>
               <div className="card p-7">
+                <h2 className="label-th mb-4 font-normal">ช่องทางอื่นและที่ตั้ง</h2>
                 <ul className="space-y-4 text-[15px] text-ink-2">
                   <li className="flex items-start gap-3.5">
                     <span className="icon-box w-9 h-9 mt-0.5">
@@ -143,6 +154,15 @@ export default function ContactClient({ pkgKey = null }) {
                         <br />
                         {CONTACT.address[1]}
                       </p>
+                      <a
+                        href={CONTACT.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 mt-1.5 text-[14px] text-brand hover:underline underline-offset-2"
+                      >
+                        เปิดใน Google Maps
+                        <ExternalLink size={13} />
+                      </a>
                     </div>
                   </li>
                 </ul>

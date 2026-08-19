@@ -1,5 +1,7 @@
 import './globals.css';
 import { IBM_Plex_Sans_Thai, IBM_Plex_Mono } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import SiteLayout from '@/components/SiteLayout';
 
 // ─── ฟอนต์ ───────────────────────────────────────────────────────
@@ -65,19 +67,24 @@ const ORGANISATION_LD = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   name: 'EFFICIENCY',
+  legalName: 'บริษัท เอฟฟิเชียนซี่ จำกัด',
+  alternateName: 'EFFICIENCY Co., Ltd.',
+  taxID: '0105568220629',
+  hasMap: 'https://maps.app.goo.gl/SFcj3BFkfncTS9jz5',
   description: SITE_DESC,
   url: SITE_URL,
   email: 'hello@efficiency.co.th',
   telephone: '+66638598423',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: '246/8 ซอยโยธินพัฒนา',
-    addressLocality: 'บางกะปิ',
+    streetAddress: '246/8 ซอยโยธินพัฒนา แขวงคลองจั่น',
+    addressLocality: 'เขตบางกะปิ',
     addressRegion: 'กรุงเทพมหานคร',
     postalCode: '10240',
     addressCountry: 'TH',
   },
   areaServed: 'TH',
+  openingHours: 'Mo-Fr 09:00-18:00',
   priceRange: '฿฿',
   knowsLanguage: ['th', 'en'],
 };
@@ -91,6 +98,10 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANISATION_LD) }}
         />
         <SiteLayout>{children}</SiteLayout>
+
+        {/* วัดผลแบบไม่ใช้คุกกี้ จึงไม่ต้องมีแบนเนอร์ขอความยินยอม */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

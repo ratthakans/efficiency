@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Menu, X, ArrowRight, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CONTACT } from '@/lib/content';
+import { trackCall } from '@/lib/track';
 
 export const NAV_LINKS = [
   { label: 'หน้าแรก', href: '/' },
@@ -56,14 +57,14 @@ export default function NavBar() {
           </Link>
 
           {/* เมนูเดสก์ท็อป */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden xl:flex items-center gap-1">
             {NAV_LINKS.map((link) => {
               const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-3 py-2 text-[14.5px] rounded-md transition-colors duration-200 ${
+                  className={`relative px-3 py-2 text-[14.5px] whitespace-nowrap rounded-md transition-colors duration-200 ${
                     isActive ? 'text-brand-dark font-medium' : 'text-ink-2 hover:text-ink'
                   }`}
                   aria-current={isActive ? 'page' : undefined}
@@ -82,7 +83,11 @@ export default function NavBar() {
           </div>
 
           {/* ปุ่มหลัก */}
-          <a href={CONTACT.phoneHref} className="btn btn-primary btn-sm hidden sm:inline-flex shrink-0">
+          <a
+            href={CONTACT.phoneHref}
+            onClick={() => trackCall('navbar')}
+            className="btn btn-primary btn-sm hidden sm:inline-flex shrink-0"
+          >
             <Phone size={15} />
             <span className="num">{CONTACT.phone}</span>
           </a>
@@ -90,7 +95,7 @@ export default function NavBar() {
           {/* ปุ่มเมนูมือถือ */}
           <button
             onClick={() => setMobileOpen((v) => !v)}
-            className="lg:hidden p-3 -mr-3 text-ink-2 hover:text-ink transition-colors"
+            className="xl:hidden p-3 -mr-3 text-ink-2 hover:text-ink transition-colors"
             aria-label={mobileOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
@@ -109,7 +114,7 @@ export default function NavBar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.22, ease: 'easeInOut' }}
-            className="lg:hidden bg-white border-t border-line overflow-hidden"
+            className="xl:hidden bg-white border-t border-line overflow-hidden"
           >
             <div className="px-6 py-5">
               <ul className="divide-y divide-line-soft">
@@ -132,7 +137,11 @@ export default function NavBar() {
                   );
                 })}
               </ul>
-              <a href={CONTACT.phoneHref} className="btn btn-primary w-full mt-5">
+              <a
+                href={CONTACT.phoneHref}
+                onClick={() => trackCall('mobile-menu')}
+                className="btn btn-primary w-full mt-5"
+              >
                 <Phone size={16} />
                 โทร <span className="num">{CONTACT.phone}</span>
               </a>

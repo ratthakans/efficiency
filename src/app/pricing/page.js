@@ -3,7 +3,7 @@ import PricingClient from './PricingClient';
 export const metadata = {
   title: 'แพ็กเกจและราคาทำเว็บไซต์',
   description:
-    'แพ็กเกจทำเว็บไซต์ 4 ระดับ เริ่มต้น 29,000 บาท ตั้งแต่ Company Profile จนถึง Web System ที่มีสมาชิกและหลังบ้าน พร้อมตารางเปรียบเทียบ ขอบเขตงาน และบริการดูแลหลังเปิดเว็บไซต์',
+    'แพ็กเกจทำเว็บไซต์ 4 ระดับ เริ่มต้น 29,000 บาท รวม VAT ตั้งแต่ Company Profile จนถึง Web System พร้อมตารางเปรียบเทียบและขอบเขตงานที่ระบุชัดเจน',
   alternates: { canonical: '/pricing' },
 };
 

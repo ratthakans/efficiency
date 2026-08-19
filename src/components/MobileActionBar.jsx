@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Phone, FileText } from 'lucide-react';
 import { CONTACT } from '@/lib/content';
+import { trackCall } from '@/lib/track';
 
 /**
  * MobileActionBar — แถบติดต่อค้างท้ายจอบนมือถือ
@@ -28,6 +29,7 @@ export default function MobileActionBar() {
       <div className="grid grid-cols-3 divide-x divide-line-soft">
         <a
           href={CONTACT.phoneHref}
+          onClick={() => trackCall('mobile-bar')}
           className="col-span-2 flex items-center justify-center gap-2.5 py-3 min-h-[60px] text-white bg-brand active:bg-brand-dark"
         >
           <Phone size={19} />
