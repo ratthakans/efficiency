@@ -11,6 +11,7 @@ export default function sitemap() {
     { url: '/stack',    priority: 0.75, changeFrequency: 'monthly' },
     { url: '/about',    priority: 0.7,  changeFrequency: 'monthly' },
     { url: '/contact',  priority: 0.9,  changeFrequency: 'yearly' },
+    { url: '/privacy',  priority: 0.3,  changeFrequency: 'yearly' },
   ];
 
   return routes.map(r => ({

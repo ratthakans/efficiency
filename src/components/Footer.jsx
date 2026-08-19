@@ -113,7 +113,12 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5">
-            <p className="text-[13px] text-ink-3">© {year} {CONTACT.companyTh} · สงวนลิขสิทธิ์</p>
+            <p className="text-[13px] text-ink-3">
+              © {year} {CONTACT.companyTh} · สงวนลิขสิทธิ์ ·{' '}
+              <Link href="/privacy" className="hover:text-brand transition-colors underline underline-offset-2">
+                นโยบายความเป็นส่วนตัว
+              </Link>
+            </p>
             <p className="text-[13px] text-ink-3">
               ราคาและขอบเขตในเว็บไซต์เป็นข้อมูลเบื้องต้น ยึดตามใบเสนอราคาที่ยืนยันร่วมกัน
             </p>
