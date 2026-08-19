@@ -1,11 +1,12 @@
+import StackClient from './StackClient';
+
 export const metadata = {
-  title:       'Tech Stack — Flutter, Swift, Kotlin, C++, Go',
-  description: 'Technology stack ของ Efficiency: Flutter สำหรับ cross-platform mobile, Swift/Kotlin สำหรับ native, C++/Rust สำหรับ embedded, Node.js/Go สำหรับ backend',
-  openGraph: {
-    title:       'Tech Stack | EFFICIENCY',
-    description: 'Mobile-first tech stack: Flutter · Swift · Kotlin · C++ · Rust · Node.js · Go · AWS · Firebase',
-    url:         'https://efficiency.co.th/stack',
-  },
+  title: 'เทคโนโลยีที่ใช้',
+  description:
+    'เทคโนโลยีที่ใช้พัฒนาเว็บไซต์และระบบ ตั้งแต่ Next.js, React, Node.js, PostgreSQL, Headless CMS จนถึงการนำขึ้นระบบ การวัดผล และวิธีทำงานของทีม',
+  alternates: { canonical: '/stack' },
 };
 
-export { default } from './StackClient';
+export default function StackPage() {
+  return <StackClient />;
+}

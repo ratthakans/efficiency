@@ -2,276 +2,400 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Check, X, Zap } from 'lucide-react';
-import Section, { SectionLabel, SectionTitle, FadeIn } from '@/components/ui/Section';
+import {
+  ArrowRight, Clock, ShieldCheck, LayoutGrid, PackageOpen,
+  FileText, Info, XCircle, Workflow, Users, LayoutDashboard, Plus, Minus,
+} from 'lucide-react';
+import Section, { SectionHead, FadeIn, CheckItem, PageHero } from '@/components/ui/Section';
+import { useState } from 'react';
+import PackageCard from '@/components/PackageCard';
+import KeyTermsStrip from '@/components/KeyTermsStrip';
 import { accentAt } from '@/lib/accents';
+import {
+  PACKAGES, COMPARISON_ROWS, SYSTEM_SCOPE, CARE_PLANS, SCOPE_TERMS, FAQS, NO_CHECKOUT_NOTE,
+} from '@/lib/content';
 
-// Prices adjusted +25% and rounded to clean numbers
-const PACKAGES = [
-  {
-    name: 'Starter',
-    subtitle: 'Mobile / Operational MVP',
-    price: '375,000–560,000',
-    timeline: '6–8 weeks',
-    accentIdx: 4,
-    description: 'Ideal for businesses that need a mobile app or operational system that works in MVP scope.',
-    included: [
-      'UX Research & User Journey Mapping',
-      'UI Design + Design System (Figma)',
-      'Flutter app — iOS + Android (1 platform set)',
-      'Backend API (Node.js / Go)',
-      'Database + Cloud deployment',
-      'App Store + Play Store submission',
-      '30 days post-launch support',
-      'Performance baseline profiling',
-    ],
-    notIncluded: [
-      'Admin web panel (add-on)',
-      'Hardware SDK integration (add-on)',
-      'Advanced analytics dashboard (add-on)',
-      'Multi-language / localisation',
-    ],
-    bestFor: ['Startups validating an MVP', 'SMEs needing an ops app', 'Single POS / single location'],
-  },
-  {
-    name: 'Business',
-    subtitle: 'Business App',
-    price: '560,000–1,100,000',
-    timeline: '8–12 weeks',
-    accentIdx: 2,
-    popular: true,
-    description: 'For businesses that need a more complex app with admin panel, hardware integration or third-party APIs.',
-    included: [
-      'Everything in Starter +',
-      'Admin web panel (full CRUD)',
-      'Analytics & reporting dashboard',
-      'Hardware SDK integration (printer/scanner/BLE)',
-      'Advanced auth (SSO / biometric)',
-      'Push notification system',
-      'AB testing infrastructure',
-      '60 days post-launch support',
-      'QA testing — real device matrix (10+ models)',
-      'CI/CD pipeline setup',
-    ],
-    notIncluded: [
-      'Multi-tenant / multi-branch (upgrade to Platform)',
-      'Embedded firmware development (add-on)',
-      'Custom hardware design',
-    ],
-    bestFor: ['Multi-location businesses (2–10)', 'POS + loyalty + inventory', 'Apps integrating with hardware'],
-  },
-  {
-    name: 'Platform',
-    subtitle: 'Full Platform',
-    price: '1,100,000–2,250,000',
-    timeline: '12–16 weeks',
-    accentIdx: 5,
-    description: 'For platform-scale systems — multi-tenant, complex workflows, enterprise integration and SLA-grade reliability.',
-    included: [
-      'Everything in Business +',
-      'Multi-tenant architecture',
-      'Enterprise API integration',
-      'Role-based access control (RBAC)',
-      'Audit logging for compliance',
-      'Advanced offline-first architecture',
-      'Load testing & performance SLA',
-      'Security penetration test (basic)',
-      '90 days post-launch support',
-      'Dedicated technical project manager',
-      'Documentation: API + developer guide',
-    ],
-    notIncluded: [
-      'PC/hardware manufacturing',
-      'RF/EMC certification',
-      'On-premise server setup (add-on)',
-    ],
-    bestFor: ['Enterprise / large business groups', 'Platforms with multiple partners or merchants', 'Embedded + Cloud + Mobile full stack'],
-  },
-];
+const SCOPE_ICONS = [Workflow, Users, LayoutDashboard];
 
-const ADDONS = [
-  {
-    name: 'Maintenance Package',
-    price: '20,000–50,000',
-    unit: '/ month',
-    desc: 'Bug fixes, OS compatibility updates, performance monitoring, minor feature additions (< 8h/month)',
-    accentIdx: 4,
-  },
-  {
-    name: 'Feature Expansion',
-    price: '125,000–500,000',
-    unit: '/ feature set',
-    desc: 'Add new features post-launch — scoped, costed and delivered as a 2–4 week mini-sprint.',
-    accentIdx: 2,
-  },
-  {
-    name: 'Data Dashboard',
-    price: '250,000–750,000',
-    unit: '/ project',
-    desc: 'Business intelligence dashboard with data visualisation, exports, scheduled reports and custom KPIs.',
-    accentIdx: 0,
-  },
-  {
-    name: 'Hardware Integration',
-    price: '100,000–315,000',
-    unit: '/ integration',
-    desc: 'BLE, NFC, RFID, ESC/POS printer, barcode scanner, payment terminal — native SDK integration + testing.',
-    accentIdx: 5,
-  },
-  {
-    name: 'UX/UI Audit',
-    price: '38,000–100,000',
-    unit: '/ audit',
-    desc: 'Review an existing app for usability issues, accessibility, performance and design consistency.',
-    accentIdx: 1,
-  },
-  {
-    name: 'Embedded Module',
-    price: '190,000–625,000',
-    unit: '/ module',
-    desc: 'Additional firmware module: OTA update, new sensor protocol, communication stack, edge computation.',
-    accentIdx: 3,
-  },
-];
+/* การ์ดรายละเอียดแพ็กเกจแบบเต็ม */
+function PackageDetail({ pkg }) {
+  const accent = accentAt(pkg.accentIdx);
 
-const SCOPE_NOTES = [
-  { title: 'Pricing depends on scope', desc: 'All prices are ranges — the final quote depends on complexity, number of screens/API endpoints and hardware requirements specified in your project brief.' },
-  { title: 'No hidden costs', desc: 'Quoted prices include design, development, testing and deployment. Third-party service costs (cloud, store account, API subscriptions) are disclosed separately.' },
-  { title: 'Payment terms', desc: 'Typically: 30% on contract signing, 40% at mid-project milestone, 30% on delivery — adjustable based on project structure.' },
-  { title: 'Scope changes', desc: 'If scope changes during the project, we immediately communicate the impact on timeline and cost before proceeding.' },
-];
-
-export default function PricingPage() {
   return (
-    <div className="pt-16">
+    <div
+      id={pkg.key}
+      className={`card overflow-hidden scroll-mt-28 ${pkg.featured ? 'ring-1 ring-brand/25' : ''}`}
+      style={{ '--accent': accent.hex, '--accent-soft': accent.soft }}
+    >
+      <span className="absolute inset-x-0 top-0 h-1" style={{ background: accent.hex }} aria-hidden="true" />
 
-      {/* Hero */}
-      <Section className="pt-24 pb-16">
-        <div className="max-w-3xl">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-            <SectionLabel>Pricing</SectionLabel>
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-mono font-semibold tracking-tight leading-[1.08] mb-6"
+      <div className="grid lg:grid-cols-[minmax(0,320px)_1fr]">
+        {/* ฝั่งซ้าย — สรุปแพ็กเกจ */}
+        <div className="p-7 md:p-9 lg:border-r border-line-soft bg-soft/40">
+          <div className="flex items-center gap-2.5 mb-4">
+            <span className="font-mono text-[14px] font-semibold tracking-[0.16em]" style={{ color: accent.hex }}>
+              {pkg.name}
+            </span>
+            {pkg.featured && <span className="pill pill-brand text-[11.5px] px-2.5 py-0.5">แพ็กเกจแนะนำ</span>}
+          </div>
+
+          <div className="flex items-baseline gap-1.5">
+            {pkg.prefix && <span className="text-[14px] text-ink-3">{pkg.prefix}</span>}
+            <span className="num text-[40px] font-semibold text-ink leading-none">{pkg.priceLabel}</span>
+            <span className="text-[16px] text-ink-3">บาท</span>
+          </div>
+          <p className="text-[15px] text-ink font-medium mt-3">{pkg.tagline}</p>
+          <p className="text-[15px] text-ink-2 leading-relaxed mt-2">{pkg.summary}</p>
+
+          <dl className="mt-6 pt-6 border-t border-line space-y-3 text-[14.5px]">
+            <div className="flex items-center gap-2.5">
+              <LayoutGrid size={15} className="text-ink-3 shrink-0" />
+              <dt className="text-ink-2">ขอบเขต</dt>
+              <dd className="ml-auto text-ink font-medium">{pkg.scope}</dd>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <Clock size={15} className="text-ink-3 shrink-0" />
+              <dt className="text-ink-2">ระยะเวลา</dt>
+              <dd className="ml-auto text-ink font-medium">{pkg.duration}</dd>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <ShieldCheck size={15} className="text-ink-3 shrink-0" />
+              <dt className="text-ink-2">รับประกัน</dt>
+              <dd className="ml-auto text-ink font-medium">{pkg.warranty.replace('รับประกันข้อผิดพลาด ', '')}</dd>
+            </div>
+          </dl>
+
+          <div className="mt-6 flex flex-wrap gap-1.5">
+            {pkg.fitFor.map((f) => (
+              <span key={f} className="tag">{f}</span>
+            ))}
+          </div>
+
+          <Link
+            href={`/contact?pkg=${pkg.key}`}
+            className={`btn btn-sm w-full mt-7 ${pkg.featured ? 'btn-primary' : 'btn-secondary'}`}
           >
-            Starting from<br />
-            <span className="accent-blue">฿375,000</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-lg text-white/50 font-light max-w-2xl leading-relaxed"
-          >
-            Clear packages, no hidden costs — we can tell you immediately which tier your project belongs in and exactly how long it will take.
-          </motion.p>
+            ขอใบเสนอราคาแพ็กเกจนี้
+            <ArrowRight size={15} />
+          </Link>
+        </div>
+
+        {/* ฝั่งขวา — สิ่งที่ได้รับ */}
+        <div className="p-7 md:p-9">
+          <p className="label-th mb-5">สิ่งที่ได้รับ</p>
+
+          {pkg.groups ? (
+            <div className="grid sm:grid-cols-3 gap-7">
+              {pkg.groups.map((g) => (
+                <div key={g.label}>
+                  <p
+                    className="font-mono text-[11.5px] tracking-[0.14em] mb-3 pb-2 border-b"
+                    style={{ color: accent.hex, borderColor: accent.soft }}
+                  >
+                    {g.label}
+                  </p>
+                  <ul className="space-y-2.5">
+                    {g.items.map((it) => (
+                      <CheckItem key={it} accent={accent.hex}>{it}</CheckItem>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
+              {pkg.includes.map((it) => (
+                <CheckItem key={it} accent={accent.hex}>{it}</CheckItem>
+              ))}
+            </ul>
+          )}
+
+          {/* สิ่งที่ลูกค้าเตรียม */}
+          {pkg.clientPrepares && (
+            <div className="mt-7 pt-6 border-t border-line-soft">
+              <p className="label-th mb-3">ลูกค้าจัดเตรียม</p>
+              <div className="flex flex-wrap gap-1.5">
+                {pkg.clientPrepares.map((c) => (
+                  <span key={c} className="tag">{c}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* มูลค่าที่เพิ่มขึ้น */}
+          {pkg.valueAdd && (
+            <div className="mt-7 rounded-xl border border-line bg-brand-soft/60 p-6">
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="num text-[24px] font-semibold text-brand-dark">{pkg.valueAdd.delta}</span>
+                <span className="text-[14px] text-ink-2">{pkg.valueAdd.title}</span>
+              </div>
+              <p className="text-[14.5px] text-ink-2 leading-relaxed">{pkg.valueAdd.body}</p>
+            </div>
+          )}
+
+          {/* ประเภทระบบที่เหมาะ */}
+          {pkg.systemTypes && (
+            <div className="mt-7 pt-6 border-t border-line-soft">
+              <p className="label-th mb-3">เหมาะกับระบบประเภท</p>
+              <div className="grid sm:grid-cols-2 gap-2">
+                {pkg.systemTypes.map((t) => (
+                  <p key={t} className="flex items-center gap-2 text-[14.5px] text-ink-2">
+                    <PackageOpen size={15} style={{ color: accent.hex }} className="shrink-0" />
+                    {t}
+                  </p>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ไม่รวมในแพ็กเกจ */}
+          {pkg.excludes && (
+            <div className="mt-6 rounded-xl border border-line bg-soft p-5">
+              <p className="flex items-center gap-2 text-[13.5px] font-medium text-ink mb-2.5">
+                <XCircle size={15} className="text-ink-3" />
+                ไม่รวมในแพ็กเกจนี้
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {pkg.excludes.map((e) => (
+                  <span key={e} className="tag">{e}</span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* หมายเหตุ */}
+          {(pkg.note || pkg.startNote) && (
+            <div className="mt-6 space-y-2">
+              {pkg.note && (
+                <p className="flex items-start gap-2 text-[13.5px] text-ink-3 leading-relaxed">
+                  <Info size={14} className="mt-1 shrink-0" />
+                  {pkg.note}
+                </p>
+              )}
+              {pkg.startNote && (
+                <p className="flex items-start gap-2 text-[13.5px] text-ink-3 leading-relaxed">
+                  <FileText size={14} className="mt-1 shrink-0" />
+                  กำหนดส่ง {pkg.duration} — {pkg.startNote}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function PricingClient() {
+  const [openFaq, setOpenFaq] = useState(0);
+
+  return (
+    <div>
+      <PageHero
+        label="Packages & Pricing"
+        title="เลือกตามเป้าหมาย ไม่ใช่เลือกตามจำนวนหน้า"
+        desc="4 ระดับการลงทุนที่เข้าใจง่าย ตั้งแต่ Company Profile จนถึง Web System ขนาดเล็ก ทุกแพ็กเกจรองรับทุกขนาดหน้าจอ และระบุขอบเขตงานชัดเจนก่อนเริ่ม"
+      >
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Link href="/contact" className="btn btn-primary">
+            ขอใบเสนอราคา
+            <ArrowRight size={16} />
+          </Link>
+          <a href="#compare" className="btn btn-secondary">
+            ดูตารางเปรียบเทียบ
+          </a>
+        </div>
+      </PageHero>
+
+      {/* ══ การ์ดแพ็กเกจ ═══════════════════════════════════════ */}
+      <Section tightTop>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {PACKAGES.map((pkg, i) => (
+            <FadeIn key={pkg.key} delay={i * 0.07} className="h-full">
+              <PackageCard pkg={pkg} href={`#${pkg.key}`} ctaLabel="ดูสิ่งที่ได้รับ" />
+            </FadeIn>
+          ))}
+        </div>
+
+        <FadeIn delay={0.12}>
+          <KeyTermsStrip className="mt-6" />
+        </FadeIn>
+
+        <FadeIn delay={0.16}>
+          <p className="mt-5 text-[14px] text-ink-3 leading-relaxed">{NO_CHECKOUT_NOTE}</p>
+        </FadeIn>
+      </Section>
+
+      {/* ══ ตารางเปรียบเทียบ ══════════════════════════════════ */}
+      <Section id="compare" tone="soft">
+        <SectionHead
+          label="Compare"
+          title="เห็นความต่างในหน้าเดียว"
+          desc="Business คือจุดสมดุลสำหรับ Company Profile ส่วน System เหมาะกับงานที่มีสมาชิก ข้อมูล และ Workflow"
+        />
+
+        <FadeIn delay={0.08}>
+          <div className="mt-10 card overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="cmp-table">
+                <thead>
+                  <tr>
+                    <th scope="col">รายการ</th>
+                    {PACKAGES.map((p) => (
+                      <th key={p.key} scope="col" className={p.featured ? 'cmp-col-featured' : ''}>
+                        <span style={{ color: accentAt(p.accentIdx).hex }} className="font-mono tracking-[0.12em]">
+                          {p.name}
+                        </span>
+                        {p.featured && <span className="block text-[11px] font-normal text-ink-3">แพ็กเกจแนะนำ</span>}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {COMPARISON_ROWS.map((row) => (
+                    <tr key={row.label}>
+                      <th scope="row">{row.label}</th>
+                      {row.values.map((v, idx) => (
+                        <td
+                          key={idx}
+                          className={`${PACKAGES[idx].featured ? 'cmp-col-featured' : ''} ${
+                            row.strong ? 'num text-[15px] font-semibold text-ink' : 'text-ink-2'
+                          }`}
+                        >
+                          {v}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                  <tr>
+                    <th scope="row" className="text-ink font-medium">เริ่มต้นกับแพ็กเกจนี้</th>
+                    {PACKAGES.map((p) => (
+                      <td key={p.key} className={p.featured ? 'cmp-col-featured' : ''}>
+                        <Link
+                          href={`/contact?pkg=${p.key}`}
+                          className={`btn btn-sm w-full ${p.featured ? 'btn-primary' : 'btn-secondary'}`}
+                        >
+                          ขอใบเสนอราคา
+                        </Link>
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.12}>
+          <p className="mt-5 text-[14px] text-ink-3 leading-relaxed">
+            System เป็นราคาเริ่มต้น ขอบเขตนอกแพ็กเกจประเมินเพิ่มตาม Scope ที่ยืนยันร่วมกัน
+            ราคาทั้งหมดรวมภาษีมูลค่าเพิ่มแล้ว แต่ไม่รวมค่าโดเมน โฮสติ้ง ฟอนต์ ภาพลิขสิทธิ์ หรือระบบเสริมจากผู้ให้บริการอื่น ซึ่งเป็นค่าใช้จ่ายที่จ่ายตรงกับผู้ให้บริการ
+          </p>
+        </FadeIn>
+      </Section>
+
+      {/* ══ รายละเอียดแต่ละแพ็กเกจ ════════════════════════════ */}
+      <Section>
+        <SectionHead
+          label="In detail"
+          title="รายละเอียดแต่ละแพ็กเกจ"
+          desc="ทุกรายการด้านล่างคือสิ่งที่ระบุในใบเสนอราคาและตรวจรับได้จริงเมื่อจบงาน"
+        />
+
+        <div className="space-y-6 mt-12">
+          {PACKAGES.map((pkg, i) => (
+            <FadeIn key={pkg.key} delay={i * 0.05}>
+              <PackageDetail pkg={pkg} />
+            </FadeIn>
+          ))}
         </div>
       </Section>
 
-      {/* Package cards */}
-      <Section className="border-t border-white/[0.05]">
-        <div className="grid md:grid-cols-3 gap-5">
-          {PACKAGES.map((pkg, i) => {
-            const a = accentAt(pkg.accentIdx);
+      {/* ══ อธิบายขอบเขต System ═══════════════════════════════ */}
+      <Section tone="soft">
+        <SectionHead
+          label="System scope"
+          title="1 Workflow, 2 User Roles, 1 Module คืออะไร"
+          desc="ตัวอย่างระบบจองคิวด้านล่าง ช่วยให้เราและคุณเห็นขอบเขตเดียวกันก่อนประเมินราคา"
+        />
+
+        <div className="grid md:grid-cols-3 gap-5 mt-12">
+          {SYSTEM_SCOPE.map((s, i) => {
+            const accent = accentAt(s.accentIdx);
+            const Icon = SCOPE_ICONS[i] ?? Workflow;
             return (
-              <FadeIn key={pkg.name} delay={i * 0.12}>
+              <FadeIn key={s.label} delay={i * 0.08}>
                 <div
-                  className="tech-card rounded-md p-8 group cursor-default h-full relative flex flex-col"
-                  style={{ '--row-accent': a.hex, ...(pkg.popular ? { borderColor: `${a.hex}40` } : {}) }}
+                  className="card h-full p-7"
+                  style={{ '--accent': accent.hex, '--accent-soft': accent.soft }}
                 >
-                  {pkg.popular && (
-                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                      <span
-                        className="inline-flex items-center gap-1 text-[9px] font-mono font-bold px-3 py-1 rounded-full"
-                        style={{ background: a.hex, color: '#000' }}
-                      >
-                        <Zap size={8} /> Recommended
-                      </span>
-                    </div>
-                  )}
+                  <span className="icon-box w-11 h-11 mb-5">
+                    <Icon size={20} strokeWidth={1.8} />
+                  </span>
+                  <p className="font-mono text-[12px] tracking-[0.14em] mb-2" style={{ color: accent.hex }}>
+                    {s.label}
+                  </p>
+                  <h3 className="text-[17px] font-semibold text-ink mb-5">{s.title}</h3>
 
-                  {/* Header */}
-                  <div className="mb-6">
-                    <p className="code-label mb-2">{pkg.subtitle}</p>
-                    <h2 className="text-2xl font-mono font-bold text-white mb-4">{pkg.name}</h2>
-                    <div className="mb-2">
-                      <span className="text-3xl font-mono font-bold" style={{ color: a.hex }}>
-                        ฿{pkg.price}
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-white/35 font-mono">⏱ {pkg.timeline}</p>
-                  </div>
+                  <ol className="space-y-3">
+                    {s.steps.map((st, idx) => (
+                      <li key={st} className="flex items-start gap-3 text-[14.5px] text-ink-2 leading-relaxed">
+                        <span
+                          className="num w-5 h-5 rounded-md flex items-center justify-center text-[11px] font-medium shrink-0 mt-0.5"
+                          style={{ background: accent.soft, color: accent.hex }}
+                        >
+                          {idx + 1}
+                        </span>
+                        {st}
+                      </li>
+                    ))}
+                  </ol>
 
-                  <p className="text-white/45 text-sm leading-relaxed mb-8">{pkg.description}</p>
-
-                  {/* Included */}
-                  <div className="mb-6 flex-1">
-                    <p className="code-label mb-4">Included</p>
-                    <ul className="space-y-2.5">
-                      {pkg.included.map(item => (
-                        <li key={item} className="flex items-start gap-2.5 text-sm text-white/60">
-                          <Check size={12} className="mt-[3px] flex-shrink-0" style={{ color: a.hex }} />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Not included */}
-                  <div className="mb-6">
-                    <p className="code-label mb-3">Not included</p>
-                    <ul className="space-y-2">
-                      {pkg.notIncluded.map(item => (
-                        <li key={item} className="flex items-start gap-2 text-xs text-white/30 font-mono">
-                          <X size={10} className="mt-[3px] flex-shrink-0 text-white/20" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Best for */}
-                  <div className="pt-5 border-t border-white/[0.06]">
-                    <p className="code-label mb-3">Best for</p>
-                    <ul className="space-y-1.5">
-                      {pkg.bestFor.map(bf => (
-                        <li key={bf} className="text-[11px] text-white/40 font-mono flex items-start gap-1.5">
-                          <span className="w-1 h-1 rounded-full mt-[5px] flex-shrink-0" style={{ backgroundColor: `${a.hex}60` }} />
-                          {bf}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <span className="accent-line mt-6" style={{ background: a.hex }} />
+                  <p className="mt-6 pt-5 border-t border-line-soft text-[13.5px] text-ink-3 leading-relaxed">
+                    {s.footnote}
+                  </p>
                 </div>
               </FadeIn>
             );
           })}
         </div>
+
+        <FadeIn delay={0.1}>
+          <div className="mt-6 rounded-xl border border-line bg-white px-6 py-5 text-[14.5px] text-ink-2 leading-relaxed">
+            หากงานเกิน 1 Workflow • 2 Roles • 1 Module หรือมีเงื่อนไขซับซ้อน
+            เราจะทำ Discovery และประเมินราคาแบบ Custom ให้เห็นขอบเขตชัดเจนก่อนเริ่มงานเสมอ
+          </div>
+        </FadeIn>
       </Section>
 
-      {/* Add-ons */}
+      {/* ══ ดูแลหลังเปิดเว็บไซต์ ═══════════════════════════════ */}
       <Section>
-        <div className="separator-glow mb-14" />
-        <SectionLabel>Add-ons</SectionLabel>
-        <SectionTitle className="mb-12">
-          Expandable to your <span className="accent-cyan">requirements</span>
-        </SectionTitle>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {ADDONS.map((addon, i) => {
-            const a = accentAt(addon.accentIdx);
+        <SectionHead
+          label="Care plans"
+          title="ดูแลให้เว็บไซต์พร้อมทำงานต่อเนื่อง"
+          desc="แยกบริการดูแลระบบออกจากงานแก้เนื้อหา เพื่อให้ขอบเขตและค่าใช้จ่ายชัดเจนทั้งสองฝ่าย"
+        />
+
+        <div className="grid md:grid-cols-3 gap-5 mt-12">
+          {CARE_PLANS.map((c, i) => {
+            const accent = accentAt(c.accentIdx);
+            const isNumeric = /^[\d,]+$/.test(c.price);
             return (
-              <FadeIn key={addon.name} delay={i * 0.08}>
-                <div className="tech-card rounded-md p-6 group cursor-default" style={{ '--row-accent': a.hex }}>
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-sm font-mono font-semibold text-white/80 group-hover:text-white transition-colors leading-snug">{addon.name}</h3>
+              <FadeIn key={c.name} delay={i * 0.08}>
+                <div
+                  className="card card-hover card-accent h-full p-7"
+                  style={{ '--accent': accent.hex, '--accent-soft': accent.soft }}
+                >
+                  <p className="font-mono text-[12.5px] tracking-[0.14em] mb-4" style={{ color: accent.hex }}>
+                    {c.name}
+                  </p>
+                  <div className="flex items-baseline gap-1.5 mb-5">
+                    <span className={`${isNumeric ? 'num text-[32px]' : 'text-[22px]'} font-semibold text-ink leading-none`}>
+                      {c.price}
+                    </span>
+                    <span className="text-[14px] text-ink-3">{c.unit}</span>
                   </div>
-                  <div className="mb-3">
-                    <span className="font-mono font-bold text-lg" style={{ color: a.hex }}>฿{addon.price}</span>
-                    <span className="text-[11px] text-white/30 ml-1">{addon.unit}</span>
-                  </div>
-                  <p className="text-white/40 text-xs leading-relaxed">{addon.desc}</p>
-                  <span className="accent-line" style={{ background: a.hex }} />
+                  <p className="text-[14.5px] text-ink-2 leading-relaxed">{c.desc}</p>
                 </div>
               </FadeIn>
             );
@@ -279,19 +403,23 @@ export default function PricingPage() {
         </div>
       </Section>
 
-      {/* Scope Notes */}
-      <Section>
-        <div className="separator-glow mb-14" />
-        <SectionLabel>Good to know</SectionLabel>
-        <SectionTitle className="mb-12">Pricing that's <span className="accent-yellow">transparent</span></SectionTitle>
-        <div className="grid md:grid-cols-2 gap-4 max-w-4xl">
-          {SCOPE_NOTES.map((note, i) => {
-            const a = accentAt(i);
+      {/* ══ ขอบเขตสำคัญ ═══════════════════════════════════════ */}
+      <Section tone="soft">
+        <SectionHead
+          label="Terms"
+          title="ชัดก่อนเริ่ม จบงานง่าย"
+          desc="รายละเอียดสุดท้ายยึดตามใบเสนอราคาและ Scope of Work ที่ยืนยันร่วมกัน"
+        />
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-12">
+          {SCOPE_TERMS.map((t, i) => {
+            const accent = accentAt(t.accentIdx);
             return (
-              <FadeIn key={note.title} delay={i * 0.1}>
-                <div className="value-card pl-5 py-5 pr-5 group cursor-default" style={{ '--card-accent': a.hex }}>
-                  <h3 className="text-sm font-mono font-semibold text-white/80 mb-2 group-hover:text-white transition-colors">{note.title}</h3>
-                  <p className="text-white/40 text-xs leading-relaxed">{note.desc}</p>
+              <FadeIn key={t.label} delay={i * 0.05}>
+                <div className="rule-card h-full p-6" style={{ '--accent': accent.hex }}>
+                  <p className="font-mono text-[11.5px] tracking-[0.16em] text-ink-3 mb-2.5">{t.label}</p>
+                  <h3 className="text-[16px] font-semibold text-ink leading-snug mb-2">{t.title}</h3>
+                  <p className="text-[14.5px] text-ink-2 leading-relaxed">{t.desc}</p>
                 </div>
               </FadeIn>
             );
@@ -299,29 +427,63 @@ export default function PricingPage() {
         </div>
       </Section>
 
-      {/* CTA */}
-      <Section>
-        <div className="separator-glow mb-16" />
-        <div className="text-center max-w-xl mx-auto">
-          <FadeIn>
-            <p className="text-2xl md:text-3xl font-mono font-semibold text-white mb-4">
-              Not sure which package fits?
-            </p>
-            <p className="text-white/38 text-sm mb-10">
-              Tell us about your project — we'll assess it and recommend a package with a rough estimate, free, within 1 business day.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.15}>
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-2 px-7 py-3.5 text-sm font-mono font-semibold text-black rounded-sm"
-              style={{ background: 'linear-gradient(135deg, #61afef, #56b6c2)', boxShadow: '0 0 28px rgba(97,175,239,0.25)' }}
-            >
-              Get a Free Assessment
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
-          </FadeIn>
+      {/* ══ คำถามที่พบบ่อย ════════════════════════════════════ */}
+      <Section id="faq" className="scroll-mt-24">
+        <SectionHead
+          label="FAQ"
+          title="คำถามที่พบบ่อย"
+          desc="รวมคำถามเรื่องราคา ขอบเขต และเงื่อนไขที่ลูกค้าถามก่อนตัดสินใจ"
+          align="center"
+        />
+
+        <div className="max-w-3xl mx-auto mt-12 card px-6 divide-y divide-line-soft">
+          {FAQS.map((faq, i) => {
+            const isOpen = openFaq === i;
+            return (
+              <div key={faq.q}>
+                <button
+                  onClick={() => setOpenFaq(isOpen ? null : i)}
+                  className="w-full flex items-start justify-between gap-6 py-5 text-left"
+                  aria-expanded={isOpen}
+                >
+                  <span className={`text-[16px] leading-snug ${isOpen ? 'text-ink font-medium' : 'text-ink-2'}`}>
+                    {faq.q}
+                  </span>
+                  <span className="mt-1 shrink-0 text-ink-3">
+                    {isOpen ? <Minus size={17} /> : <Plus size={17} />}
+                  </span>
+                </button>
+                <div className={`overflow-hidden transition-[max-height,opacity] duration-300 ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <p className="text-[15px] text-ink-2 leading-relaxed pb-6 pr-10">{faq.a}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
+      </Section>
+
+      {/* ══ CTA ═══════════════════════════════════════════════ */}
+      <Section className="pb-24">
+        <FadeIn>
+          <div className="rounded-2xl border border-line bg-white px-8 py-12 md:px-14 md:py-14 text-center shadow-sm">
+            <h2 className="text-[25px] md:text-[32px] font-semibold text-ink max-w-2xl mx-auto leading-snug">
+              ยังไม่แน่ใจว่าควรเริ่มที่แพ็กเกจไหน
+            </h2>
+            <p className="lead text-[16px] mt-4 max-w-xl mx-auto">
+              เล่าสั้น ๆ ว่าอยากให้เว็บไซต์ทำอะไรได้บ้าง เราจะสรุปแพ็กเกจที่เหมาะสม
+              พร้อมขอบเขตและระยะเวลากลับไปให้ ไม่มีค่าใช้จ่าย
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+              <Link href="/contact" className="btn btn-primary">
+                ปรึกษาโปรเจกต์ฟรี
+                <ArrowRight size={16} />
+              </Link>
+              <Link href="/process" className="btn btn-secondary">
+                ดูขั้นตอนการทำงาน
+              </Link>
+            </div>
+          </div>
+        </FadeIn>
       </Section>
     </div>
   );

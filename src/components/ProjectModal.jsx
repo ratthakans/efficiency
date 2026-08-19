@@ -1,164 +1,109 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Check, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import { accentAt } from '@/lib/accents';
 
 /**
- * ProjectModal
- *
- * Improvements over previous version:
- * - Escape key closes modal
- * - Body scroll locked while open
- * - Image index resets when project changes
- * - Full aria-dialog / aria-labelledby semantics
- * - Safe guards for missing project.images
+ * ProjectModal — รายละเอียดตัวอย่างขอบเขตงาน
  */
-export default function ProjectModal({ isOpen, project, onClose }) {
-  const [imageIdx, setImageIdx] = useState(0);
-
-  const images = project?.images?.length ? project.images : project?.image ? [project.image] : [];
-
-  const prev = useCallback(() => setImageIdx(i => (i - 1 + images.length) % images.length), [images.length]);
-  const next = useCallback(() => setImageIdx(i => (i + 1) % images.length),                  [images.length]);
-
-  // Reset to first image when project changes
-  useEffect(() => { setImageIdx(0); }, [project]);
-
-  // Escape to close + body scroll lock
+export default function ProjectModal({ project, onClose }) {
   useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKey = (e) => {
-      if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowLeft')  prev();
-      if (e.key === 'ArrowRight') next();
-    };
-
+    if (!project) return;
+    const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', handleKey);
     document.body.style.overflow = 'hidden';
-
     return () => {
       document.removeEventListener('keydown', handleKey);
       document.body.style.overflow = '';
     };
-  }, [isOpen, onClose, prev, next]);
+  }, [project, onClose]);
 
-  if (!project) return null;
+  const accent = project ? accentAt(project.accentIdx) : null;
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {project && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-ink/35 backdrop-blur-sm z-40"
             aria-hidden="true"
           />
 
-          {/* Dialog */}
           <motion.div
             role="dialog"
             aria-modal="true"
             aria-labelledby="project-modal-title"
-            initial={{ opacity: 0, y: 24, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0,  scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.97 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-50 overflow-y-auto flex items-start justify-center p-4 pt-8 pb-8"
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.98 }}
+            transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-50 overflow-y-auto flex items-start justify-center p-4 py-10"
           >
-            <div
-              className="relative w-full max-w-3xl rounded-lg border border-white/10 overflow-hidden"
-              style={{ background: '#090909' }}
-            >
-              {/* Close */}
+            <div className="relative w-full max-w-3xl rounded-2xl bg-white border border-line shadow-lg overflow-hidden">
+              <span className="absolute inset-x-0 top-0 h-1" style={{ background: accent.hex }} aria-hidden="true" />
+
               <button
                 onClick={onClose}
-                className="absolute top-5 right-5 z-10 p-1.5 rounded-sm text-white/40 hover:text-white transition-colors hover:bg-white/08"
-                aria-label="Close modal"
+                className="absolute top-5 right-5 p-1.5 rounded-md text-ink-3 hover:text-ink hover:bg-soft transition-colors"
+                aria-label="ปิดหน้าต่าง"
               >
                 <X size={20} />
               </button>
 
-              {/* Image */}
-              {images.length > 0 && (
-                <div className="relative bg-black/40 overflow-hidden" style={{ aspectRatio: '16/9' }}>
-                  <AnimatePresence mode="wait">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <motion.img
-                      key={imageIdx}
-                      src={images[imageIdx]}
-                      alt={`${project.name} – screenshot ${imageIdx + 1}`}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </AnimatePresence>
+              <div className="p-7 md:p-9">
+                <p className="font-mono text-[11.5px] tracking-[0.16em] uppercase mb-2" style={{ color: accent.hex }}>
+                  {project.category}
+                </p>
+                <h2 id="project-modal-title" className="text-[23px] md:text-[26px] font-semibold text-ink leading-snug pr-10">
+                  {project.title}
+                </h2>
 
-                  {images.length > 1 && (
-                    <>
-                      <button
-                        onClick={prev}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-md bg-black/50 hover:bg-black/70 transition-colors text-white"
-                        aria-label="Previous image"
-                      >
-                        <ChevronLeft size={18} />
-                      </button>
-                      <button
-                        onClick={next}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-md bg-black/50 hover:bg-black/70 transition-colors text-white"
-                        aria-label="Next image"
-                      >
-                        <ChevronRight size={18} />
-                      </button>
-                      <div className="absolute bottom-3 right-4 text-[11px] text-white/55 bg-black/60 rounded px-2.5 py-0.5 font-mono" aria-live="polite">
-                        {imageIdx + 1} / {images.length}
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
-
-              {/* Content */}
-              <div className="p-8 md:p-10 space-y-8">
-                <div>
-                  <h2 id="project-modal-title" className="text-2xl md:text-3xl font-mono font-semibold mb-1">
-                    {project.name}
-                  </h2>
-                  <p className="text-white/38 text-sm font-mono">{project.year}</p>
+                <div className="flex flex-wrap gap-1.5 mt-4">
+                  <span className="pill text-[13px]" style={{ background: accent.soft, borderColor: accent.soft, color: accent.hex }}>
+                    {project.tier}
+                  </span>
+                  <span className="pill text-[13px]">{project.scale}</span>
+                  <span className="pill text-[13px]">{project.duration}</span>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8">
+                <div className="mt-7 pt-7 border-t border-line-soft grid md:grid-cols-2 gap-8">
                   <div>
-                    <p className="code-label mb-4">Challenge</p>
-                    <p className="text-white/65 text-sm leading-relaxed">{project.problem}</p>
+                    <p className="label-th mb-3">โจทย์ที่มักพบ</p>
+                    <p className="text-[15px] text-ink-2 leading-relaxed">{project.problem}</p>
+
+                    <p className="label-th mt-6 mb-3">แนวทางที่เราวางให้</p>
+                    <p className="text-[15px] text-ink-2 leading-relaxed">{project.approach}</p>
                   </div>
 
                   <div>
-                    <p className="code-label mb-4">Solution</p>
-                    <p className="text-white/65 text-sm leading-relaxed">{project.solution}</p>
-                  </div>
-
-                  <div>
-                    <p className="code-label mb-4">Results</p>
-                    <ul className="space-y-2">
-                      {(Array.isArray(project.result) ? project.result : [project.result]).map((r, i) => (
-                        <li key={i} className="text-white/65 text-sm flex items-start gap-2">
-                          <span className="w-1 h-1 rounded-full bg-white/35 mt-1.5 flex-shrink-0" aria-hidden="true" />
-                          {r}
+                    <p className="label-th mb-3">ขอบเขตงานตัวอย่าง</p>
+                    <ul className="space-y-2.5">
+                      {project.scope.map((s) => (
+                        <li key={s} className="flex items-start gap-2.5 text-[14.5px] text-ink-2 leading-relaxed">
+                          <Check size={15} strokeWidth={2.6} className="mt-1 shrink-0" style={{ color: accent.hex }} />
+                          {s}
                         </li>
                       ))}
                     </ul>
                   </div>
+                </div>
+
+                <div className="mt-8 pt-7 border-t border-line-soft flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+                  <p className="text-[13.5px] text-ink-3 leading-relaxed max-w-md">
+                    ตัวอย่างนี้ใช้อธิบายขอบเขตงานให้เห็นภาพ ขอบเขตจริงของแต่ละโครงการสรุปร่วมกันในขั้นตอนเก็บโจทย์
+                  </p>
+                  <Link href="/contact" className="btn btn-primary btn-sm shrink-0">
+                    คุยเรื่องงานลักษณะนี้
+                    <ArrowRight size={15} />
+                  </Link>
                 </div>
               </div>
             </div>

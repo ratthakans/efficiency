@@ -1,11 +1,12 @@
+import PricingClient from './PricingClient';
+
 export const metadata = {
-  title:       'Pricing — Mobile App, POS & Embedded Packages',
-  description: 'Packages ชัดเจน เริ่มต้น 300,000 บาท ครอบคลุม Mobile App, POS System และ Embedded Software พร้อม Add-ons และสิ่งที่รวมอยู่ในแต่ละ package',
-  openGraph: {
-    title:       'Pricing | EFFICIENCY',
-    description: 'Mobile App Engineering packages เริ่มต้น 300,000 บาท',
-    url:         'https://efficiency.co.th/pricing',
-  },
+  title: 'แพ็กเกจและราคาทำเว็บไซต์',
+  description:
+    'แพ็กเกจทำเว็บไซต์ 4 ระดับ เริ่มต้น 29,000 บาท ตั้งแต่ Company Profile จนถึง Web System ที่มีสมาชิกและหลังบ้าน พร้อมตารางเปรียบเทียบ ขอบเขตงาน และบริการดูแลหลังเปิดเว็บไซต์',
+  alternates: { canonical: '/pricing' },
 };
 
-export { default } from './PricingClient';
+export default function PricingPage() {
+  return <PricingClient />;
+}

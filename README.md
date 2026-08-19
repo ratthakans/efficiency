@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# EFFICIENCY — Web Development Studio
 
-## Getting Started
+เว็บไซต์ของสตูดิโอออกแบบและพัฒนาเว็บไซต์ เนื้อหาเป็นภาษาไทย โทนสว่าง
+นำเสนอแพ็กเกจ 4 ระดับ ตั้งแต่ Company Profile จนถึง Web System
 
-First, run the development server:
+- **Framework:** Next.js 16 (App Router, Turbopack) + React 19
+- **Styling:** Tailwind CSS v4 — design token ทั้งหมดอยู่ใน `src/app/globals.css`
+- **Fonts:** IBM Plex Sans Thai + IBM Plex Mono ผ่าน `next/font/google`
+- **Motion:** framer-motion (ใช้เฉพาะ entrance / modal)
+- **Env vars:** `CONTACT_WEBHOOK_URL` (ไม่บังคับ — ดูหัวข้อฟอร์มติดต่อด้านล่าง)
+
+## เริ่มพัฒนา
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+เปิด http://localhost:3000
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## โครงสร้างที่ควรรู้
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| ไฟล์ | หน้าที่ |
+| --- | --- |
+| `src/lib/content.js` | เนื้อหาแพ็กเกจ ราคา ขอบเขต ขั้นตอน และ FAQ ทั้งหมด — แก้ที่นี่ที่เดียว |
+| `src/lib/accents.js` | ชุดสี accent ของการ์ดและแพ็กเกจ |
+| `src/app/globals.css` | Design token + component class (`.btn`, `.card`, `.pill`, `.cmp-table` …) |
+| `src/components/ui/Section.jsx` | ส่วนประกอบ layout ของทุกหน้า (`Section`, `SectionHead`, `FadeIn`, `PageHero`) |
+| `src/components/PackageCard.jsx` | การ์ดแพ็กเกจแบบย่อ ใช้ทั้งหน้าแรกและหน้าแพ็กเกจ |
+| `src/components/MobileActionBar.jsx` | แถบ LINE / โทร / ขอใบเสนอราคา ค้างท้ายจอบนมือถือ |
+| `src/app/api/contact/route.js` | รับข้อมูลจากฟอร์มติดต่อและส่งต่อไปยัง Webhook |
+| `public/work/*.webp` | ภาพหน้าแรกของเว็บไซต์ผลงาน |
 
-## Learn More
+การแก้ราคา ขอบเขตงาน หรือระยะเวลา ให้แก้ที่ `src/lib/content.js`
+แล้วทุกหน้าที่อ้างอิงข้อมูลนั้นจะอัปเดตตามทันที
 
-To learn more about Next.js, take a look at the following resources:
+## หน้าเว็บไซต์
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`/` · `/services` · `/pricing` · `/process` · `/work` · `/stack` · `/about` · `/contact`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ฟอร์มติดต่อ
 
-## Deploy on Vercel
+ฟอร์มในหน้า `/contact` ส่งข้อมูลไปที่ `POST /api/contact` ซึ่งจะส่งต่อไปยัง Webhook
+ที่ตั้งไว้ในตัวแปร `CONTACT_WEBHOOK_URL` (ใช้ได้กับ Make, Zapier, n8n,
+Google Apps Script หรือ endpoint ของทีมเอง)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+CONTACT_WEBHOOK_URL="https://hook.example.com/xxxx"
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**ถ้ายังไม่ได้ตั้งค่า** ระบบจะไม่แสดงว่าส่งสำเร็จ แต่จะสลับไปโหมดสำรอง
+คือแสดงปุ่ม LINE / อีเมล / โทร พร้อมข้อมูลที่กรอกไว้ เพื่อไม่ให้ Lead หายไปเงียบ ๆ
+
+## หมายเหตุ
+
+- ภาพผลงานใน `public/work/` จับจากหน้าแรกของเว็บไซต์จริงด้วย headless Chrome
+  แล้วแปลงเป็น WebP หากเว็บไซต์ต้นทางเปลี่ยนดีไซน์ ควรจับใหม่
+- ส่วน "ตัวอย่างขอบเขตงานตามแพ็กเกจ" ในหน้า `/work` เป็นการจำลองลักษณะงาน
+  ไม่ใช่ข้อมูลลูกค้ารายใดรายหนึ่ง (มีหมายเหตุกำกับไว้ในหน้าเว็บแล้ว)
+- ข้อมูลติดต่อทั้งหมด รวมถึงลิงก์ LINE อยู่ใน `CONTACT` ที่ `src/lib/content.js`

@@ -1,11 +1,17 @@
+import { Suspense } from 'react';
+import ContactClient from './ContactClient';
+
 export const metadata = {
-  title:       'Contact — ขอประเมินโปรเจกต์ฟรี',
-  description: 'ติดต่อ Efficiency สำหรับ Mobile App, POS System หรือ Embedded Software — ขอ free assessment ภายใน 1 วันทำการ ไม่มี commitment',
-  openGraph: {
-    title:       'Contact | EFFICIENCY',
-    description: 'ขอประเมินโปรเจกต์ Mobile App, POS, Embedded Software — ฟรี ภายใน 1 วันทำการ',
-    url:         'https://efficiency.co.th/contact',
-  },
+  title: 'ติดต่อเรา',
+  description:
+    'ติดต่อ EFFICIENCY เพื่อขอใบเสนอราคาเว็บไซต์ ส่งรายละเอียดโปรเจกต์เบื้องต้น แล้วเราจะสรุปแพ็กเกจที่เหมาะสม ขอบเขตงาน และระยะเวลากลับไปให้',
+  alternates: { canonical: '/contact' },
 };
 
-export { default } from './ContactClient';
+export default function ContactPage() {
+  return (
+    <Suspense>
+      <ContactClient />
+    </Suspense>
+  );
+}

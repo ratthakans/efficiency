@@ -1,11 +1,12 @@
+import ServicesClient from './ServicesClient';
+
 export const metadata = {
-  title:       'Services — Mobile App, POS & Embedded Software',
-  description: 'Efficiency เชี่ยวชาญ 3 สาขา: Mobile App Engineering (iOS/Android/Flutter), POS & Operational Systems, และ Embedded & Device Software — ไม่ใช่ web agency',
-  openGraph: {
-    title:       'Services | EFFICIENCY',
-    description: 'Mobile App · POS & Operations · Embedded Software — specialist studio ในประเทศไทย',
-    url:         'https://efficiency.co.th/services',
-  },
+  title: 'บริการรับทำเว็บไซต์',
+  description:
+    'บริการออกแบบและพัฒนาเว็บไซต์ ตั้งแต่ Company Profile เว็บไซต์สร้าง Lead จนถึง Web System ที่มีสมาชิกและหลังบ้าน พร้อมโครงสร้าง SEO / AEO / GEO และบริการดูแลต่อเนื่อง',
+  alternates: { canonical: '/services' },
 };
 
-export { default } from './ServicesClient';
+export default function ServicesPage() {
+  return <ServicesClient />;
+}

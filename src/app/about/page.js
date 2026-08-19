@@ -1,11 +1,12 @@
+import AboutClient from './AboutClient';
+
 export const metadata = {
-  title:       'About — Mobile Engineering Studio, Bangkok',
-  description: 'Efficiency คือ Mobile Engineering Studio ที่เชี่ยวชาญ Mobile App, POS และ Embedded Software ตั้งอยู่ในกรุงเทพฯ',
-  openGraph: {
-    title:       'About | EFFICIENCY',
-    description: 'Mobile Engineering Studio ในกรุงเทพฯ — เชี่ยวชาญ Mobile App · POS · Embedded Software',
-    url:         'https://efficiency.co.th/about',
-  },
+  title: 'เกี่ยวกับเรา',
+  description:
+    'EFFICIENCY สตูดิโอออกแบบและพัฒนาเว็บไซต์สำหรับธุรกิจไทย ทำงานโดยยึดหลักขอบเขตชัดเจนก่อนเริ่ม เนื้อหาสำคัญเท่าดีไซน์ วัดผลได้ตั้งแต่วันแรก และส่งมอบให้ตรวจรับได้จริง',
+  alternates: { canonical: '/about' },
 };
 
-export { default } from './AboutClient';
+export default function AboutPage() {
+  return <AboutClient />;
+}

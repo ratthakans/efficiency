@@ -1,479 +1,615 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  ArrowRight, ArrowDown, Smartphone, Monitor, Cpu,
-  ShieldCheck, Layers, GitBranch, Zap, ChevronDown,
-  TrendingUp, Users, Globe, Clock,
+  ArrowRight, ArrowUpRight, Search, Sparkles, MessageSquareText, Plus, Minus,
+  Building2, Target, Boxes, LifeBuoy, ShieldCheck, Gauge, FileCheck2,
 } from 'lucide-react';
-import { useState } from 'react';
-import Section, { SectionLabel, SectionTitle, FadeIn } from '@/components/ui/Section';
-import TypewriterText from '@/components/TypewriterText';
-import ProcessModal from '@/components/ProcessModal';
+import Section, { SectionHead, FadeIn } from '@/components/ui/Section';
+import PackageCard from '@/components/PackageCard';
+import KeyTermsStrip from '@/components/KeyTermsStrip';
 import { accentAt } from '@/lib/accents';
+import {
+  PACKAGES, PROJECTS, FIT_GUIDE, PROCESS_STEPS, FAQS, CONTACT, NO_CHECKOUT_NOTE,
+} from '@/lib/content';
 
-// ─── Static data ──────────────────────────────────────────
-const PILLARS = [
+/* ── ข้อมูลเฉพาะหน้าแรก ─────────────────────────────────────── */
+const TRUST_STATS = [
+  { value: '4', unit: 'ระดับ', label: 'แพ็กเกจที่ขอบเขตชัดเจน' },
+  { value: '29,000', unit: 'บาท', label: 'ราคาเริ่มต้น พร้อมเปิดใช้งาน' },
+  { value: '10-15', unit: 'วัน', label: 'ระยะเวลาเริ่มต้นถึงเปิดเว็บ' },
+  { value: '90', unit: 'วัน', label: 'รับประกันข้อผิดพลาดสูงสุด' },
+];
+
+const DISCOVERY_CHANNELS = [
   {
-    icon: Smartphone, accentIdx: 4, tag: '01 / Mobile',
-    title: 'Mobile App Engineering',
-    description: 'iOS · Android · Flutter. Designed from real user behaviour — not just a pretty screen.',
-    tags: ['Flutter', 'Swift', 'Kotlin', 'React Native'],
-    href: '/services',
+    icon: Search,
+    accentIdx: 1,
+    label: 'SEARCH',
+    title: 'ค้นพบผ่านการค้นหา',
+    desc: 'โครงสร้างหน้า คีย์เวิร์ด และ Structured Data ที่ถูกต้อง ทำให้เว็บไซต์ถูกจัดเก็บและแสดงผลได้ตรงกับสิ่งที่ธุรกิจทำจริง',
   },
   {
-    icon: Monitor, accentIdx: 2, tag: '02 / POS & Operations',
-    title: 'POS & Operational Systems',
-    description: 'Purpose-built for F&B, Retail, Kiosk and Ticketing — with full hardware integration from printer to scanner.',
-    tags: ['Retail POS', 'F&B KDS', 'Kiosk', 'Hardware SDK'],
-    href: '/services',
+    icon: Sparkles,
+    accentIdx: 3,
+    label: 'AI',
+    title: 'เข้าใจผ่าน AI',
+    desc: 'วางข้อมูลบริการ คำถามที่พบบ่อย และรายละเอียดธุรกิจในรูปแบบที่ระบบ AI อ่านและสรุปต่อได้ ไม่ตกหล่นเมื่อลูกค้าถามผ่านผู้ช่วย AI',
   },
   {
-    icon: Cpu, accentIdx: 5, tag: '03 / Embedded',
-    title: 'Embedded & Device Software',
-    description: 'Systems wired to hardware — IoT, EV, device control, firmware integration at the edge.',
-    tags: ['C/C++', 'Rust', 'RTOS', 'IoT Protocol'],
-    href: '/services',
+    icon: MessageSquareText,
+    accentIdx: 2,
+    label: 'CONTACT',
+    title: 'ตัดสินใจติดต่อได้ง่ายขึ้น',
+    desc: 'เส้นทางสู่การติดต่อชัดเจนทุกหน้า ทั้ง LINE โทรศัพท์ อีเมล และแบบฟอร์ม พร้อมการวัดผลว่าช่องทางใดสร้างการติดต่อจริง',
   },
 ];
 
-const WHY_US = [
-  { icon: Layers,     accentIdx: 4, title: 'UX/UI grounded in practice',   desc: 'Not just aesthetics — every interface is validated against real users in real environments.' },
-  { icon: Smartphone, accentIdx: 2, title: 'Mobile-First Engineering',      desc: 'A team that specialises in mobile development — not a web agency that does mobile on the side.' },
-  { icon: GitBranch,  accentIdx: 0, title: 'Operational Thinking',          desc: 'We understand business workflows. Systems we build adapt to how you operate — not the other way around.' },
-  { icon: Zap,        accentIdx: 5, title: 'Transparent Pricing',           desc: 'Clear packages, no hidden costs. We tell you immediately which tier fits your project.' },
-];
-
-const HERO_STATS = [
-  { label: 'mobile apps delivered', value: '25+',  accentIdx: 4 },
-  { label: 'POS systems deployed',  value: '12+',  accentIdx: 2 },
-  { label: 'avg. delivery time',    value: '8w',   accentIdx: 5 },
-];
-
-const WHY_MOBILE = [
+const SERVICES = [
   {
-    icon: TrendingUp, accentIdx: 4,
-    stat: '6.9B',
-    label: 'Smartphone users worldwide',
-    desc: 'Over 86% of the global population carries a smartphone. Your product needs to be in their pocket — not on a desktop they no longer use.',
+    icon: Building2,
+    accentIdx: 0,
+    title: 'Company Profile',
+    desc: 'เว็บไซต์แนะนำบริษัทที่ดูน่าเชื่อถือ อ่านง่ายทุกหน้าจอ และมีช่องทางติดต่อครบ',
+    points: ['ไม่เกิน 5 หน้า', 'Responsive ทุกขนาดจอ', 'แบบฟอร์ม + SSL'],
   },
   {
-    icon: Clock, accentIdx: 2,
-    stat: '4.8h',
-    label: 'Average daily screen time on mobile',
-    desc: 'Users spend nearly 5 hours per day on mobile devices. Attention lives on mobile — if your system isn\'t there, you\'re invisible.',
+    icon: Target,
+    accentIdx: 2,
+    title: 'เว็บไซต์สร้าง Lead',
+    desc: 'สำหรับธุรกิจหลายบริการ ที่ต้องการหน้าเฉพาะ บทความ และการวัดผลที่ชัดเจน',
+    points: ['ไม่เกิน 8 หน้า', 'Case Study + บทความ', 'Conversion Tracking'],
   },
   {
-    icon: Globe, accentIdx: 0,
-    stat: '92%',
-    label: 'Internet users access via mobile',
-    desc: 'In Southeast Asia, mobile-first is not a trend — it\'s the baseline. Building for desktop first means building for the minority.',
+    icon: Boxes,
+    accentIdx: 3,
+    title: 'Web System',
+    desc: 'เว็บไซต์ที่ผู้ใช้ต้อง Login ทำรายการ และมีหลังบ้านให้ทีมงานจัดการข้อมูล',
+    points: ['Member Login', 'Workflow + Admin', 'API + Notification'],
   },
   {
-    icon: Users, accentIdx: 5,
-    stat: '3×',
-    label: 'Higher conversion on a well-designed mobile app',
-    desc: 'A native mobile app with great UX converts 3× better than a mobile website for transactional use cases like booking, payment and POS.',
+    icon: LifeBuoy,
+    accentIdx: 1,
+    title: 'ดูแลหลังเปิดเว็บไซต์',
+    desc: 'ดูแลด้านเทคนิคและเนื้อหาต่อเนื่อง แยกขอบเขตและค่าใช้จ่ายให้ชัดเจน',
+    points: ['Technical Care', 'Content Care', 'System Care ตาม SLA'],
   },
 ];
 
-const PROCESS_STEPS = [
-  { label: 'Discovery',  accentIdx: 0, desc: 'Understand the business before opening a code editor' },
-  { label: 'UX / UI',   accentIdx: 1, desc: 'A testable prototype — not just a pretty Figma file' },
-  { label: 'Build',     accentIdx: 2, desc: 'Sprint-based, demo every 2 weeks' },
-  { label: 'QA & Test', accentIdx: 3, desc: 'Real device testing, full edge case coverage' },
-  { label: 'Launch',    accentIdx: 4, desc: 'Deploy + store submission + go-live support' },
-  { label: 'Maintain',  accentIdx: 5, desc: 'Monitoring, updates, feature expansion' },
-];
-
-const FAQS = [
-  {
-    q: 'Does Efficiency only do mobile apps, or do you handle backend too?',
-    a: 'We handle the full stack — mobile app (iOS/Android/Flutter), backend APIs, database, cloud infrastructure and hardware integration. You don\'t need to manage multiple vendors.',
-  },
-  {
-    q: 'What does the starting price of ฿375,000 cover?',
-    a: 'The Starter package includes: UX/UI design, Flutter mobile app (iOS+Android), backend API, cloud deployment, store submission and 30 days post-launch support. See the Pricing page for full details.',
-  },
-  {
-    q: 'Can you integrate hardware like printers or BLE devices?',
-    a: 'Yes — we specialise in hardware protocol integration including Bluetooth, USB, Serial, ESC/POS printers, RFID, NFC and IoT sensors via native SDK on both Android and iOS.',
-  },
-  {
-    q: 'How long does development take?',
-    a: 'Starter Package: 6–8 weeks. Business App: 8–12 weeks. Platform: 12–16 weeks. We work in 2-week sprints with a demo at the end of each sprint.',
-  },
-  {
-    q: 'Is there support after launch?',
-    a: 'Yes — we offer Maintenance Packages covering bug fixes, OS updates, monitoring, performance tuning and minor feature additions.',
-  },
-];
-
-// ─── Page component ───────────────────────────────────────
+/* ── หน้าแรก ─────────────────────────────────────────────────── */
 export default function HomePage() {
-  const [activeStep, setActiveStep] = useState(null);
-  const [openFaq, setOpenFaq]       = useState(null);
+  const [openFaq, setOpenFaq] = useState(0);
 
   return (
-    <div className="relative pt-16">
-
+    <div>
       {/* ══ Hero ══════════════════════════════════════════════ */}
-      <section className="min-h-screen flex items-center pt-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <section className="pt-32 md:pt-40 pb-16 md:pb-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid lg:grid-cols-[1.05fr_1fr] gap-14 lg:gap-16 items-center">
 
-            {/* Left */}
+            {/* ซ้าย — ใช้ CSS animation เพราะเป็นเนื้อหาส่วนบนสุดของหน้า
+                 จึงไม่ควรต้องรอ JavaScript ก่อนจึงจะมองเห็น */}
             <div>
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="mb-8"
-              >
-                <span className="tag-glow">Thailand Mobile Engineering Studio</span>
-              </motion.div>
+              <div className="animate-fade-in-up">
+                <span className="pill pill-brand pill-dot font-mono text-[11.5px] tracking-[0.14em] uppercase">
+                  Web Development Studio · Thailand
+                </span>
+              </div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-5xl md:text-7xl lg:text-[78px] font-mono font-semibold tracking-tight leading-[1.04] mb-6 text-white"
-              >
-                <TypewriterText words={['Mobile', 'POS', 'Embedded', 'IoT']} className="accent-blue" />
+              <h1 className="mt-7 text-[38px] sm:text-[48px] lg:text-[58px] font-semibold tracking-tight text-ink leading-[1.22] animate-fade-in-up animation-delay-100">
+                ให้เว็บไซต์ของคุณ
                 <br />
-                <span className="text-white/85">App</span>
-                <br />
-                <span className="accent-grad-rb">Engineering.</span>
-              </motion.h1>
+                <span className="text-brand">เป็นคำตอบ</span>ที่ลูกค้ามั่นใจ
+              </h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-base md:text-lg text-white/50 font-light max-w-md mb-10 leading-relaxed"
-              >
-                Thailand's specialist studio for
-                <span className="text-white/75"> Mobile App · POS · Embedded Software</span>
-              </motion.p>
+              <p className="lead text-[17px] mt-6 max-w-xl animate-fade-in-up animation-delay-200">
+                เราออกแบบและพัฒนาเว็บไซต์ให้ธุรกิจไทย ตั้งแต่ Company Profile
+                จนถึง Web System ที่มีสมาชิกและหลังบ้าน
+                ด้วยขอบเขตงานและราคาที่ชัดเจนตั้งแต่ก่อนเริ่ม
+              </p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.45 }}
-                className="flex flex-col sm:flex-row gap-4"
-              >
-                <Link
-                  href="/contact"
-                  className="group inline-flex items-center gap-2 px-7 py-3.5 text-sm font-mono font-semibold text-black rounded-sm transition-all duration-300"
-                  style={{ background: 'linear-gradient(135deg, #61afef, #56b6c2)', boxShadow: '0 0 28px rgba(97,175,239,0.3)' }}
-                >
-                  Get a Free Assessment
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+              <div className="mt-9 flex flex-col sm:flex-row gap-3 animate-fade-in-up animation-delay-300">
+                <Link href="/contact" className="btn btn-primary">
+                  ขอใบเสนอราคา
+                  <ArrowRight size={16} />
                 </Link>
-                <Link
-                  href="/work"
-                  className="group inline-flex items-center gap-2 px-7 py-3.5 text-sm font-mono font-medium text-white rounded-sm transition-all duration-300"
-                  style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}
-                >
-                  View Our Work
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300 opacity-40" />
+                <Link href="/pricing" className="btn btn-secondary">
+                  ดูแพ็กเกจและราคา
                 </Link>
-              </motion.div>
+              </div>
+
+              <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3 text-[14.5px] text-ink-2 animate-fade-in-up animation-delay-400">
+                <span className="inline-flex items-center gap-2 rounded-lg bg-brand px-3 py-1.5 text-white self-start whitespace-nowrap">
+                  <span className="text-[12.5px]">แพ็กเกจเริ่มต้น</span>
+                  <span className="num text-[17px] font-semibold">29,000</span>
+                  <span className="text-[12.5px]">บาท</span>
+                </span>
+                <span className="text-ink-3">
+                  ราคาชัดเจน ไม่มีค่าใช้จ่ายแอบแฝง · {CONTACT.replyTime}
+                </span>
+              </div>
             </div>
 
-            {/* Right: terminal mockup */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="hidden lg:block"
-            >
-              <div
-                className="rounded-md p-6 font-mono text-sm"
-                style={{
-                  background: 'rgba(8,8,8,0.85)',
-                  border: '1px solid rgba(255,255,255,0.07)',
-                  backdropFilter: 'blur(16px)',
-                  boxShadow: '0 0 60px rgba(97,175,239,0.06), inset 0 1px 0 rgba(255,255,255,0.04)',
-                }}
-              >
-                {/* title bar */}
-                <div className="flex items-center gap-2 mb-5 pb-4 border-b border-white/[0.05]">
-                  <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#e06c75', opacity: 0.8 }} />
-                  <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#e5c07b', opacity: 0.8 }} />
-                  <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#98c379', opacity: 0.8 }} />
-                  <span className="ml-3 text-[10px] text-white/25 tracking-widest">efficiency — flutter build</span>
+            {/* ขวา — ภาพจำลองเว็บไซต์ */}
+            <div className="relative mb-24 lg:mb-28 animate-fade-in-up animation-delay-300" aria-hidden="true">
+              <div className="browser-frame">
+                <div className="browser-bar">
+                  <span className="browser-dot" style={{ background: '#ff5f57' }} />
+                  <span className="browser-dot" style={{ background: '#febc2e' }} />
+                  <span className="browser-dot" style={{ background: '#28c840' }} />
+                  <span className="ml-3 flex-1 rounded-md bg-white border border-line px-3 py-1 font-mono text-[11px] text-ink-3">
+                    yourcompany.co.th
+                  </span>
                 </div>
-                <div className="space-y-2 text-xs leading-relaxed">
-                  <p><span style={{ color: '#98c379' }}>✓</span> <span className="text-white/35">UX research</span> <span style={{ color: '#98c379' }}>complete</span></p>
-                  <p><span style={{ color: '#98c379' }}>✓</span> <span className="text-white/35">design system</span> <span style={{ color: '#61afef' }}>exported</span></p>
-                  <p><span style={{ color: '#98c379' }}>✓</span> <span className="text-white/35">flutter build</span> <span style={{ color: '#c678dd' }}>apk --release</span></p>
-                  <p><span style={{ color: '#98c379' }}>✓</span> <span className="text-white/35">iOS archive</span> <span style={{ color: '#98c379' }}>signed ✓</span></p>
-                  <p><span style={{ color: '#e5c07b' }}>→</span> <span className="text-white/35">App Store submission</span> <span style={{ color: '#e5c07b' }}>processing...</span></p>
-                  <p className="mt-3 text-white/30"><span style={{ color: '#56b6c2' }}>$</span> flutter run <span className="text-white/55">--release --flavor production</span></p>
-                  <p style={{ color: '#98c379' }}>  ✓ Build complete — 4.2s</p>
-                  <p style={{ color: '#98c379' }}>  ✓ Hot restart on device — ready</p>
-                  <motion.p animate={{ opacity: [1, 0, 1] }} transition={{ duration: 1.1, repeat: Infinity }} className="text-white/50">
-                    <span style={{ color: '#56b6c2' }}>$</span> <span className="opacity-30">▌</span>
-                  </motion.p>
-                </div>
-              </div>
-              <div className="flex gap-3 mt-4">
-                {HERO_STATS.map(b => {
-                  const a = accentAt(b.accentIdx);
-                  return (
-                    <div
-                      key={b.label}
-                      className="flex-1 rounded-md px-3 py-3 text-center"
-                      style={{ background: 'rgba(8,8,8,0.65)', border: `1px solid ${a.hex}28`, backdropFilter: 'blur(8px)' }}
-                    >
-                      <p className="text-lg font-mono font-semibold" style={{ color: a.hex }}>{b.value}</p>
-                      <p className="text-[9px] text-white/28 tracking-widest uppercase mt-1">{b.label}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          </div>
-        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4, duration: 1 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        >
-          <ArrowDown size={16} className="text-white/20 animate-bounce" />
-        </motion.div>
-      </section>
-
-      {/* ══ 3 Pillars ══════════════════════════════════════════ */}
-      <Section>
-        <div className="separator-glow mb-14" />
-        <SectionLabel>Core Specialisations</SectionLabel>
-        <SectionTitle className="mb-4">
-          <span className="accent-blue">3 things we do best</span>
-        </SectionTitle>
-        <p className="text-white/40 text-sm mb-12 max-w-xl">
-          We are not a web agency that does everything — we are specialists in mobile-first engineering.
-        </p>
-        <div className="grid md:grid-cols-3 gap-4">
-          {PILLARS.map((p, i) => {
-            const a    = accentAt(p.accentIdx);
-            const Icon = p.icon;
-            return (
-              <FadeIn key={p.title} delay={i * 0.12}>
-                <Link href={p.href}>
-                  <div className="tech-card rounded-md p-8 group cursor-pointer h-full" data-accent={a.key} style={{ '--row-accent': a.hex }}>
-                    <div
-                      className="w-10 h-10 rounded flex items-center justify-center mb-6 transition-all duration-400"
-                      style={{ background: `${a.hex}12`, border: `1px solid ${a.hex}30` }}
-                    >
-                      <Icon size={18} style={{ color: a.hex }} />
+                <div className="p-5 sm:p-7">
+                  {/* แถบเมนูจำลอง */}
+                  <div className="flex items-center justify-between pb-4 border-b border-line-soft">
+                    <div className="flex items-center gap-2">
+                      <span className="w-5 h-5 rounded bg-brand" />
+                      <span className="font-mono text-[10.5px] tracking-[0.2em] text-ink-2">COMPANY</span>
                     </div>
-                    <p className="code-label mb-2">{p.tag}</p>
-                    <h3 className="text-lg font-mono font-semibold text-white/90 mb-3 group-hover:text-white transition-colors">{p.title}</h3>
-                    <p className="text-sm text-white/45 leading-relaxed group-hover:text-white/60 transition-colors duration-400 mb-5">{p.description}</p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {p.tags.map(t => (
-                        <span key={t} className="text-[9px] font-mono px-2 py-0.5 rounded-sm border"
-                          style={{ color: `${a.hex}cc`, background: `${a.hex}10`, borderColor: `${a.hex}22` }}>
-                          {t}
-                        </span>
+                    <div className="hidden sm:flex gap-3">
+                      {['หน้าแรก', 'บริการ', 'ผลงาน', 'ติดต่อ'].map((t) => (
+                        <span key={t} className="text-[10.5px] text-ink-3">{t}</span>
                       ))}
                     </div>
-                    <span className="accent-line" style={{ background: a.hex }} />
+                    <span className="rounded bg-brand px-2.5 py-1 text-[10px] text-white">ติดต่อเรา</span>
                   </div>
-                </Link>
-              </FadeIn>
-            );
-          })}
-        </div>
-      </Section>
 
-      {/* ══ Why Mobile ════════════════════════════════════════ */}
-      <Section>
-        <div className="separator-glow mb-14" />
-        <SectionLabel>Why Mobile</SectionLabel>
-        <SectionTitle className="mb-4">
-          In this era, <span className="accent-blue">mobile is the platform</span>
-        </SectionTitle>
-        <p className="text-white/40 text-sm mb-12 max-w-xl">
-          It's not a trend — it's where your users already are. Here's why building mobile-first is the only strategy that makes sense today.
-        </p>
-        <div className="grid md:grid-cols-2 gap-4">
-          {WHY_MOBILE.map((item, i) => {
-            const a    = accentAt(item.accentIdx);
-            const Icon = item.icon;
-            return (
-              <FadeIn key={item.label} delay={i * 0.1}>
-                <div className="tech-card rounded-md p-8 group cursor-default h-full" style={{ '--row-accent': a.hex }}>
-                  <div className="flex items-start gap-5">
-                    <div
-                      className="w-12 h-12 rounded flex items-center justify-center flex-shrink-0"
-                      style={{ background: `${a.hex}10`, border: `1px solid ${a.hex}28` }}
-                    >
-                      <Icon size={20} style={{ color: a.hex }} />
-                    </div>
+                  {/* เนื้อหาจำลอง */}
+                  <div className="pt-6 grid sm:grid-cols-[1.2fr_1fr] gap-5 items-center">
                     <div>
-                      <p className="text-3xl font-mono font-bold mb-1" style={{ color: a.hex }}>{item.stat}</p>
-                      <p className="text-[11px] font-mono text-white/35 tracking-widest uppercase mb-3">{item.label}</p>
-                      <p className="text-sm text-white/45 leading-relaxed group-hover:text-white/60 transition-colors duration-400">{item.desc}</p>
+                      <p className="text-[19px] sm:text-[22px] font-semibold text-ink leading-snug">
+                        พัฒนาเว็บไซต์
+                        <br />
+                        ที่ธุรกิจใช้ทำงานได้จริง
+                      </p>
+                      <p className="mt-2.5 text-[12px] text-ink-3 leading-relaxed">
+                        ออกแบบ พัฒนา และดูแลต่อเนื่อง
+                        <br />
+                        พร้อมโครงสร้างสำหรับ Search และ AI
+                      </p>
+                      <span className="mt-4 inline-block rounded bg-ink px-3 py-1.5 text-[10.5px] text-white">
+                        เริ่มต้นพูดคุย
+                      </span>
+                    </div>
+                    <div className="rounded-lg bg-gradient-to-br from-brand-soft to-white border border-line h-[110px] sm:h-[130px] flex items-center justify-center">
+                      <div className="w-2/3 space-y-1.5">
+                        <span className="block h-1.5 rounded-full bg-brand/30" />
+                        <span className="block h-1.5 w-4/5 rounded-full bg-brand/20" />
+                        <span className="block h-1.5 w-3/5 rounded-full bg-brand/15" />
+                      </div>
                     </div>
                   </div>
-                  <span className="accent-line" style={{ background: a.hex }} />
-                </div>
-              </FadeIn>
-            );
-          })}
-        </div>
-      </Section>
 
-      {/* ══ Why Efficiency ════════════════════════════════════ */}
-      <Section>
-        <div className="separator-glow mb-14" />
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          <FadeIn>
-            <div className="lg:sticky lg:top-32">
-              <SectionLabel>Why Efficiency</SectionLabel>
-              <p className="text-3xl md:text-4xl font-mono font-semibold leading-tight text-white mb-6 mt-5">
-                Mobile Engineers<br />
-                <span className="accent-cyan">who understand</span><br />
-                <span className="text-white/65">Thai business</span>
-              </p>
-              <p className="text-white/45 text-sm leading-relaxed max-w-sm">
-                We don't just write code — we engineer systems that fit the real operational needs of your business, with UX/UI validated in real environments.
-              </p>
-            </div>
-          </FadeIn>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {WHY_US.map((item, i) => {
-              const a    = accentAt(item.accentIdx);
-              const Icon = item.icon;
-              return (
-                <FadeIn key={item.title} delay={i * 0.1}>
-                  <div className="value-card pl-5 py-6 pr-5 group cursor-default" style={{ '--card-accent': a.hex }}>
-                    <div className="flex items-center gap-3 mb-3">
-                      <Icon size={14} style={{ color: a.hex }} />
-                      <p className="text-[11px] font-mono font-semibold text-white/80 group-hover:text-white transition-colors leading-snug">{item.title}</p>
-                    </div>
-                    <p className="text-white/38 text-xs leading-relaxed group-hover:text-white/55 transition-colors">{item.desc}</p>
+                  {/* ตัวเลขจำลอง */}
+                  <div className="mt-6 grid grid-cols-3 gap-3 pt-5 border-t border-line-soft">
+                    {[
+                      ['12+', 'ปีประสบการณ์'],
+                      ['250+', 'โครงการ'],
+                      ['98%', 'ความพึงพอใจ'],
+                    ].map(([v, l]) => (
+                      <div key={l} className="text-center">
+                        <p className="num text-[15px] font-semibold text-ink">{v}</p>
+                        <p className="text-[10px] text-ink-3 mt-0.5">{l}</p>
+                      </div>
+                    ))}
                   </div>
-                </FadeIn>
-              );
-            })}
+                </div>
+              </div>
+
+              {/* การ์ดผลการค้นหาลอย */}
+              <div className="hidden sm:block absolute -bottom-32 -left-6 w-[290px] card p-4 shadow-lg">
+                <div className="flex items-center gap-2 pb-2.5 mb-2.5 border-b border-line-soft">
+                  <Search size={13} className="text-ink-3" />
+                  <span className="text-[11.5px] text-ink-2">รับทำเว็บไซต์บริษัท</span>
+                </div>
+                <p className="text-[10.5px] text-ink-3 font-mono">yourcompany.co.th</p>
+                <p className="text-[13px] text-brand font-medium mt-0.5">รับทำเว็บไซต์บริษัท ครบวงจร</p>
+                <p className="text-[11px] text-ink-3 leading-relaxed mt-1">
+                  ออกแบบและพัฒนาเว็บไซต์มืออาชีพ ช่วยให้ธุรกิจของคุณเติบโตอย่างยั่งยืน
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </Section>
+      </section>
 
-      {/* ══ Process ═══════════════════════════════════════════ */}
+      {/* ══ แถบตัวเลขความน่าเชื่อถือ ═══════════════════════════ */}
+      <section className="border-y border-line bg-soft">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {TRUST_STATS.map((s, i) => (
+              <FadeIn key={s.label} delay={i * 0.06}>
+                <p className="flex items-baseline gap-1.5">
+                  <span className="num text-[26px] md:text-[30px] font-semibold text-ink">{s.value}</span>
+                  <span className="text-[14px] text-ink-3">{s.unit}</span>
+                </p>
+                <p className="text-[14px] text-ink-2 mt-1 leading-snug">{s.label}</p>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ ผลงานที่ผ่านมา ═════════════════════════════════════ */}
       <Section>
-        <div className="separator-glow mb-14" />
-        <SectionLabel>How We Work</SectionLabel>
-        <SectionTitle className="mb-14">
-          <span className="accent-yellow">Clear</span> at every <span className="accent-cyan">step</span>
-        </SectionTitle>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          {PROCESS_STEPS.map((step, i) => {
-            const a = accentAt(step.accentIdx);
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <SectionHead
+            label="Selected work"
+            title="ผลงานที่เปิดใช้งานจริง"
+            desc="กดเข้าไปดูของจริงได้ทุกเว็บ ไม่ต้องรอให้เราส่งไฟล์ตัวอย่างให้"
+          />
+          <Link href="/work" className="btn btn-secondary btn-sm shrink-0">
+            ดูผลงานทั้งหมด
+            <ArrowRight size={15} />
+          </Link>
+        </div>
+
+        <div className="mt-12 flex gap-4 overflow-x-auto snap-x snap-mandatory pb-3 -mx-6 px-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:overflow-visible sm:mx-0 sm:px-0 sm:pb-0">
+          {PROJECTS.map((p, i) => {
+            const accent = accentAt(p.accentIdx);
             return (
-              <FadeIn key={step.label} delay={i * 0.08}>
-                <button
-                  onClick={() => setActiveStep(step.label)}
-                  className="tech-card rounded-md p-5 group w-full text-left cursor-pointer"
-                  data-accent={a.key}
-                  style={{ '--row-accent': a.hex }}
+              <FadeIn key={p.key} delay={i * 0.05} className="h-full min-w-[80%] snap-start sm:min-w-0">
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="card card-hover h-full flex flex-col group overflow-hidden"
+                  style={{ '--accent': accent.hex, '--accent-soft': accent.soft }}
+                  aria-label={`เปิดเว็บไซต์ ${p.name} (${p.domain}) ในแท็บใหม่`}
                 >
-                  <span className="text-[9px] font-mono tracking-[0.3em] text-white/22 block mb-3">0{i + 1}</span>
-                  <p className="text-sm font-mono font-medium text-white/70 group-hover:text-white transition-colors duration-400 mb-2">
-                    {step.label}
-                  </p>
-                  <p className="text-[10px] text-white/30 leading-relaxed group-hover:text-white/45 transition-colors hidden sm:block">
-                    {step.desc}
-                  </p>
-                  <span className="accent-line" style={{ background: a.hex }} />
-                </button>
+                  <div className="relative overflow-hidden bg-soft border-b border-line" style={{ aspectRatio: '16 / 10' }}>
+                    <Image
+                      src={p.image}
+                      alt={`หน้าแรกของเว็บไซต์ ${p.name}`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                  </div>
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <span className="text-[18px] font-semibold tracking-tight text-ink">{p.name}</span>
+                      <ArrowUpRight size={17} className="text-ink-3 mt-1 shrink-0 group-hover:text-brand transition-colors" />
+                    </div>
+                    <p className="font-mono text-[11px] tracking-[0.14em] mb-2" style={{ color: accent.hex }}>
+                      {p.category}
+                    </p>
+                    <p className="text-[14.5px] text-ink-2 leading-relaxed">{p.type}</p>
+                    <p className="mt-auto pt-4 font-mono text-[12.5px] text-ink-3 group-hover:text-brand transition-colors">
+                      {p.domain}
+                    </p>
+                  </div>
+                </a>
               </FadeIn>
             );
           })}
+
+          <FadeIn delay={0.3} className="h-full min-w-[80%] snap-start sm:min-w-0">
+            <Link
+              href="/work"
+              className="h-full min-h-[260px] rounded-[18px] border border-dashed border-line bg-soft/60 p-6 flex flex-col justify-center items-start hover:border-brand hover:bg-brand-soft/40 transition-colors"
+            >
+              <p className="text-[16px] font-medium text-ink">ดูขอบเขตงานแต่ละแบบ</p>
+              <p className="text-[14px] text-ink-2 mt-1.5 leading-relaxed">
+                พร้อมตัวอย่างงานตามแพ็กเกจ และระยะเวลาโดยประมาณ
+              </p>
+              <span className="inline-flex items-center gap-1.5 text-[14px] text-brand mt-4">
+                ไปหน้าผลงาน
+                <ArrowRight size={15} />
+              </span>
+            </Link>
+          </FadeIn>
         </div>
-        <ProcessModal step={activeStep} isOpen={!!activeStep} onClose={() => setActiveStep(null)} />
       </Section>
 
-      {/* ══ FAQ ══════════════════════════════════════════════ */}
+      {/* ══ แพ็กเกจ ═══════════════════════════════════════════ */}
+      <Section id="packages" tone="soft">
+        <SectionHead
+          label="Packages"
+          title="4 ระดับการลงทุนที่เข้าใจง่าย"
+          desc="ตั้งแต่ Company Profile จนถึง Web System ขนาดเล็ก ทุกแพ็กเกจรองรับทุกขนาดหน้าจอ และมีขอบเขตงานระบุชัดเจนก่อนเริ่ม"
+        />
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
+          {PACKAGES.map((pkg, i) => (
+            <FadeIn key={pkg.key} delay={i * 0.07} className="h-full">
+              <PackageCard pkg={pkg} />
+            </FadeIn>
+          ))}
+        </div>
+
+        <FadeIn delay={0.1}>
+          <KeyTermsStrip className="mt-6" />
+        </FadeIn>
+
+        <FadeIn delay={0.14}>
+          <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-xl border border-line bg-white px-6 py-5">
+            <p className="text-[14.5px] text-ink-2">
+              แพ็กเกจ System เป็นราคาเริ่มต้น ขอบเขตนอกแพ็กเกจประเมินเพิ่มตาม Scope ที่ตกลงร่วมกัน
+              <span className="block text-ink-3 mt-1">{NO_CHECKOUT_NOTE}</span>
+            </p>
+            <Link href="/pricing" className="btn btn-secondary btn-sm shrink-0">
+              เปรียบเทียบทุกแพ็กเกจ
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+        </FadeIn>
+      </Section>
+
+      {/* ══ ช่องทางที่ลูกค้าค้นหาคุณ ═══════════════════════════ */}
       <Section>
-        <div className="separator-glow mb-14" />
-        <SectionLabel>FAQ</SectionLabel>
-        <SectionTitle className="mb-12">Common Questions</SectionTitle>
-        <div className="max-w-3xl">
-          {FAQS.map((faq, i) => {
-            const a      = accentAt(i % 6);
-            const isOpen = openFaq === i;
+        <SectionHead
+          label="Why it matters"
+          title="วันนี้ลูกค้าค้นหาคุณมากกว่าหนึ่งทาง"
+          desc="เว็บไซต์ที่ดีต้องถูกค้นพบผ่าน Search เข้าใจได้ด้วย AI และพาผู้เข้าชมไปสู่การติดต่อได้จริง ทั้งสามอย่างนี้อยู่ในทุกแพ็กเกจของเรา"
+        />
+
+        <div className="grid md:grid-cols-3 gap-5 mt-12">
+          {DISCOVERY_CHANNELS.map((c, i) => {
+            const accent = accentAt(c.accentIdx);
+            const Icon = c.icon;
             return (
-              <FadeIn key={i} delay={i * 0.06}>
+              <FadeIn key={c.label} delay={i * 0.08}>
                 <div
-                  className="row-card border-b border-white/[0.05] cursor-pointer"
-                  style={{ '--row-accent': a.hex }}
-                  onClick={() => setOpenFaq(isOpen ? null : i)}
+                  className="card card-hover card-accent h-full p-7"
+                  style={{ '--accent': accent.hex, '--accent-soft': accent.soft }}
                 >
-                  <div className="py-5 flex items-start justify-between gap-4">
-                    <p className="font-mono text-sm text-white/75 leading-relaxed pr-4">{faq.q}</p>
-                    <ChevronDown
-                      size={16}
-                      className="flex-shrink-0 mt-0.5 text-white/28 transition-transform duration-300"
-                      style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                    />
-                  </div>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="pb-5"
-                    >
-                      <p className="text-white/45 text-sm leading-relaxed">{faq.a}</p>
-                    </motion.div>
-                  )}
+                  <span className="icon-box w-11 h-11 mb-5">
+                    <Icon size={20} strokeWidth={1.8} />
+                  </span>
+                  <p className="eyebrow mb-2">{c.label}</p>
+                  <h3 className="text-[19px] font-semibold text-ink mb-3">{c.title}</h3>
+                  <p className="text-[15px] text-ink-2 leading-relaxed">{c.desc}</p>
                 </div>
               </FadeIn>
             );
           })}
         </div>
+      </Section>
+
+      {/* ══ บริการ ═══════════════════════════════════════════ */}
+      <Section tone="soft">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <SectionHead
+            label="Services"
+            title="สิ่งที่เรารับทำ"
+            desc="ตั้งแต่เว็บไซต์แนะนำบริษัท จนถึงระบบที่มีสมาชิกและหลังบ้าน พร้อมบริการดูแลต่อเนื่องหลังเปิดใช้งาน"
+          />
+          <Link href="/services" className="btn btn-secondary btn-sm shrink-0">
+            ดูบริการทั้งหมด
+            <ArrowRight size={15} />
+          </Link>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
+          {SERVICES.map((s, i) => {
+            const accent = accentAt(s.accentIdx);
+            const Icon = s.icon;
+            return (
+              <FadeIn key={s.title} delay={i * 0.07}>
+                <div
+                  className="card card-hover h-full p-6"
+                  style={{ '--accent': accent.hex, '--accent-soft': accent.soft }}
+                >
+                  <span className="icon-box w-10 h-10 mb-5">
+                    <Icon size={19} strokeWidth={1.8} />
+                  </span>
+                  <h3 className="text-[17px] font-semibold text-ink mb-2.5">{s.title}</h3>
+                  <p className="text-[14.5px] text-ink-2 leading-relaxed mb-5">{s.desc}</p>
+                  <ul className="space-y-1.5 pt-4 border-t border-line-soft">
+                    {s.points.map((p) => (
+                      <li key={p} className="text-[13.5px] text-ink-3 flex items-center gap-2">
+                        <span className="w-1 h-1 rounded-full shrink-0" style={{ background: accent.hex }} />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </FadeIn>
+            );
+          })}
+        </div>
+      </Section>
+
+      {/* ══ เลือกจากลักษณะงาน ═════════════════════════════════ */}
+      <Section>
+        <SectionHead
+          label="How to choose"
+          title="แพ็กเกจไหน เหมาะกับเว็บไซต์แบบไหน"
+          desc="เริ่มจากสิ่งที่คุณต้องการให้เว็บไซต์ทำ ไม่ใช่เริ่มจากจำนวนหน้าเพียงอย่างเดียว"
+        />
+
+        <div className="mt-12 space-y-3">
+          {FIT_GUIDE.map((f, i) => {
+            const accent = accentAt(f.accentIdx);
+            return (
+              <FadeIn key={f.tier} delay={i * 0.06}>
+                <div
+                  className="rule-card p-6 md:px-7 grid md:grid-cols-[190px_1fr_auto] gap-4 md:gap-8 md:items-center"
+                  style={{ '--accent': accent.hex }}
+                >
+                  <p className="font-mono text-[13px] font-semibold tracking-[0.12em]" style={{ color: accent.hex }}>
+                    {f.tier}
+                  </p>
+                  <div>
+                    <h3 className="text-[17px] font-semibold text-ink">{f.title}</h3>
+                    <p className="text-[14.5px] text-ink-2 mt-1.5 leading-relaxed">{f.desc}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 md:justify-end md:max-w-[300px]">
+                    {f.audience.map((a) => (
+                      <span key={a} className="tag">{a}</span>
+                    ))}
+                  </div>
+                </div>
+              </FadeIn>
+            );
+          })}
+        </div>
+      </Section>
+
+      {/* ══ ขั้นตอนการทำงาน ═══════════════════════════════════ */}
+      <Section tone="soft">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <SectionHead
+            label="Process"
+            title="ขั้นตอนการทำงาน 6 ขั้น"
+            desc="ทุกโครงการเดินตามลำดับเดียวกัน คุณจึงรู้ล่วงหน้าว่าขั้นตอนถัดไปคืออะไร และต้องเตรียมอะไรบ้าง"
+          />
+          <Link href="/process" className="btn btn-secondary btn-sm shrink-0">
+            ดูรายละเอียดแต่ละขั้น
+            <ArrowRight size={15} />
+          </Link>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
+          {PROCESS_STEPS.map((step, i) => {
+            const accent = accentAt(step.accentIdx);
+            return (
+              <FadeIn key={step.key} delay={i * 0.06}>
+                <div className="card card-hover h-full p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span
+                      className="num w-8 h-8 rounded-lg flex items-center justify-center text-[13px] font-semibold"
+                      style={{ background: accent.soft, color: accent.hex }}
+                    >
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <div>
+                      <p className="font-mono text-[12px] tracking-[0.14em] uppercase text-ink-3">{step.label}</p>
+                      <p className="text-[15.5px] font-medium text-ink leading-tight">{step.thai}</p>
+                    </div>
+                  </div>
+                  <p className="text-[14.5px] text-ink-2 leading-relaxed">{step.short}</p>
+                </div>
+              </FadeIn>
+            );
+          })}
+        </div>
+      </Section>
+
+      {/* ══ สิ่งที่ได้รับ ══════════════════════════════════════ */}
+      <Section>
+        <div className="grid lg:grid-cols-[1fr_auto] gap-10 lg:gap-16 items-end">
+          <SectionHead
+            label="Deliverables"
+            title="จบโครงการแล้วคุณได้อะไรบ้าง"
+            desc="รายการส่งมอบระบุไว้ในใบเสนอราคา ตรวจรับได้จริง และส่งมอบสิทธิ์การเข้าถึงอย่างปลอดภัย ไม่ใช่แค่ส่งลิงก์เว็บไซต์ให้"
+          />
+          <FadeIn delay={0.1}>
+            <Link href="/process#deliverables" className="btn btn-secondary btn-sm shrink-0">
+              ดูรายการส่งมอบทั้งหมด
+              <ArrowRight size={15} />
+            </Link>
+          </FadeIn>
+        </div>
+
+        <div className="grid sm:grid-cols-3 gap-4 mt-10">
+          {[
+            { icon: ShieldCheck, label: 'รับประกันข้อผิดพลาด', value: '30-90 วัน' },
+            { icon: Gauge, label: 'ตรวจ Responsive', value: '3 ขนาดหน้าจอ' },
+            { icon: FileCheck2, label: 'อบรมส่งมอบ', value: '1 ครั้ง + Checklist' },
+          ].map((b, i) => (
+            <FadeIn key={b.label} delay={i * 0.06}>
+              <div className="card p-6">
+                <b.icon size={19} className="text-brand mb-3" strokeWidth={1.8} />
+                <p className="text-[13.5px] text-ink-3">{b.label}</p>
+                <p className="text-[16px] font-medium text-ink mt-0.5">{b.value}</p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </Section>
+
+      {/* ══ คำถามที่พบบ่อย ════════════════════════════════════ */}
+      <Section tone="soft">
+        <SectionHead
+          label="FAQ"
+          title="คำถามที่พบบ่อย"
+          desc="หากยังไม่พบคำตอบที่ต้องการ ทักมาถามได้โดยตรง เรายินดีตอบก่อนตัดสินใจ"
+          align="center"
+        />
+
+        <div className="max-w-3xl mx-auto mt-12 divide-y divide-line border-y border-line bg-white rounded-xl px-6">
+          {FAQS.slice(0, 4).map((faq, i) => {
+            const isOpen = openFaq === i;
+            return (
+              <div key={faq.q}>
+                <button
+                  onClick={() => setOpenFaq(isOpen ? null : i)}
+                  className="w-full flex items-start justify-between gap-6 py-5 text-left"
+                  aria-expanded={isOpen}
+                >
+                  <span className={`text-[16px] leading-snug ${isOpen ? 'text-ink font-medium' : 'text-ink-2'}`}>
+                    {faq.q}
+                  </span>
+                  <span className="mt-1 shrink-0 text-ink-3">
+                    {isOpen ? <Minus size={17} /> : <Plus size={17} />}
+                  </span>
+                </button>
+                <motion.div
+                  initial={false}
+                  animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+                  transition={{ duration: 0.25, ease: 'easeInOut' }}
+                  className="overflow-hidden"
+                >
+                  <p className="text-[15px] text-ink-2 leading-relaxed pb-6 pr-10">{faq.a}</p>
+                </motion.div>
+              </div>
+            );
+          })}
+        </div>
+
+        <FadeIn delay={0.1}>
+          <div className="max-w-3xl mx-auto mt-7 text-center">
+            <Link href="/pricing#faq" className="btn btn-secondary btn-sm">
+              ดูคำถามที่พบบ่อยทั้งหมด
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+        </FadeIn>
       </Section>
 
       {/* ══ CTA ═══════════════════════════════════════════════ */}
-      <Section>
-        <div className="separator-glow mb-16" />
-        <div className="text-center max-w-2xl mx-auto">
-          <FadeIn>
-            <p className="text-2xl md:text-3xl lg:text-4xl font-mono font-semibold leading-snug mb-4 text-white">
-              Ready to build something<br />
-              <span className="accent-blue">that actually works</span>?
-            </p>
-            <p className="text-white/38 text-sm mb-12">
-              Get a free assessment — we'll tell you immediately which package fits your project and what the timeline looks like.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/contact"
-                className="group inline-flex items-center gap-3 px-8 py-4 text-sm font-mono font-semibold text-black rounded-sm transition-all duration-300"
-                style={{ background: 'linear-gradient(135deg, #61afef, #98c379)', boxShadow: '0 0 40px rgba(97,175,239,0.25)' }}
-              >
-                Get a Free Assessment
-                <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300" />
-              </Link>
-              <Link
-                href="/contact"
-                className="group inline-flex items-center gap-3 px-8 py-4 text-sm font-mono font-medium text-white rounded-sm transition-all duration-300"
-                style={{ border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)' }}
-              >
-                Talk to the Team
-              </Link>
+      <Section className="pb-24">
+        <FadeIn>
+          <div className="relative overflow-hidden rounded-2xl bg-ink px-8 py-14 md:px-16 md:py-18 text-center">
+            <div
+              className="absolute inset-0 dot-grid opacity-[0.14]"
+              style={{ filter: 'invert(1)' }}
+              aria-hidden="true"
+            />
+            <div className="relative">
+              <p className="font-mono text-[11.5px] tracking-[0.18em] uppercase text-white/50">
+                Get started
+              </p>
+              <h2 className="text-[27px] md:text-[36px] font-semibold text-white mt-4 max-w-2xl mx-auto leading-snug">
+                เริ่มจากคุยขอบเขตงานให้ชัด ก่อนเสนอราคา
+              </h2>
+              <p className="text-[16px] text-white/65 mt-4 max-w-xl mx-auto leading-relaxed">
+                ส่งรายละเอียดธุรกิจและสิ่งที่อยากให้เว็บไซต์ทำได้ เราจะสรุปแพ็กเกจที่เหมาะสม
+                พร้อมขอบเขตและระยะเวลากลับไปให้
+              </p>
+              <div className="mt-9 flex flex-col sm:flex-row gap-3 justify-center">
+                <Link href="/contact" className="btn btn-primary">
+                  ขอใบเสนอราคา
+                  <ArrowRight size={16} />
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="btn text-white border border-white/20 hover:bg-white/10"
+                >
+                  ดูแพ็กเกจและราคา
+                </Link>
+              </div>
             </div>
-          </FadeIn>
-        </div>
+          </div>
+        </FadeIn>
       </Section>
     </div>
   );

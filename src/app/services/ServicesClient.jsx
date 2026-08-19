@@ -1,277 +1,156 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import {
-  Smartphone, Monitor, Cpu, ArrowRight,
-  Check, X, Code2, Bluetooth, Wifi, Database, ShieldCheck, BarChart3,
+  ArrowRight, Building2, Target, Boxes, Search, LifeBuoy,
+  Smartphone, ShieldCheck, MessageSquareText, BarChart3, Gauge, FileCode2,
 } from 'lucide-react';
-import Section, { SectionLabel, SectionTitle, FadeIn } from '@/components/ui/Section';
+import Section, { SectionHead, FadeIn, CheckItem, PageHero } from '@/components/ui/Section';
 import { accentAt } from '@/lib/accents';
+import { FIT_GUIDE, DISCOVERY_QUESTIONS } from '@/lib/content';
 
 const SERVICES = [
   {
-    icon: Smartphone, accentIdx: 4,
-    tag: '01 / Mobile App Engineering',
-    title: 'Mobile App Engineering',
-    description:
-      'We build mobile apps that run on iOS and Android using Flutter or native Swift/Kotlin, ' +
-      'handling everything from UX research to App Store submission — one team, end to end.',
-    capabilities: [
-      'Flutter cross-platform (iOS + Android)',
-      'Native iOS (Swift / SwiftUI)',
-      'Native Android (Kotlin / Jetpack Compose)',
-      'UX research & user testing',
-      'Design system & component library',
-      'Micro-interactions & motion design',
-      'App Store & Play Store submission',
-      'Push notifications & deep linking',
-      'Offline-first architecture',
-      'Performance profiling & optimisation',
+    icon: Building2,
+    accentIdx: 0,
+    label: 'COMPANY PROFILE',
+    title: 'เว็บไซต์แนะนำบริษัท',
+    desc: 'เว็บไซต์ที่ทำให้ลูกค้าเข้าใจว่าคุณทำอะไร เชื่อถือได้แค่ไหน และติดต่อได้อย่างไร ภายในไม่กี่วินาทีแรกที่เข้าชม',
+    items: [
+      'โครงสร้างเว็บไซต์ไม่เกิน 5 หน้า',
+      'ออกแบบให้อ่านง่ายทั้งมือถือและเดสก์ท็อป',
+      'เชื่อม LINE โทรศัพท์ อีเมล Social และ Maps',
+      'แบบฟอร์มติดต่อ พร้อม SSL/HTTPS',
+      'เขียนและเรียบเรียงเนื้อหาไทย (แพ็กเกจ Business)',
     ],
-    deliverables: [
-      'Clickable Figma prototype before any code is written',
-      'Flutter / native codebase with CI/CD',
-      'App approved through store review in 2 rounds',
-      '30 days post-launch support',
-    ],
-    notIncluded: [
-      'Static marketing websites',
-      'WordPress / CMS sites',
-      'Pure web development (no mobile layer)',
-    ],
-    subServices: [
-      { icon: Code2, label: 'Cross-Platform (Flutter)' },
-      { icon: Smartphone, label: 'Native iOS / Android' },
-      { icon: BarChart3, label: 'Analytics & Tracking' },
-      { icon: ShieldCheck, label: 'Security & Auth' },
-    ],
+    tiers: ['STARTER 29,000', 'BUSINESS 39,000'],
   },
   {
-    icon: Monitor, accentIdx: 2,
-    tag: '02 / POS & Operational Systems',
-    title: 'POS & Operational Systems',
-    description:
-      'POS systems designed specifically for Retail, F&B, Kiosk and Ticketing. ' +
-      'Full hardware integration from receipt printer and barcode scanner to kitchen display systems.',
-    capabilities: [
-      'POS for Retail / F&B / Kiosk',
-      'Kitchen Display System (KDS)',
-      'ESC/POS receipt printer integration',
-      'Barcode / QR scanner integration',
-      'Payment gateway: PromptPay, card terminal',
-      'Inventory management & stock alerts',
-      'Multi-branch, multi-cashier support',
-      'Offline mode with sync-when-online',
-      'Loyalty & membership system',
-      'Real-time sales dashboard',
+    icon: Target,
+    accentIdx: 2,
+    label: 'LEAD GENERATION',
+    title: 'เว็บไซต์ที่สร้าง Lead',
+    desc: 'สำหรับธุรกิจที่มีหลายบริการ ต้องการหน้าเฉพาะเพื่อเพิ่มโอกาสถูกค้นพบ และต้องรู้ว่าช่องทางไหนสร้างการติดต่อจริง',
+    items: [
+      'เว็บไซต์ไม่เกิน 8 หน้า พร้อมเนื้อหาครบ',
+      'หน้า Portfolio / Case Study / FAQ',
+      'บทความความรู้ 2 เรื่องเพื่อเริ่มสร้างการค้นพบ',
+      'สำรวจคีย์เวิร์ดและวาง Structured Data',
+      'Conversion Tracking และดูแลระบบฟรี 3 เดือน',
     ],
-    deliverables: [
-      'Android tablet / Windows POS app',
-      'Back-office web admin panel',
-      'Hardware SDK integration & testing',
-      'Staff training documentation',
-    ],
-    notIncluded: [
-      'Off-the-shelf POS reselling',
-      'ERP systems (separate custom project)',
-      'Accounting software',
-    ],
-    subServices: [
-      { icon: Monitor, label: 'POS App (Tablet / PC)' },
-      { icon: Database, label: 'Inventory & Stock' },
-      { icon: BarChart3, label: 'Sales Dashboard' },
-      { icon: Bluetooth, label: 'Hardware Integration' },
-    ],
+    tiers: ['GROWTH 59,000'],
   },
   {
-    icon: Cpu, accentIdx: 5,
-    tag: '03 / Embedded & Device Software',
-    title: 'Embedded & Device Software',
-    description:
-      'Systems wired to hardware — from IoT sensor networks and EV charging controllers ' +
-      'to smart lock/access control and device firmware requiring real-time response.',
-    capabilities: [
-      'Embedded C / C++ firmware',
-      'Rust for safety-critical systems',
-      'BLE 5.0 / NFC / RFID protocol',
-      'IoT: MQTT / CoAP / LoRaWAN',
-      'RTOS integration (FreeRTOS / Zephyr)',
-      'EV charging protocol (OCPP)',
-      'Device SDK for mobile companion app',
-      'Remote OTA firmware update',
-      'Edge computing & data aggregation',
-      'Hardware-in-the-loop testing',
+    icon: Boxes,
+    accentIdx: 3,
+    label: 'WEB SYSTEM',
+    title: 'เว็บไซต์ที่ทำงานเป็นระบบ',
+    desc: 'เมื่อเว็บไซต์ต้องมีสมาชิก ฐานข้อมูล ขั้นตอนการทำงาน และหลังบ้านให้ทีมงานจัดการข้อมูลได้เอง',
+    items: [
+      'ออกแบบ UX/UI ไม่เกิน 10 Screens',
+      'Member Login ไม่เกิน 2 User Roles',
+      'Workflow หลัก 1 กระบวนการ',
+      'Admin Dashboard 1 Module และ Database 5 กลุ่มข้อมูล',
+      'API มาตรฐาน 1 Service และ Email Notification 1 Flow',
     ],
-    deliverables: [
-      'Firmware binary + source code',
-      'Mobile companion app (iOS/Android)',
-      'Cloud IoT backend + dashboard',
-      'Integration test report',
+    tiers: ['SYSTEM เริ่มต้น 129,000'],
+  },
+  {
+    icon: Search,
+    accentIdx: 1,
+    label: 'SEO / AEO / GEO',
+    title: 'โครงสร้างสำหรับ Search และ AI',
+    desc: 'วางรากฐานให้เว็บไซต์ถูกจัดเก็บ เข้าใจ และนำไปตอบคำถามได้ ทั้งจากเครื่องมือค้นหาและผู้ช่วย AI',
+    items: [
+      'โครงสร้าง Heading และ Metadata ที่ถูกต้อง',
+      'คีย์เวิร์ดหลักประจำแต่ละหน้า',
+      'Structured Data ตามประเภทธุรกิจ',
+      'ติดตั้ง Analytics และ Search Console',
+      'ปรับภาพและความเร็วในการโหลดเบื้องต้น',
     ],
-    notIncluded: [
-      'PCB / hardware design',
-      'Manufacturing / mass production',
-      'RF certification & compliance',
+    tiers: ['รวมอยู่ในทุกแพ็กเกจ'],
+    note: 'วางโครงสร้างพื้นฐานให้ถูกต้อง แต่ไม่รวมบริการ SEO รายเดือน และไม่รับประกันอันดับการค้นหา',
+  },
+  {
+    icon: LifeBuoy,
+    accentIdx: 4,
+    label: 'CARE',
+    title: 'ดูแลหลังเปิดเว็บไซต์',
+    desc: 'เว็บไซต์ที่เปิดแล้วยังต้องมีคนดูแล ทั้งด้านเทคนิคและเนื้อหา เราแยกขอบเขตให้ชัดเจนเพื่อไม่ให้ค่าใช้จ่ายบานปลาย',
+    items: [
+      'ตรวจ SSL แบบฟอร์ม และช่องทางติดต่อ',
+      'สำรองข้อมูลและอัปเดตส่วนประกอบของระบบ',
+      'แก้ข้อความหรือรูปภาพขนาดเล็ก (Content Care)',
+      'System Care สำหรับงานระบบ ประเมินตาม SLA',
     ],
-    subServices: [
-      { icon: Cpu, label: 'Firmware (C/C++/Rust)' },
-      { icon: Wifi, label: 'IoT Protocol Stack' },
-      { icon: Bluetooth, label: 'BLE / NFC / RFID' },
-      { icon: ShieldCheck, label: 'OTA Update System' },
-    ],
+    tiers: ['1,500 / เดือน', '3,500 / เดือน'],
   },
 ];
 
-const QUALITY_SIGNALS = [
-  { label: 'Design System approach', desc: 'Component library, spacing system, type scale — on every project.' },
-  { label: 'CI/CD Pipeline',         desc: 'Automated build, test and deploy on every branch.' },
-  { label: 'Real Device Testing',    desc: 'Tested on physical devices across multiple models & OS versions.' },
-  { label: 'Performance Targets',    desc: 'App startup < 2s, API p95 < 300ms, crash-free > 99.5%.' },
-  { label: 'Security Basics',        desc: 'Certificate pinning, secure storage, input validation.' },
-  { label: 'Accessibility',          desc: 'WCAG 2.1 AA for key elements — dynamic text, contrast.' },
+const BASELINE = [
+  { icon: Smartphone, title: 'Responsive ทุกขนาดหน้าจอ', desc: 'ตรวจการแสดงผลจริงบน Desktop, Tablet และ Mobile ก่อนส่งมอบ' },
+  { icon: ShieldCheck, title: 'SSL / HTTPS', desc: 'ติดตั้งใบรับรองความปลอดภัยและตรวจการเชื่อมต่อให้เรียบร้อย' },
+  { icon: MessageSquareText, title: 'ช่องทางติดต่อครบ', desc: 'LINE โทรศัพท์ อีเมล Social และ Maps เชื่อมจากทุกหน้าที่จำเป็น' },
+  { icon: BarChart3, title: 'Analytics + Search Console', desc: 'ติดตั้งเครื่องมือวัดผลตั้งแต่วันเปิดใช้งาน ไม่ต้องตามเก็บทีหลัง' },
+  { icon: Gauge, title: 'ปรับภาพและความเร็ว', desc: 'จัดการขนาดไฟล์ภาพและการโหลดหน้าให้เหมาะกับการใช้งานจริง' },
+  { icon: FileCode2, title: 'ส่งมอบพร้อมสิทธิ์เข้าถึง', desc: 'บัญชีผู้ดูแล รายการโดเมนและโฮสติ้ง พร้อม Checklist ตรวจรับ' },
 ];
 
-export default function ServicesPage() {
+export default function ServicesClient() {
   return (
-    <div className="pt-16">
+    <div>
+      <PageHero
+        label="Services"
+        title="เรารับทำเว็บไซต์แบบไหนบ้าง"
+        desc="ตั้งแต่เว็บไซต์แนะนำบริษัท จนถึงระบบที่มีสมาชิกและหลังบ้าน ทุกงานเริ่มจากคำถามเดียวกันว่า เว็บไซต์นี้ต้องทำอะไรให้ธุรกิจ"
+      >
+        <Link href="/pricing" className="btn btn-primary">
+          ดูแพ็กเกจและราคา
+          <ArrowRight size={16} />
+        </Link>
+      </PageHero>
 
-      {/* Hero */}
-      <Section className="pt-24 pb-16">
-        <div className="max-w-3xl">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-            <SectionLabel>Services</SectionLabel>
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-mono font-semibold tracking-tight leading-[1.08] mb-6"
-          >
-            3 things we do<br />
-            <span className="accent-blue">better than anyone</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-lg text-white/50 font-light max-w-2xl leading-relaxed"
-          >
-            We are not a web agency that takes on everything — we are specialists in Mobile App, POS Systems and Embedded Software.
-          </motion.p>
-        </div>
-      </Section>
-
-      {/* Services list */}
-      <div className="border-t border-white/[0.05]">
-        {SERVICES.map((svc, i) => {
-          const a    = accentAt(svc.accentIdx);
-          const Icon = svc.icon;
-          return (
-            <div
-              key={svc.title}
-              className="row-card border-b border-white/[0.05] py-20 md:py-28"
-              style={{ '--row-accent': a.hex }}
-            >
-              <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
-
-                  {/* Left */}
-                  <div className="lg:col-span-5">
-                    <FadeIn>
-                      <div className="flex items-center gap-4 mb-6">
-                        <div
-                          className="icon-box w-12 h-12 rounded-sm border"
-                          style={{ background: `${a.hex}10`, borderColor: `${a.hex}28` }}
-                        >
-                          <Icon size={20} style={{ color: a.hex }} />
-                        </div>
-                        <span className="code-label">{svc.tag}</span>
-                      </div>
-                      <h2 className="text-2xl md:text-3xl font-mono font-semibold text-white/80 hover:text-white transition-colors mb-5">
-                        {svc.title}
-                      </h2>
-                      <p className="text-white/45 leading-relaxed text-[15px] mb-8">{svc.description}</p>
-
-                      {/* Sub-service icons */}
-                      <div className="grid grid-cols-2 gap-2">
-                        {svc.subServices.map(sub => (
-                          <div key={sub.label} className="flex items-center gap-2 text-[11px] text-white/40 font-mono">
-                            <sub.icon size={11} style={{ color: `${a.hex}80` }} />
-                            {sub.label}
-                          </div>
-                        ))}
-                      </div>
-                    </FadeIn>
-                  </div>
-
-                  {/* Right */}
-                  <div className="lg:col-span-7">
-                    <FadeIn delay={0.18}>
-                      <div className="grid md:grid-cols-2 gap-10 mb-10">
-                        <div>
-                          <p className="code-label mb-5">Capabilities</p>
-                          <ul className="space-y-3">
-                            {svc.capabilities.map(cap => (
-                              <li key={cap} className="text-white/50 text-sm flex items-start gap-3">
-                                <span
-                                  className="w-1 h-1 rounded-full mt-[7px] flex-shrink-0"
-                                  style={{ backgroundColor: `${a.hex}90` }}
-                                />
-                                {cap}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <div className="mb-8">
-                            <p className="code-label mb-5">Deliverables</p>
-                            <ul className="space-y-3">
-                              {svc.deliverables.map(d => (
-                                <li key={d} className="text-white/55 text-sm flex items-start gap-2">
-                                  <Check size={12} className="mt-[3px] flex-shrink-0" style={{ color: a.hex }} />
-                                  {d}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div>
-                            <p className="code-label mb-4">Not included</p>
-                            <ul className="space-y-2">
-                              {svc.notIncluded.map(n => (
-                                <li key={n} className="text-white/30 text-xs flex items-start gap-2 font-mono">
-                                  <X size={10} className="mt-[3px] flex-shrink-0 text-white/25" />
-                                  {n}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </FadeIn>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Quality Signals */}
-      <Section>
-        <div className="separator-glow mb-14" />
-        <SectionLabel>Engineering Standards</SectionLabel>
-        <SectionTitle className="mb-12">
-          <span className="accent-green">Quality</span> that's measurable
-        </SectionTitle>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {QUALITY_SIGNALS.map((qs, i) => {
-            const a = accentAt(i);
+      {/* ══ บริการหลัก ════════════════════════════════════════ */}
+      <Section tightTop>
+        <div className="space-y-5">
+          {SERVICES.map((s, i) => {
+            const accent = accentAt(s.accentIdx);
+            const Icon = s.icon;
             return (
-              <FadeIn key={qs.label} delay={i * 0.08}>
-                <div className="tech-card rounded-md p-6 group cursor-default" style={{ '--row-accent': a.hex }}>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: a.hex }} />
-                    <p className="text-sm font-mono font-medium text-white/80 group-hover:text-white transition-colors">{qs.label}</p>
+              <FadeIn key={s.label} delay={i * 0.05}>
+                <div
+                  className="card card-hover p-7 md:p-9 grid lg:grid-cols-[minmax(0,340px)_1fr] gap-8 lg:gap-12"
+                  style={{ '--accent': accent.hex, '--accent-soft': accent.soft }}
+                >
+                  <div>
+                    <span className="icon-box w-12 h-12 mb-5">
+                      <Icon size={22} strokeWidth={1.8} />
+                    </span>
+                    <p className="font-mono text-[11.5px] tracking-[0.16em] mb-2" style={{ color: accent.hex }}>
+                      {s.label}
+                    </p>
+                    <h2 className="text-[21px] font-semibold text-ink mb-3">{s.title}</h2>
+                    <p className="text-[15px] text-ink-2 leading-relaxed">{s.desc}</p>
+                    <div className="flex flex-wrap gap-1.5 mt-5">
+                      {s.tiers.map((t) => (
+                        <span key={t} className="tag">{t}</span>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-white/38 text-xs leading-relaxed">{qs.desc}</p>
-                  <span className="accent-line" style={{ background: a.hex }} />
+
+                  <div className="lg:border-l border-line-soft lg:pl-12">
+                    <p className="label-th mb-4">ขอบเขตงาน</p>
+                    <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-3">
+                      {s.items.map((it) => (
+                        <CheckItem key={it} accent={accent.hex}>{it}</CheckItem>
+                      ))}
+                    </ul>
+                    {s.note && (
+                      <p className="mt-5 pt-5 border-t border-line-soft text-[13.5px] text-ink-3 leading-relaxed">
+                        {s.note}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </FadeIn>
             );
@@ -279,29 +158,111 @@ export default function ServicesPage() {
         </div>
       </Section>
 
-      {/* CTA */}
+      {/* ══ รวมอยู่ในทุกแพ็กเกจ ════════════════════════════════ */}
+      <Section tone="soft">
+        <SectionHead
+          label="Included"
+          title="สิ่งที่รวมอยู่ในทุกแพ็กเกจเว็บไซต์"
+          desc="ไม่ว่าจะเลือกแพ็กเกจไหน พื้นฐานเหล่านี้มาพร้อมกันเสมอ เพราะเป็นสิ่งที่เว็บไซต์ธุรกิจต้องมี"
+        />
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-12">
+          {BASELINE.map((b, i) => (
+            <FadeIn key={b.title} delay={i * 0.05}>
+              <div className="card h-full p-6">
+                <b.icon size={19} className="text-brand mb-4" strokeWidth={1.8} />
+                <h3 className="text-[16px] font-semibold text-ink mb-2">{b.title}</h3>
+                <p className="text-[14.5px] text-ink-2 leading-relaxed">{b.desc}</p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </Section>
+
+      {/* ══ เลือกจากลักษณะงาน ═════════════════════════════════ */}
       <Section>
-        <div className="separator-glow mb-16" />
-        <div className="text-center max-w-xl mx-auto">
-          <FadeIn>
-            <p className="text-2xl md:text-3xl font-mono font-semibold text-white mb-4">
-              Got a project in mind?
-            </p>
-            <p className="text-white/38 text-sm mb-10">
-              Tell us a little — we'll assess it and recommend the right package for free.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.15}>
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-2 px-7 py-3.5 text-sm font-mono font-semibold text-black rounded-sm"
-              style={{ background: 'linear-gradient(135deg, #61afef, #56b6c2)', boxShadow: '0 0 28px rgba(97,175,239,0.25)' }}
-            >
-              Get a Free Assessment
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
+        <SectionHead
+          label="How to choose"
+          title="แพ็กเกจไหน เหมาะกับเว็บไซต์แบบไหน"
+          desc="เริ่มจากสิ่งที่คุณต้องการให้เว็บไซต์ทำ แล้วขอบเขตงานที่เหมาะสมจะชัดขึ้นเอง"
+        />
+
+        <div className="grid sm:grid-cols-2 gap-4 mt-12">
+          {FIT_GUIDE.map((f, i) => {
+            const accent = accentAt(f.accentIdx);
+            return (
+              <FadeIn key={f.tier} delay={i * 0.06}>
+                <div className="rule-card h-full p-6 md:p-7" style={{ '--accent': accent.hex }}>
+                  <p className="font-mono text-[13px] font-semibold tracking-[0.12em] mb-3" style={{ color: accent.hex }}>
+                    {f.tier}
+                  </p>
+                  <h3 className="text-[17.5px] font-semibold text-ink mb-2">{f.title}</h3>
+                  <p className="text-[14.5px] text-ink-2 leading-relaxed mb-5">{f.desc}</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {f.audience.map((a) => (
+                      <span key={a} className="tag">{a}</span>
+                    ))}
+                  </div>
+                </div>
+              </FadeIn>
+            );
+          })}
+        </div>
+      </Section>
+
+      {/* ══ คำถามก่อนเสนอราคา ═════════════════════════════════ */}
+      <Section id="discovery" tone="soft" className="scroll-mt-24">
+        <div className="grid lg:grid-cols-[minmax(0,420px)_1fr] gap-12 lg:gap-16 items-start">
+          <div>
+            <SectionHead
+              label="Discovery"
+              title="6 คำถามที่เราถามก่อนเสนอราคา"
+              desc="คำตอบของ 6 ข้อนี้ทำให้แยกได้ชัดว่างานของคุณคือ Company Profile เว็บสร้าง Lead หรือ Web System และช่วยให้ราคาที่เสนอตรงกับงานจริง"
+            />
+            <FadeIn delay={0.12}>
+              <Link href="/contact" className="btn btn-primary mt-8">
+                เริ่มตอบคำถามกับเรา
+                <ArrowRight size={16} />
+              </Link>
+            </FadeIn>
+          </div>
+
+          <FadeIn delay={0.1}>
+            <ol className="card divide-y divide-line-soft overflow-hidden">
+              {DISCOVERY_QUESTIONS.map((q, i) => (
+                <li key={q} className="flex items-start gap-4 p-5 md:px-7">
+                  <span className="num w-7 h-7 rounded-lg bg-brand-soft text-brand-dark flex items-center justify-center text-[12.5px] font-semibold shrink-0">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="text-[15.5px] text-ink-2 leading-relaxed pt-0.5">{q}</span>
+                </li>
+              ))}
+            </ol>
           </FadeIn>
         </div>
+      </Section>
+
+      {/* ══ CTA ═══════════════════════════════════════════════ */}
+      <Section className="pb-24">
+        <FadeIn>
+          <div className="rounded-2xl border border-line bg-white px-8 py-12 md:px-14 md:py-14 text-center shadow-sm">
+            <h2 className="text-[25px] md:text-[32px] font-semibold text-ink max-w-2xl mx-auto leading-snug">
+              บอกเป้าหมายมา เราจะบอกขอบเขตที่เหมาะสมกลับไป
+            </h2>
+            <p className="lead text-[16px] mt-4 max-w-xl mx-auto">
+              ไม่ต้องมีเอกสารพร้อมก็คุยได้ เริ่มจากเล่าธุรกิจและสิ่งที่อยากให้เว็บไซต์ทำ
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+              <Link href="/contact" className="btn btn-primary">
+                ปรึกษาโปรเจกต์ฟรี
+                <ArrowRight size={16} />
+              </Link>
+              <Link href="/pricing" className="btn btn-secondary">
+                ดูแพ็กเกจและราคา
+              </Link>
+            </div>
+          </div>
+        </FadeIn>
       </Section>
     </div>
   );

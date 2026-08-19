@@ -1,65 +1,96 @@
 import './globals.css';
+import { IBM_Plex_Sans_Thai, IBM_Plex_Mono } from 'next/font/google';
 import SiteLayout from '@/components/SiteLayout';
 
-// ─── Site-wide metadata ─────────────────────────────────────────
+// ─── ฟอนต์ ───────────────────────────────────────────────────────
+const plexThai = IBM_Plex_Sans_Thai({
+  subsets: ['thai', 'latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-plex-thai',
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+  variable: '--font-plex-mono',
+});
+
+const SITE_URL = 'https://efficiency.co.th';
+const SITE_TITLE = 'EFFICIENCY | รับออกแบบและพัฒนาเว็บไซต์ · Web Development Studio';
+const SITE_DESC =
+  'สตูดิโอออกแบบและพัฒนาเว็บไซต์สำหรับธุรกิจไทย ตั้งแต่ Company Profile จนถึง Web System ที่มีสมาชิกและหลังบ้าน แพ็กเกจเริ่มต้น 29,000 บาท ขอบเขตชัดเจน ราคาโปร่งใส';
+
+// ─── Metadata ระดับเว็บไซต์ ───────────────────────────────────────
 export const metadata = {
-  metadataBase: new URL('https://efficiency.co.th'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default:  'EFFICIENCY | Mobile App · POS · Embedded Software Studio',
+    default: SITE_TITLE,
     template: '%s | EFFICIENCY',
   },
-  description:
-    'Efficiency is a Mobile Engineering Studio based in Bangkok, Thailand — specialising in Mobile App (iOS/Android/Flutter), POS & Operational Systems, and Embedded & Device Software. Starting from ฿375,000.',
+  description: SITE_DESC,
   keywords: [
-    'mobile app development Thailand', 'Flutter developer Bangkok', 'iOS Android app',
-    'POS system Thailand', 'embedded software', 'IoT development',
-    'mobile engineering studio', 'UX UI mobile', 'app development Bangkok',
-    'embedded device', 'Efficiency software studio Bangkok',
+    'รับทำเว็บไซต์', 'รับทำเว็บไซต์บริษัท', 'ออกแบบเว็บไซต์',
+    'บริษัทรับทำเว็บไซต์', 'ราคาทำเว็บไซต์', 'แพ็กเกจทำเว็บไซต์',
+    'Company Profile', 'Web System', 'ระบบจองออนไลน์',
+    'Member Portal', 'Web Development Studio Thailand', 'SEO AEO GEO',
   ],
-  authors: [{ name: 'EFFICIENCY Co., Ltd.', url: 'https://efficiency.co.th' }],
+  authors: [{ name: 'EFFICIENCY Co., Ltd.', url: SITE_URL }],
   creator: 'EFFICIENCY Co., Ltd.',
+  alternates: { canonical: SITE_URL },
   openGraph: {
-    type:        'website',
-    locale:      'en_US',
-    url:         'https://efficiency.co.th',
-    siteName:    'EFFICIENCY',
-    title:       'EFFICIENCY | Mobile App · POS · Embedded Software Studio',
-    description: 'Mobile Engineering Studio — Mobile App, POS Systems, Embedded Software. Starting from ฿375,000.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'EFFICIENCY — Mobile Engineering Studio' }],
+    type: 'website',
+    locale: 'th_TH',
+    url: SITE_URL,
+    siteName: 'EFFICIENCY',
+    title: SITE_TITLE,
+    description: SITE_DESC,
   },
   twitter: {
-    card:        'summary_large_image',
-    title:       'EFFICIENCY | Mobile App · POS · Embedded Software',
-    description: 'Mobile Engineering Studio in Bangkok, Thailand — from ฿375,000.',
-    images:      ['/og-image.png'],
+    card: 'summary_large_image',
+    title: SITE_TITLE,
+    description: SITE_DESC,
   },
   robots: {
-    index:  true,
+    index: true,
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
   },
-  icons: {
-    icon: '/favicon.ico',
-  },
+  icons: { icon: '/favicon.ico' },
 };
 
-// ─── Root layout ────────────────────────────────────────────────
+// ─── JSON-LD ─────────────────────────────────────────────────────
+const ORGANISATION_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'EFFICIENCY',
+  description: SITE_DESC,
+  url: SITE_URL,
+  email: 'hello@efficiency.co.th',
+  telephone: '+66638598423',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '246/8 ซอยโยธินพัฒนา',
+    addressLocality: 'บางกะปิ',
+    addressRegion: 'กรุงเทพมหานคร',
+    postalCode: '10240',
+    addressCountry: 'TH',
+  },
+  areaServed: 'TH',
+  priceRange: '฿฿',
+  knowsLanguage: ['th', 'en'],
+};
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Preconnect to Google Fonts for faster font loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="th" className={`${plexThai.variable} ${plexMono.variable}`} suppressHydrationWarning>
       <body className="antialiased">
-        <SiteLayout>
-          {children}
-        </SiteLayout>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANISATION_LD) }}
+        />
+        <SiteLayout>{children}</SiteLayout>
       </body>
     </html>
   );

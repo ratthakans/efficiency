@@ -1,107 +1,104 @@
 import Link from 'next/link';
-import { ACCENTS } from '@/lib/accents';
+import { Mail, Phone, MapPin } from 'lucide-react';
+import { CONTACT } from '@/lib/content';
 
-const NAV_LINKS = [
-  { label: 'Home',     href: '/' },
-  { label: 'Services', href: '/services' },
-  { label: 'Work',     href: '/work' },
-  { label: 'Pricing',  href: '/pricing' },
-  { label: 'Process',  href: '/process' },
-  { label: 'Stack',    href: '/stack' },
-  { label: 'About',    href: '/about' },
-  { label: 'Contact',  href: '/contact' },
+const SITE_LINKS = [
+  { label: 'หน้าแรก', href: '/' },
+  { label: 'บริการ', href: '/services' },
+  { label: 'แพ็กเกจและราคา', href: '/pricing' },
+  { label: 'ขั้นตอนการทำงาน', href: '/process' },
 ];
 
-/**
- * Server component — no client JS needed for the footer.
- */
+const MORE_LINKS = [
+  { label: 'ผลงาน', href: '/work' },
+  { label: 'เทคโนโลยีที่ใช้', href: '/stack' },
+  { label: 'เกี่ยวกับเรา', href: '/about' },
+  { label: 'ติดต่อเรา', href: '/contact' },
+];
+
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-white/[0.05] bg-black/60 backdrop-blur-xl">
-      <div className="separator-glow" />
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+    <footer className="relative border-t border-line bg-soft">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 md:py-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
 
-          {/* Brand */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-1.5 mb-4">
-              <span className="text-[11px] font-mono font-semibold tracking-[0.24em] uppercase text-white">
+          {/* แบรนด์ */}
+          <div className="col-span-2">
+            <div className="flex items-baseline gap-1 mb-4">
+              <span className="font-mono text-[13px] font-semibold tracking-[0.22em] uppercase text-ink">
                 EFFICIENCY
               </span>
-              <span className="accent-blue text-sm font-bold" aria-hidden="true">.</span>
+              <span className="text-brand text-lg font-bold leading-none" aria-hidden="true">.</span>
             </div>
-            <p className="text-white/45 text-sm leading-relaxed max-w-sm">
-              Mobile Engineering Studio.<br />
-              Mobile App · POS Systems · Embedded Software<br />
-              <span className="text-white/28">From ฿375,000 — Bangkok, Thailand</span>
+            <p className="text-[15px] text-ink-2 leading-relaxed max-w-sm">
+              สตูดิโอออกแบบและพัฒนาเว็บไซต์สำหรับธุรกิจไทย
+              ตั้งแต่ Company Profile จนถึง Web System ที่มีสมาชิกและหลังบ้าน
             </p>
-            <div className="flex gap-1.5 mt-5" aria-hidden="true">
-              {ACCENTS.map(a => (
-                <span
-                  key={a.key}
-                  className="h-[2px] w-5 rounded-full opacity-60"
-                  style={{ backgroundColor: a.hex }}
-                />
-              ))}
-            </div>
+            <p className="mt-4 text-sm text-ink-3">
+              แพ็กเกจเริ่มต้น <span className="num text-ink font-medium">29,000</span> บาท · ขอบเขตชัดเจนก่อนเริ่มงาน
+            </p>
           </div>
 
-          {/* Navigation */}
-          <nav aria-label="Footer navigation">
-            <p className="code-label mb-5">Site</p>
-            <ul className="space-y-3">
-              {NAV_LINKS.map(link => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/45 hover:text-white/80 transition-colors duration-300"
-                  >
-                    {link.label}
+          {/* เมนู */}
+          <nav aria-label="เมนูส่วนท้าย">
+            <p className="label-th mb-4">เมนู</p>
+            <ul className="space-y-1">
+              {SITE_LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="inline-block py-1.5 text-[15px] text-ink-2 hover:text-brand transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <ul className="space-y-1">
+              {MORE_LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="inline-block py-1.5 text-[15px] text-ink-2 hover:text-brand transition-colors">
+                    {l.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
 
-          {/* Contact */}
+          {/* ติดต่อ */}
           <div>
-            <p className="code-label mb-5">Contact</p>
-            <ul className="space-y-3 text-sm text-white/45">
+            <p className="label-th mb-4">ติดต่อ</p>
+            <ul className="space-y-3 text-[15px] text-ink-2">
               <li>
-                <a
-                  href="mailto:hello@efficiency.co.th"
-                  className="hover:text-white/80 transition-colors duration-300"
-                >
-                  hello@efficiency.co.th
+                <a href={`mailto:${CONTACT.email}`} className="inline-flex items-start gap-2.5 py-1 hover:text-brand transition-colors">
+                  <Mail size={16} className="mt-1 shrink-0 text-ink-3" />
+                  {CONTACT.email}
                 </a>
               </li>
               <li>
-                <a
-                  href="tel:+66923905464"
-                  className="hover:text-white/80 transition-colors duration-300"
-                >
-                  +66 92 390 5464
+                <a href={CONTACT.phoneHref} className="inline-flex items-start gap-2.5 py-1 hover:text-brand transition-colors">
+                  <Phone size={16} className="mt-1 shrink-0 text-ink-3" />
+                  <span className="num">{CONTACT.phone}</span>
                 </a>
               </li>
-              <li>LINE: @efficiency.co.th</li>
-              <li className="leading-relaxed text-white/30 text-xs">
-                246/8 Soi Yothinphatthana<br />
-                Bang Kapi, Bangkok 10240
+              <li className="flex items-start gap-2.5 text-ink-3 text-sm leading-relaxed">
+                <MapPin size={16} className="mt-1 shrink-0" />
+                <span>
+                  {CONTACT.address[0]}
+                  <br />
+                  {CONTACT.address[1]}
+                </span>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-16 pt-6 border-t border-white/[0.05] flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[11px] text-white/25 font-mono">
-            © {year} EFFICIENCY Co., Ltd. · All rights reserved.
+        <div className="mt-14 pt-6 border-t border-line flex flex-col md:flex-row justify-between items-center gap-3">
+          <p className="text-[13px] text-ink-3">
+            © {year} บริษัท เอฟฟิเชียนซี่ จำกัด · สงวนลิขสิทธิ์
           </p>
-          <div className="flex gap-8">
-            <a href="/privacy" className="text-[11px] text-white/25 hover:text-white/50 transition-colors duration-300">Privacy</a>
-            <a href="/terms"   className="text-[11px] text-white/25 hover:text-white/50 transition-colors duration-300">Terms</a>
-          </div>
+          <p className="text-[13px] text-ink-3">
+            ราคาและขอบเขตในเว็บไซต์เป็นข้อมูลเบื้องต้น ยึดตามใบเสนอราคาที่ยืนยันร่วมกัน
+          </p>
         </div>
       </div>
     </footer>

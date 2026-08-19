@@ -1,254 +1,183 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowRight, Search, Paintbrush, Code2, ShieldCheck, Rocket, Wrench } from 'lucide-react';
-import Section, { SectionLabel, SectionTitle, FadeIn } from '@/components/ui/Section';
+import { useState } from 'react';
+import { ArrowRight, Plus, Globe, Boxes, Handshake } from 'lucide-react';
+import Section, { SectionHead, FadeIn, CheckItem, PageHero } from '@/components/ui/Section';
+import ProcessModal from '@/components/ProcessModal';
 import { accentAt } from '@/lib/accents';
+import { PROCESS_STEPS, DELIVERABLES, SCOPE_TERMS } from '@/lib/content';
 
-const PHASES = [
-  {
-    icon: Search,
-    label: 'Discovery',
-    accentIdx: 0,
-    duration: '1–2 weeks',
-    description:
-      'Before opening a code editor, we need to understand your business — ' +
-      'who the real end-users are, what the current workflow looks like, where the problems sit and what success looks like.',
-    activities: [
-      'Stakeholder interviews (1–2 rounds)',
-      'User persona + journey mapping',
-      'Technical requirements workshop',
-      'Existing system audit (if applicable)',
-      'Scope definition + boundary setting',
-      'Risk identification',
-    ],
-    output: 'Project brief document, scope agreement, technical blueprint draft',
-    whyItMatters: 'A good Discovery prevents unnecessary features and expensive rework — projects that skip this phase often take 2× longer than estimated.',
-  },
-  {
-    icon: Paintbrush,
-    label: 'UX / UI Design',
-    accentIdx: 1,
-    duration: '2–3 weeks',
-    description:
-      'We design interfaces that work in practice — not just a pretty Figma file. ' +
-      'You get a clickable prototype before a single line of code is written.',
-    activities: [
-      'Information architecture',
-      'Low-fidelity wireframe → feedback round',
-      'High-fidelity UI design + Design System',
-      'Interactive Figma prototype',
-      'User testing (where scope allows)',
-      'Micro-interaction specifications',
-      'Accessibility review (WCAG 2.1)',
-    ],
-    output: 'Clickable Figma prototype, Design System (colours, typography, components), UI annotation',
-    whyItMatters: 'Changing a design in Figma takes 10 minutes — changing it after development may take 2 days.',
-  },
-  {
-    icon: Code2,
-    label: 'Build',
-    accentIdx: 2,
-    duration: '4–10 weeks',
-    description:
-      'Sprint-based development every 2 weeks — with a demo at the end of each sprint. ' +
-      'You see real progress, not a 3-month wait before seeing the final product.',
-    activities: [
-      'Sprint planning every 2 weeks',
-      'Mobile app development (Flutter / Native)',
-      'Backend API development',
-      'Database schema + migrations',
-      'Hardware SDK integration (if applicable)',
-      'Mock data → real data migration',
-      'Demo + feedback at each sprint end',
-    ],
-    output: 'Working app on TestFlight / Firebase App Distribution, API documentation',
-    whyItMatters: 'Sprint demos let you adjust direction at any time — instead of discovering problems at delivery.',
-  },
-  {
-    icon: ShieldCheck,
-    label: 'QA & Testing',
-    accentIdx: 3,
-    duration: '1–2 weeks',
-    description:
-      'Tested on real physical devices, across multiple models and OS versions — ' +
-      'not just a simulator, covering the edge cases real users will encounter.',
-    activities: [
-      'Functional testing: every user flow',
-      'Real device matrix: 10+ models',
-      'Performance profiling (startup, scroll, API)',
-      'Load testing (backend)',
-      'Security: input validation, auth flows',
-      'Accessibility: screen reader, dynamic text',
-      'Regression testing after bug fixes',
-    ],
-    output: 'QA report, bug fix list (P1/P2/P3), performance baseline metrics',
-    whyItMatters: 'A bug found pre-launch takes 30 minutes to fix — a bug reported post-launch damages your rating and user trust.',
-  },
-  {
-    icon: Rocket,
-    label: 'Launch',
-    accentIdx: 4,
-    duration: '1 week',
-    description:
-      'App Store + Play Store submission, production deployment, monitoring setup — ' +
-      'we stay with you through go-live to handle any issues immediately.',
-    activities: [
-      'App Store Connect + Google Play submission',
-      'Store listing: screenshots, description, keywords',
-      'Production server deployment',
-      'Error monitoring setup (Sentry / Firebase Crashlytics)',
-      'Performance monitoring dashboard',
-      'Go-live checklist verification',
-      'Handover documentation + training',
-    ],
-    output: 'App live on App Store + Play Store, monitoring dashboard, handover doc',
-    whyItMatters: 'App Store review takes 1–3 days (Apple) — proper preparation avoids costly rejection delays.',
-  },
-  {
-    icon: Wrench,
-    label: 'Maintain',
-    accentIdx: 5,
-    duration: 'Monthly',
-    description:
-      'Maintenance packages for organisations that need an ongoing team — ' +
-      'OS updates, bug fixes, performance tuning and minor feature additions.',
-    activities: [
-      'iOS / Android OS compatibility updates',
-      'Dependency security patches',
-      'Bug fixes (P1 hotfix within 24h)',
-      'Performance monitoring review',
-      'Minor feature additions (< 8h/month)',
-      'Monthly technical health report',
-    ],
-    output: 'App running stably on the latest iOS/Android versions, monthly report',
-    whyItMatters: 'Apple and Google update their OS every year — an unmaintained app can stop working without warning.',
-  },
-];
+const WORK_TERMS = SCOPE_TERMS.filter((t) => ['REVISION', 'PAYMENT', 'SCOPE', 'CHANGE'].includes(t.label));
 
-export default function ProcessPage() {
+export default function ProcessClient() {
+  const [openIdx, setOpenIdx] = useState(null);
+
   return (
-    <div className="pt-16">
+    <div>
+      <PageHero
+        label="Process"
+        title="ขั้นตอนการทำงานที่คุณรู้ล่วงหน้าทุกก้าว"
+        desc="ทุกโครงการเดินตามลำดับเดียวกัน 6 ขั้นตอน ตั้งแต่เก็บโจทย์จนถึงเปิดใช้งานจริง คุณจึงรู้เสมอว่าตอนนี้อยู่ตรงไหน และขั้นถัดไปต้องเตรียมอะไร"
+      />
 
-      {/* Hero */}
-      <Section className="pt-24 pb-16">
-        <div className="max-w-3xl">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-            <SectionLabel>Process</SectionLabel>
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-mono font-semibold tracking-tight leading-[1.08] mb-6"
-          >
-            Clear<br />
-            <span className="accent-cyan">at every step</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.25 }}
-            className="text-lg text-white/50 font-light max-w-2xl leading-relaxed"
-          >
-            6 clear phases, no surprises — you always know where the project stands
-            and exactly what you'll receive at each phase.
-          </motion.p>
+      {/* ══ 6 ขั้นตอน ══════════════════════════════════════════ */}
+      <Section tightTop>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {PROCESS_STEPS.map((step, i) => {
+            const accent = accentAt(step.accentIdx);
+            return (
+              <FadeIn key={step.key} delay={i * 0.06} className="h-full">
+                <button
+                  onClick={() => setOpenIdx(i)}
+                  className="card card-hover card-accent h-full w-full p-7 text-left"
+                  style={{ '--accent': accent.hex, '--accent-soft': accent.soft }}
+                  aria-label={`ดูรายละเอียดขั้นตอน ${step.thai}`}
+                >
+                  <div className="flex items-start justify-between gap-3 mb-5">
+                    <span
+                      className="num w-10 h-10 rounded-xl flex items-center justify-center text-[14px] font-semibold"
+                      style={{ background: accent.soft, color: accent.hex }}
+                    >
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span className="p-1.5 rounded-md text-ink-3 border border-line">
+                      <Plus size={14} />
+                    </span>
+                  </div>
+
+                  <p className="font-mono text-[11.5px] tracking-[0.16em] uppercase text-ink-3 mb-1">{step.label}</p>
+                  <h2 className="text-[19px] font-semibold text-ink mb-3">{step.thai}</h2>
+                  <p className="text-[14.5px] text-ink-2 leading-relaxed">{step.short}</p>
+                </button>
+              </FadeIn>
+            );
+          })}
+        </div>
+
+        <FadeIn delay={0.1}>
+          <p className="mt-6 text-[14px] text-ink-3">
+            กดที่การ์ดแต่ละใบเพื่อดูว่าในขั้นตอนนั้นมีอะไรเกิดขึ้นบ้าง
+          </p>
+        </FadeIn>
+      </Section>
+
+      {/* ══ เงื่อนไขการทำงาน ══════════════════════════════════ */}
+      <Section tone="soft">
+        <SectionHead
+          label="Working terms"
+          title="รอบแก้ไข การนับขอบเขต และการชำระเงิน"
+          desc="กำหนดให้ชัดตั้งแต่ต้น เพื่อให้ทั้งสองฝ่ายวางแผนเวลาและงบประมาณได้ตรงกัน"
+        />
+
+        <div className="grid sm:grid-cols-2 gap-4 mt-12">
+          {WORK_TERMS.map((t, i) => {
+            const accent = accentAt(t.accentIdx);
+            return (
+              <FadeIn key={t.label} delay={i * 0.06}>
+                <div className="rule-card h-full p-6 md:p-7" style={{ '--accent': accent.hex }}>
+                  <p className="font-mono text-[11.5px] tracking-[0.16em] text-ink-3 mb-2.5">{t.label}</p>
+                  <h3 className="text-[17px] font-semibold text-ink leading-snug mb-2">{t.title}</h3>
+                  <p className="text-[14.5px] text-ink-2 leading-relaxed">{t.desc}</p>
+                </div>
+              </FadeIn>
+            );
+          })}
         </div>
       </Section>
 
-      {/* Phases detail */}
-      <div className="border-t border-white/[0.05]">
-        {PHASES.map((phase, i) => {
-          const a    = accentAt(phase.accentIdx);
-          const Icon = phase.icon;
-          return (
-            <div
-              key={phase.label}
-              className="row-card border-b border-white/[0.05] py-16 md:py-20"
-              style={{ '--row-accent': a.hex }}
-            >
-              <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
+      {/* ══ ส่งมอบงาน ═════════════════════════════════════════ */}
+      <Section id="deliverables">
+        <SectionHead
+          label="Deliverables"
+          title="สิ่งที่คุณได้รับเมื่อจบโครงการ"
+          desc="รายการส่งมอบระบุไว้ในใบเสนอราคา ตรวจรับได้จริง และส่งมอบสิทธิ์การเข้าถึงอย่างปลอดภัย"
+        />
 
-                  {/* Left */}
-                  <div className="lg:col-span-4">
-                    <FadeIn>
-                      <div className="flex items-center gap-4 mb-6">
-                        <div
-                          className="icon-box w-11 h-11 rounded-sm border"
-                          style={{ background: `${a.hex}10`, borderColor: `${a.hex}28` }}
-                        >
-                          <Icon size={18} style={{ color: a.hex }} />
-                        </div>
-                        <span className="code-label">0{i + 1} / {phase.duration}</span>
-                      </div>
-                      <h2 className="text-2xl md:text-3xl font-mono font-semibold text-white/80 hover:text-white transition-colors mb-6">
-                        {phase.label}
-                      </h2>
-                      <p className="text-white/45 leading-relaxed text-[15px]">{phase.description}</p>
-                    </FadeIn>
-                  </div>
+        <div className="grid lg:grid-cols-2 gap-5 mt-12">
+          <FadeIn>
+            <div className="card h-full p-7 md:p-8">
+              <span className="icon-box w-11 h-11 mb-5" style={{ '--accent': 'var(--clr-brand)', '--accent-soft': 'var(--clr-brand-soft)' }}>
+                <Globe size={20} strokeWidth={1.8} />
+              </span>
+              <h3 className="text-[18px] font-semibold text-ink mb-1">ทุกแพ็กเกจเว็บไซต์</h3>
+              <p className="text-[14px] text-ink-3 mb-6">Starter · Business · Growth</p>
+              <ul className="space-y-3">
+                {DELIVERABLES.website.map((d) => (
+                  <CheckItem key={d}>{d}</CheckItem>
+                ))}
+              </ul>
+            </div>
+          </FadeIn>
 
-                  {/* Right */}
-                  <div className="lg:col-span-8">
-                    <FadeIn delay={0.15}>
-                      <div className="grid md:grid-cols-2 gap-10">
-                        <div>
-                          <p className="code-label mb-5">Activities</p>
-                          <ul className="space-y-3">
-                            {phase.activities.map(act => (
-                              <li key={act} className="text-white/50 text-sm flex items-start gap-3">
-                                <span className="w-1 h-1 rounded-full mt-[7px] flex-shrink-0" style={{ backgroundColor: `${a.hex}90` }} />
-                                {act}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className="space-y-8">
-                          <div>
-                            <p className="code-label mb-4">Output</p>
-                            <p className="text-white/55 text-sm leading-relaxed">{phase.output}</p>
-                          </div>
-                          <div
-                            className="p-5 rounded-md text-sm leading-relaxed text-white/45 italic"
-                            style={{ background: `${a.hex}08`, border: `1px solid ${a.hex}18` }}
-                          >
-                            <span style={{ color: `${a.hex}80` }} className="not-italic font-mono text-[10px] block mb-2">Why it matters</span>
-                            {phase.whyItMatters}
-                          </div>
-                        </div>
-                      </div>
-                    </FadeIn>
-                  </div>
+          <FadeIn delay={0.08}>
+            <div className="card h-full p-7 md:p-8">
+              <span className="icon-box w-11 h-11 mb-5" style={{ '--accent': 'var(--clr-violet)', '--accent-soft': 'var(--clr-violet-soft)' }}>
+                <Boxes size={20} strokeWidth={1.8} />
+              </span>
+              <h3 className="text-[18px] font-semibold text-ink mb-1">แพ็กเกจ System ได้รับเพิ่ม</h3>
+              <p className="text-[14px] text-ink-3 mb-6">นอกเหนือจากรายการฝั่งซ้ายทั้งหมด</p>
+              <ul className="space-y-3">
+                {DELIVERABLES.system.map((d) => (
+                  <CheckItem key={d} accent="var(--clr-violet)">{d}</CheckItem>
+                ))}
+              </ul>
+            </div>
+          </FadeIn>
+        </div>
+
+        <FadeIn delay={0.12}>
+          <div className="mt-5 card p-7 md:p-8">
+            <div className="flex items-start gap-4">
+              <span className="icon-box w-11 h-11 shrink-0" style={{ '--accent': 'var(--clr-teal)', '--accent-soft': 'var(--clr-teal-soft)' }}>
+                <Handshake size={20} strokeWidth={1.8} />
+              </span>
+              <div>
+                <h3 className="text-[18px] font-semibold text-ink mb-2">เรื่องที่ตกลงกันก่อนเริ่มงาน</h3>
+                <p className="text-[14.5px] text-ink-2 leading-relaxed mb-5">
+                  โดยเฉพาะงานระบบ เราสรุปหัวข้อเหล่านี้ให้ชัดเจนตั้งแต่ก่อนเริ่ม
+                  เพื่อไม่ให้เกิดคำถามค้างไว้ตอนส่งมอบ
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {DELIVERABLES.agreeFirst.map((a) => (
+                    <span key={a} className="pill text-[13.5px]">{a}</span>
+                  ))}
                 </div>
               </div>
             </div>
-          );
-        })}
-      </div>
-
-      {/* CTA */}
-      <Section>
-        <div className="separator-glow mb-16" />
-        <div className="text-center max-w-xl mx-auto">
-          <FadeIn>
-            <p className="text-2xl md:text-3xl font-mono font-semibold text-white mb-4">
-              Ready to start Discovery?
-            </p>
-            <p className="text-white/38 text-sm mb-10">
-              Tell us about your project — we'll assess and scope it for free, with no commitment required.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.15}>
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-2 px-7 py-3.5 text-sm font-mono font-semibold text-black rounded-sm"
-              style={{ background: 'linear-gradient(135deg, #61afef, #56b6c2)', boxShadow: '0 0 28px rgba(97,175,239,0.25)' }}
-            >
-              Get a Free Assessment
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-            </Link>
-          </FadeIn>
-        </div>
+          </div>
+        </FadeIn>
       </Section>
+
+      {/* ══ CTA ═══════════════════════════════════════════════ */}
+      <Section tone="soft" className="pb-24">
+        <FadeIn>
+          <div className="text-center">
+            <h2 className="text-[25px] md:text-[32px] font-semibold text-ink max-w-2xl mx-auto leading-snug">
+              พร้อมเริ่มขั้นแรกแล้วหรือยัง
+            </h2>
+            <p className="lead text-[16px] mt-4 max-w-xl mx-auto">
+              ขั้นตอนแรกคือคุยเก็บโจทย์ ใช้เวลาไม่นานและไม่มีค่าใช้จ่าย
+              จบการคุยคุณจะได้ข้อสรุปว่าแพ็กเกจไหนเหมาะกับงานของคุณ
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+              <Link href="/contact" className="btn btn-primary">
+                นัดคุยเก็บโจทย์
+                <ArrowRight size={16} />
+              </Link>
+              <Link href="/pricing" className="btn btn-secondary">
+                ดูแพ็กเกจและราคา
+              </Link>
+            </div>
+          </div>
+        </FadeIn>
+      </Section>
+
+      <ProcessModal
+        step={openIdx !== null ? PROCESS_STEPS[openIdx] : null}
+        index={openIdx ?? 0}
+        onClose={() => setOpenIdx(null)}
+      />
     </div>
   );
 }

@@ -1,84 +1,50 @@
 /**
- * Background — pure-CSS animated orbs + dot grid.
- * No Framer Motion — CSS animations run on the compositor thread,
- * consuming far less CPU and never blocking the JS thread.
+ * Background — พื้นหลังโทนสว่าง
+ * ใช้ CSS ล้วน ไม่มี JS เพื่อไม่ให้กระทบประสิทธิภาพ
  */
 export default function Background() {
   return (
-    <div
-      className="fixed inset-0 z-0 overflow-hidden pointer-events-none"
-      aria-hidden="true"
-    >
-      {/* Pure black base */}
-      <div className="absolute inset-0 bg-black" />
+    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
+      {/* ฐานสีขาว */}
+      <div className="absolute inset-0 bg-white" />
 
-      {/* Dot grid overlay */}
-      <div className="absolute inset-0 dot-grid opacity-30" />
-
-      {/* Gradient orbs — positions & sizes tuned to not dominate the page */}
+      {/* เส้นตารางจาง ๆ ไล่ระดับให้จางลงด้านล่าง */}
       <div
-        className="absolute rounded-full"
+        className="absolute inset-0 grid-lines"
         style={{
-          width:  720, height: 720,
-          left: '15%',  top: '12%',
-          background: 'radial-gradient(circle at center, rgba(97,175,239,0.07) 0%, transparent 70%)',
-          filter: 'blur(80px)',
-          animation: 'orb1 28s ease-in-out infinite',
-          transform: 'translate(-50%, -50%)',
-          willChange: 'transform',
-        }}
-      />
-      <div
-        className="absolute rounded-full"
-        style={{
-          width:  620, height: 620,
-          left: '72%', top: '62%',
-          background: 'radial-gradient(circle at center, rgba(152,195,121,0.055) 0%, transparent 70%)',
-          filter: 'blur(80px)',
-          animation: 'orb2 34s ease-in-out infinite',
-          transform: 'translate(-50%, -50%)',
-          willChange: 'transform',
-        }}
-      />
-      <div
-        className="absolute rounded-full"
-        style={{
-          width:  520, height: 520,
-          left: '82%', top: '16%',
-          background: 'radial-gradient(circle at center, rgba(224,108,117,0.045) 0%, transparent 70%)',
-          filter: 'blur(80px)',
-          animation: 'orb3 40s ease-in-out infinite',
-          transform: 'translate(-50%, -50%)',
-          willChange: 'transform',
-        }}
-      />
-      <div
-        className="absolute rounded-full"
-        style={{
-          width:  480, height: 480,
-          left: '30%', top: '76%',
-          background: 'radial-gradient(circle at center, rgba(229,192,123,0.04) 0%, transparent 70%)',
-          filter: 'blur(80px)',
-          animation: 'orb4 32s ease-in-out infinite',
-          transform: 'translate(-50%, -50%)',
-          willChange: 'transform',
-        }}
-      />
-      <div
-        className="absolute rounded-full"
-        style={{
-          width:  560, height: 560,
-          left: '52%', top: '50%',
-          background: 'radial-gradient(circle at center, rgba(86,182,194,0.045) 0%, transparent 70%)',
-          filter: 'blur(80px)',
-          animation: 'orb5 38s ease-in-out infinite',
-          transform: 'translate(-50%, -50%)',
-          willChange: 'transform',
+          maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 62%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 62%)',
         }}
       />
 
-      {/* Top hairline */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/[0.05] to-transparent" />
+      {/* แสงสีฟ้าอ่อนมุมบนซ้าย */}
+      <div
+        className="absolute rounded-full"
+        style={{
+          width: 900,
+          height: 900,
+          left: '-8%',
+          top: '-24%',
+          background: 'radial-gradient(circle at center, rgba(37,99,235,0.10) 0%, transparent 68%)',
+          filter: 'blur(20px)',
+        }}
+      />
+
+      {/* แสงสีเขียวมิ้นต์มุมขวา */}
+      <div
+        className="absolute rounded-full"
+        style={{
+          width: 760,
+          height: 760,
+          right: '-14%',
+          top: '4%',
+          background: 'radial-gradient(circle at center, rgba(13,148,136,0.09) 0%, transparent 68%)',
+          filter: 'blur(20px)',
+        }}
+      />
+
+      {/* ไล่สีขาวด้านล่างให้เนื้อหาอ่านง่าย */}
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-white via-white/70 to-transparent" />
     </div>
   );
 }

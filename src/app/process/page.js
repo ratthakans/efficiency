@@ -1,11 +1,12 @@
+import ProcessClient from './ProcessClient';
+
 export const metadata = {
-  title:       'Process — How We Build Mobile Apps',
-  description: 'กระบวนการทำงานของ Efficiency: Discovery → UX/UI → Build → QA → Launch → Maintain — ชัดเจนทุกขั้นตอน ไม่มีซอร์ไพรส์',
-  openGraph: {
-    title:       'Process | EFFICIENCY',
-    description: 'Mobile app development process ที่ชัดเจน — 6 ขั้นตอนจาก discovery ถึง maintenance',
-    url:         'https://efficiency.co.th/process',
-  },
+  title: 'ขั้นตอนการทำงาน',
+  description:
+    'ขั้นตอนการทำเว็บไซต์ 6 ขั้น ตั้งแต่เก็บโจทย์ วางโครงสร้าง ออกแบบ พัฒนา ตรวจรับ จนถึงเปิดใช้งานจริง พร้อมรายการส่งมอบ รอบแก้ไข และเงื่อนไขการชำระเงิน',
+  alternates: { canonical: '/process' },
 };
 
-export { default } from './ProcessClient';
+export default function ProcessPage() {
+  return <ProcessClient />;
+}
