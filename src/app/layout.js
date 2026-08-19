@@ -1,7 +1,6 @@
 import './globals.css';
+import Script from 'next/script';
 import { IBM_Plex_Sans_Thai, IBM_Plex_Mono } from 'next/font/google';
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import SiteLayout from '@/components/SiteLayout';
 
 // ─── ฟอนต์ ───────────────────────────────────────────────────────
@@ -18,6 +17,8 @@ const plexMono = IBM_Plex_Mono({
   display: 'swap',
   variable: '--font-plex-mono',
 });
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 const SITE_URL = 'https://efficiency.co.th';
 const SITE_TITLE = 'EFFICIENCY | รับออกแบบและพัฒนาเว็บไซต์ · Web Development Studio';
@@ -99,9 +100,23 @@ export default function RootLayout({ children }) {
         />
         <SiteLayout>{children}</SiteLayout>
 
-        {/* วัดผลแบบไม่ใช้คุกกี้ จึงไม่ต้องมีแบนเนอร์ขอความยินยอม */}
-        <Analytics />
-        <SpeedInsights />
+        {/* Google Analytics 4 — ใช้ฟรี ไม่มีค่าใช้จ่าย
+            จะโหลดก็ต่อเมื่อตั้งค่า NEXT_PUBLIC_GA_ID ไว้เท่านั้น
+            ถ้าไม่ได้ตั้ง จะไม่มีสคริปต์ใดถูกโหลดเลย */}
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   );

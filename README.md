@@ -7,7 +7,7 @@
 - **Styling:** Tailwind CSS v4 — design token ทั้งหมดอยู่ใน `src/app/globals.css`
 - **Fonts:** IBM Plex Sans Thai + IBM Plex Mono ผ่าน `next/font/google`
 - **Motion:** framer-motion (ใช้เฉพาะ entrance / modal)
-- **Env vars:** ไม่มี
+- **Env vars:** `NEXT_PUBLIC_GA_ID` (ไม่บังคับ — ดูหัวข้อการวัดผล)
 
 ## เริ่มพัฒนา
 
@@ -49,6 +49,25 @@ npm run dev
   (อ่านค่าฝั่งเซิร์ฟเวอร์ใน `contact/page.js` จึงอยู่ใน HTML ตั้งแต่แรก)
 
 แก้เบอร์ อีเมล เวลาทำการ และที่อยู่ได้ที่ `CONTACT` ใน `src/lib/content.js` ที่เดียว
+
+## การวัดผล
+
+เว็บไซต์ **ไม่มีสคริปต์วัดผลใดโหลดโดยค่าเริ่มต้น** ไม่มีค่าใช้จ่ายและไม่มีคุกกี้
+
+ถ้าต้องการเก็บสถิติ ให้ตั้งค่า Google Analytics 4 (ใช้ฟรี) ใน Vercel:
+
+```bash
+NEXT_PUBLIC_GA_ID="G-XXXXXXXXXX"
+```
+
+เมื่อตั้งค่าแล้ว GA4 จะโหลดอัตโนมัติ และทุกปุ่มโทรจะส่ง event ชื่อ `call_click`
+พร้อมพารามิเตอร์ `button_location` (`navbar` / `mobile-menu` / `mobile-bar` /
+`contact-number` / `contact-button`) ทำให้ดูได้ว่าคนกดโทรจากตรงไหนมากที่สุด
+
+ถ้าไม่ตั้งค่า `trackCall()` ใน `src/lib/track.js` จะไม่ทำอะไรเลย
+
+**หมายเหตุ PDPA:** GA4 ใช้คุกกี้ ถ้าต้องการแบบไม่มีคุกกี้และไม่ต้องขึ้นแบนเนอร์
+Cloudflare Web Analytics เป็นทางเลือกที่ใช้ฟรีเช่นกัน (ฝัง script tag เดียว)
 
 ## หมายเหตุ
 
