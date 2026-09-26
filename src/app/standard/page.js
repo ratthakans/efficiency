@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Band, SectionHead } from '@/components/ui/Section';
 import { AdaptiveLightDemo, TypeRhythmDemo, FluidCanvasDemo, MotionIntentDemo } from '@/components/Demos';
-import { SchemaPrint, TypeScalePrint } from '@/components/RealSource';
+import { SchemaPrint, SpeedReadout, TypeScalePrint } from '@/components/RealSource';
 import { DISCIPLINES, CONTACT } from '@/lib/content';
 
 export const metadata = {
@@ -17,6 +17,7 @@ const DEMOS = {
   'fluid-canvas': FluidCanvasDemo,
   'motion-intent': MotionIntentDemo,
   semantic: SchemaPrint,
+  proof: SpeedReadout,
 };
 
 export default function StandardPage() {
@@ -76,23 +77,11 @@ export default function StandardPage() {
                     : 'col-span-12 lg:col-span-6 lg:col-start-7'
                 }
               >
-                {Demo ? (
-                  <>
-                    <Demo />
-                    {d.key === 'type' && (
-                      <div className="mt-10">
-                        <TypeScalePrint />
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <div>
-                    <p className="label">Proof</p>
-                    <p className="prose mt-4">
-                      ด้านนี้พิสูจน์ด้วยหน้านี้เอง เปิด <strong style={{ color: 'var(--color-ink)' }}>Proof Mode</strong>{' '}
-                      ที่มุมขวาล่าง แล้วดูแท็บ{' '}
-                      {d.demo === 'semantic' ? 'Semantics เพื่อเห็นโครงสร้างหัวข้อและ schema จริง' : 'Metrics เพื่อเห็นตัวเลขจริงของหน้านี้'}
-                    </p>
+                {/* every discipline has its own proof — nothing points elsewhere */}
+                <Demo />
+                {d.key === 'type' && (
+                  <div className="mt-10">
+                    <TypeScalePrint />
                   </div>
                 )}
               </div>

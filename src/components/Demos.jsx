@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useSyncExternalStore } from 'react';
+import { PROJECTS } from '@/lib/content';
 
 /**
  * Interactive proof for four of the six disciplines. Each demo manipulates the
@@ -194,6 +195,8 @@ export function TypeRhythmDemo() {
 }
 
 /* ── 03 · Fluid Space ────────────────────────────────────────── */
+const FLUID_SAMPLES = ['routte', 'orions', 'bhealthy'].map((k) => PROJECTS.find((p) => p.key === k));
+
 export function FluidCanvasDemo() {
   const [w, setW] = useState(760);
 
@@ -225,22 +228,24 @@ export function FluidCanvasDemo() {
         >
           Fluid Space
         </p>
+        {/* real work reflowing, so the demo reads as a page and not a wireframe */}
         <div
-          className="mt-5 grid gap-0"
-          style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
+          className="mt-5 grid"
+          style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, gap: 'var(--space-sm)' }}
         >
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div
-              key={i}
-              className="label"
-              style={{
-                padding: 'var(--space-sm)',
-                borderTop: 'var(--rule-hairline) solid var(--color-rule)',
-                borderInlineStart: i === 0 ? undefined : 'var(--rule-hairline) solid var(--color-rule)',
-              }}
-            >
-              cell {i + 1}
-            </div>
+          {FLUID_SAMPLES.map((p) => (
+            <figure key={p.key} className="m-0">
+              <div className="work-figure relative" style={{ aspectRatio: '16 / 10' }}>
+                <Image
+                  src={p.image}
+                  alt=""
+                  fill
+                  sizes="(max-width: 60rem) 100vw, 33vw"
+                  style={{ objectFit: 'cover', objectPosition: 'top' }}
+                />
+              </div>
+              <figcaption className="label mt-2" style={{ overflowWrap: 'anywhere' }}>{p.name}</figcaption>
+            </figure>
           ))}
         </div>
       </div>

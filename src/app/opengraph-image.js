@@ -1,11 +1,14 @@
 import { ImageResponse } from 'next/og';
+import { PROJECTS } from '@/lib/content';
 
-export const alt = 'EFFICIENCY — Web Development Studio';
+export const alt = 'EFFICIENCY — Poetic Engineering · Web design & development studio';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-/* The plate, rendered as the share card: ultramarine ground, the rails
-   carried across it, one claim. No photography, no gradient. */
+/* The share card follows the site as it is now: white paper, ink type, one
+   hairline, no colour field and no rails. English only on purpose — the
+   ImageResponse default font has no Thai glyphs, so a Thai line here would
+   render as boxes until a Thai font file is bundled with the route. */
 export default function OpengraphImage() {
   return new ImageResponse(
     (
@@ -16,34 +19,46 @@ export default function OpengraphImage() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: '#1a3fd0',
-          color: '#ffffff',
+          background: '#ffffff',
+          color: '#111111',
           padding: '72px',
           fontFamily: 'sans-serif',
-          backgroundImage:
-            'repeating-linear-gradient(to right, rgba(255,255,255,0.18) 0 1px, transparent 1px 100px)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ fontSize: 24, letterSpacing: 9, fontWeight: 700 }}>EFFICIENCY</span>
-          <span style={{ width: 13, height: 13, background: '#ffffff' }} />
+          <span style={{ width: 11, height: 11, background: '#111111' }} />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ fontSize: 108, fontWeight: 700, lineHeight: 1, letterSpacing: -3 }}>
-            SEO · AEO · GEO
+          {/* 104px keeps the period square inside the 72px margin; the default
+              ImageResponse face has a single weight, so no fontWeight here */}
+          <div style={{ display: 'flex', alignItems: 'baseline', fontSize: 104, lineHeight: 0.98, letterSpacing: -2 }}>
+            Poetic Engineering
+            <span style={{ width: 30, height: 30, background: '#111111', marginLeft: 12 }} />
           </div>
-          <div style={{ fontSize: 30, marginTop: 26, opacity: 0.86, maxWidth: 900 }}>
-            Web development studio. Sites that people, search engines and AI assistants read the same way.
+          <div style={{ fontSize: 32, marginTop: 30, color: '#333333' }}>
+            Web design &amp; development studio, Bangkok.
           </div>
+          <div style={{ fontSize: 26, marginTop: 14, color: '#555555', letterSpacing: 2 }}>SEO · AEO · GEO</div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 22, fontSize: 22, opacity: 0.8 }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 22,
+            fontSize: 22,
+            color: '#555555',
+            borderTop: '1px solid #111111',
+            paddingTop: 22,
+          }}
+        >
           <span>efficiency.co.th</span>
           <span>·</span>
           <span>063 859 8423</span>
           <span>·</span>
-          <span>11 projects live</span>
+          <span>{PROJECTS.length} projects live</span>
         </div>
       </div>
     ),

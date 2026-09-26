@@ -1,6 +1,7 @@
 'use client';
 
-import { useSyncExternalStore } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
+import { PROOF_EVENT } from '@/components/ProofMode';
 
 /**
  * Prints the real thing.
@@ -129,6 +130,78 @@ export function TypeScalePrint() {
       <p className="prose mt-4" style={{ fontSize: 'var(--text-sm)' }}>
         ย่อหรือขยายหน้าต่างแล้วตัวเลขจะขยับตาม เพราะทุกค่าเป็น clamp ที่ไล่ต่อเนื่อง ไม่ใช่ค่าคงที่ต่อ breakpoint
       </p>
+    </div>
+  );
+}
+
+/* ── Invisible Speed, measured on this visit ────────────────────
+   The column beside this discipline used to hold a note pointing at Proof
+   Mode. Now it holds the numbers themselves, read from the Performance API in
+   the visitor's browser. Nothing is typed in; a value the browser withholds
+   stays a dash. */
+function readSpeed(lcp) {
+  const nav = performance.getEntriesByType('navigation')[0];
+  const res = performance.getEntriesByType('resource');
+  const bytes = (nav?.transferSize || 0) + res.reduce((sum, r) => sum + (r.transferSize || 0), 0);
+  return {
+    lcp: lcp ? (lcp / 1000).toFixed(1) : null,
+    kb: bytes > 0 ? Math.round(bytes / 1024) : null,
+    requests: res.length + (nav ? 1 : 0),
+    nodes: document.getElementsByTagName('*').length,
+  };
+}
+
+export function SpeedReadout() {
+  const [speed, setSpeed] = useState(null);
+
+  useEffect(() => {
+    let lcp;
+    let obs;
+    try {
+      obs = new PerformanceObserver((list) => {
+        lcp = list.getEntries().at(-1)?.startTime;
+        setSpeed(readSpeed(lcp));
+      });
+      obs.observe({ type: 'largest-contentful-paint', buffered: true });
+    } catch {
+      /* no LCP in this browser — the other three still read */
+    }
+    const id = window.setTimeout(() => setSpeed(readSpeed(lcp)), 1200);
+    return () => {
+      obs?.disconnect();
+      window.clearTimeout(id);
+    };
+  }, []);
+
+  const rows = [
+    ['LCP', speed?.lcp, 's', 'เวลาจนภาพหรือข้อความหลักขึ้นจอ'],
+    ['Transfer', speed?.kb, 'KB', 'ขนาดที่โหลดจริงของหน้านี้'],
+    ['Requests', speed?.requests, '', 'จำนวนไฟล์ที่ขอ'],
+    ['DOM nodes', speed?.nodes, '', 'ขนาดของโครงหน้า'],
+  ];
+
+  return (
+    <div>
+      <p className="label">ตัวเลขของหน้านี้ วัดสดในเครื่องคุณ</p>
+      <dl className="speed mt-5">
+        {rows.map(([k, v, unit, note]) => (
+          <div key={k} className="speed__cell">
+            <dt className="annotation">{k}</dt>
+            <dd className="mono speed__value">
+              {v ?? '—'}
+              {v != null && unit && <span className="speed__unit">{unit}</span>}
+            </dd>
+            <dd className="prose" style={{ fontSize: 'var(--text-label)' }}>{note}</dd>
+          </div>
+        ))}
+      </dl>
+      <button
+        type="button"
+        className="btn btn--ghost mt-8"
+        onClick={() => window.dispatchEvent(new Event(PROOF_EVENT))}
+      >
+        เปิด Proof Mode ดูทั้งหมด
+      </button>
     </div>
   );
 }
