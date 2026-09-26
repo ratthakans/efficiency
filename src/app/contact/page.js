@@ -18,6 +18,8 @@ const PREPARE = [
   'กำหนดเวลาที่อยากเปิดใช้งาน',
 ];
 
+const CONTACT_PERSON = TEAM.find((p) => p.contact);
+
 export default function ContactPage() {
   return (
     <>
@@ -43,16 +45,16 @@ export default function ContactPage() {
             </a>
             <p className="label mt-4">{CONTACT.hours} · {CONTACT.replyTime}</p>
 
-            {TEAM[0] && (
+            {CONTACT_PERSON && (
               <div className="contact-person mt-8">
                 <span className="contact-person__ring">
-                  <Image src={TEAM[0].avatar} alt="" width={56} height={56} className="contact-person__img" />
+                  <Image src={CONTACT_PERSON.avatar} alt="" width={56} height={56} className="contact-person__img" />
                 </span>
                 <span>
                   <span className="label block">คุยเรื่องโปรเจกต์กับ</span>
                   <span className="block" style={{ fontSize: 'var(--text-lg)', fontWeight: 700 }}>
-                    {TEAM[0].nameTh}
-                    <span className="label" style={{ marginInlineStart: 8 }}>{TEAM[0].role}</span>
+                    {CONTACT_PERSON.nameTh}
+                    <span className="label" style={{ marginInlineStart: 8 }}>{CONTACT_PERSON.role}</span>
                   </span>
                 </span>
               </div>

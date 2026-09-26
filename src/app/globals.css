@@ -474,8 +474,9 @@
 
 /* the home headline is capped a step below --text-display so the period
    square keeps clear of the fanned cards beside it */
+/* three lines now ("Web Design & / Development / Studio"), so a step smaller */
 .hero-display {
-  font-size: clamp(52px, 8vw, 108px);
+  font-size: clamp(44px, 6.6vw, 96px);
 }
 .mesh {
   position: absolute;

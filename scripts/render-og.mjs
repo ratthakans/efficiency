@@ -25,6 +25,8 @@ const PORT = 9444;
 /* the copy comes from content.js, so the card cannot drift from the site */
 const content = readFileSync(join(ROOT, 'src/lib/content.js'), 'utf8');
 const whatWeDo = JSON.parse(content.match(/whatWeDo: (\[[^\]]+\])/)[1].replace(/'/g, '"'));
+/* "Web Design & Development Studio" set on three lines, as on the page */
+const headline = content.match(/headline: '([^']+)'/)[1].replace(/&/g, '&amp;').replace(' Development ', '<br>Development<br>');
 const projects = (content.slice(content.indexOf('export const PROJECTS')).match(/url: 'https?:/g) || []).length;
 const stack = JSON.parse(content.match(/HERO_STACK = (\[[^\]]+\])/)[1].replace(/'/g, '"'));
 const shot = (key) => pathToFileURL(join(ROOT, 'public/work', `${key}.webp`)).href;
@@ -48,8 +50,8 @@ body{width:1200px;height:630px;overflow:hidden;background:#fbfbfd;color:#0d0f14;
 .col{position:absolute;left:72px;top:60px;bottom:56px;width:560px;display:flex;flex-direction:column;justify-content:space-between;z-index:2}
 .sq{display:inline-block;width:.3em;height:.3em;margin-left:.08em;background:linear-gradient(120deg,#4f6bff,#a35cff 55%,#ff7a4d)}
 .brand{font-size:20px;font-weight:700;letter-spacing:7px;display:flex;align-items:center;gap:9px}
-.display{font-size:80px;font-weight:700;line-height:.98;letter-spacing:-1.5px}
-.what{font-size:31px;font-weight:700;line-height:1.5;margin-top:26px}
+.display{font-size:62px;font-weight:700;line-height:1;letter-spacing:-1px}
+.what{font-size:27px;font-weight:700;line-height:1.5;margin-top:22px}
 .chips{display:flex;gap:10px;margin-top:22px}
 .chips span{font-size:19px;font-weight:700;letter-spacing:1px;padding:6px 16px;border-radius:999px;background:#0d0f14;color:#fff}
 .foot{font-size:19px;color:#5b5f6b;display:flex;gap:14px}
@@ -59,8 +61,8 @@ body{width:1200px;height:630px;overflow:hidden;background:#fbfbfd;color:#0d0f14;
 <div class="col">
   <div class="brand">EFFICIENCY<i class="sq"></i></div>
   <div>
-    <div class="display">Poetic<br>Engineering<i class="sq"></i></div>
-    <div class="what">${whatWeDo[0]}<br>${whatWeDo[1]}</div>
+    <div class="display">${headline}<i class="sq"></i></div>
+    <div class="what">${whatWeDo[0]}${whatWeDo[1]}<br>${whatWeDo[2]}</div>
     <div class="chips"><span>SEO</span><span>AEO</span><span>GEO</span></div>
   </div>
   <div class="foot"><span>efficiency.co.th</span><span>·</span><span>โทร 063 859 8423</span><span>·</span><span>ผลงานจริง ${projects} โครงการ</span></div>

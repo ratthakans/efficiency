@@ -37,12 +37,16 @@ export default function HomePage() {
                 Thai sentence search engines and first-time readers need. */}
             <h1>
               <span className="display hero-display block" style={{ maxWidth: '12ch' }}>
-                {BRAND.positioning.replace('.', '')}
+                {BRAND.headline}
                 <span className="mark-square mark-square--caret" aria-hidden="true" />
               </span>
               <span className="hero-what mt-8 block">
-                <span className="block">{BRAND.whatWeDo[0]}</span>{' '}
-                <span className="block">{BRAND.whatWeDo[1]}</span>
+                <span className="block">
+                  <span className="whitespace-nowrap">{BRAND.whatWeDo[0]}</span>
+                  <wbr />
+                  <span className="whitespace-nowrap">{BRAND.whatWeDo[1]}</span>
+                </span>{' '}
+                <span className="block">{BRAND.whatWeDo[2]}</span>
               </span>
             </h1>
 
@@ -151,7 +155,7 @@ export default function HomePage() {
 
       {/* ── 06 · Questions, then the call ──────────────────────── */}
       <Band rule="ink" className="has-mesh">
-        <div className="mesh" aria-hidden="true" style={{ right: '-30%', bottom: '-75%' }} />
+        <div className="mesh" aria-hidden="true" style={{ right: '-48%', bottom: '-95%' }} />
         <div className="cols gap-y-14">
           <div className="col-span-12 lg:col-span-6">
             <h2 className="display-s">คำถามที่พบบ่อย</h2>

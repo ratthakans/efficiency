@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
  * anyone who types.
  */
 const DESTINATIONS = [
-  { label: 'หน้าแรก', hint: 'home · Poetic Engineering', href: '/' },
+  { label: 'หน้าแรก', hint: 'home · web design & development', href: '/' },
   { label: 'ผลงาน', hint: 'work · 11 projects', href: '/work' },
   { label: 'มาตรฐานงาน', hint: 'standard · SEO AEO GEO', href: '/standard' },
   { label: 'วิธีทำงาน', hint: 'approach · 4 steps', href: '/approach' },

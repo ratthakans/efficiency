@@ -28,9 +28,9 @@ const plexMono = IBM_Plex_Mono({
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 const SITE_URL = 'https://efficiency.co.th';
-const SITE_TITLE = 'EFFICIENCY | ออกแบบและพัฒนาเว็บไซต์ · Poetic Engineering';
+const SITE_TITLE = 'EFFICIENCY | Web Design & Development Studio · ออกแบบและพัฒนาเว็บไซต์';
 const SITE_DESC =
-  'ออกแบบและพัฒนาเว็บไซต์ ที่ทั้งคน Google และ AI อ่านเข้าใจ — SEO · AEO · GEO โดย Digital Craft Studio ในกรุงเทพฯ ดูผลงานจริง 11 โครงการ หรือโทร 063 859 8423';
+  'Web design & development studio ในกรุงเทพฯ ออกแบบและพัฒนาเว็บไซต์ที่สวยและเร็ว ค้นเจอได้ทั้งบน Google และ AI (SEO · AEO · GEO) ดูผลงานจริง 11 โครงการ หรือโทร 063 859 8423';
 
 /* the browser chrome on phones takes the page's paper colour in each mode */
 export const viewport = {
@@ -93,11 +93,11 @@ const LD = {
       knowsLanguage: ['th', 'en'],
       /* who works here — read by search engines and assistants answering
          "who do I talk to at EFFICIENCY" */
-      employee: TEAM.map((p) => ({
+      employee: TEAM.filter((p) => p.nameTh || p.nameEn).map((p) => ({
         '@type': 'Person',
         '@id': `${SITE_URL}/studio#${p.key}`,
-        name: p.nameTh,
-        alternateName: p.nameEn,
+        name: p.nameTh || p.nameEn,
+        ...(p.nameTh && p.nameEn ? { alternateName: p.nameEn } : {}),
         jobTitle: p.role,
         image: `${SITE_URL}${p.photo}`,
         worksFor: { '@id': `${SITE_URL}#org` },

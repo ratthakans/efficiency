@@ -11,6 +11,9 @@ export const BRAND = {
   category: 'Digital Craft Studio',
   descriptor: 'Web Design & Development Studio',
   positioning: 'Poetic Engineering.',
+  /* The home headline says the category in words a client uses. "Poetic
+     Engineering" stays the brand line (footer, share card), not the h1. */
+  headline: 'Web Design & Development Studio',
   belief: 'We remove friction without removing feeling.',
   essence: 'Life, in detail.',
   proposition: 'From intention to interaction.',
@@ -20,10 +23,12 @@ export const BRAND = {
   aiLine: ['Code can be generated.', 'Judgment cannot be automated.'],
   tone: 'Quiet confidence.',
   /* The sentence the brand lines were missing: what the studio sells, in the
-     reader's language. Sits under the display line and inside the h1.
-     Two phrases, because Thai line-breaking picks its own point otherwise and
-     split "คน Google" across lines. */
-  whatWeDo: ['ออกแบบและพัฒนาเว็บไซต์', 'ที่ทั้งคน Google และ AI อ่านเข้าใจ'],
+     reader's language. Sits under the display line and inside the h1. The
+     earlier "ที่ทั้งคน Google และ AI อ่านเข้าใจ" read as a riddle; this says
+     the outcome. Three phrases: the first two share a line on wide screens and
+     may only break between each other on a phone, so "เร็ว" is never left
+     alone. */
+  whatWeDo: ['ออกแบบและพัฒนาเว็บไซต์', 'ที่สวยและเร็ว', 'ค้นเจอได้ทั้งบน Google และ AI'],
 };
 
 /* What SEO / AEO / GEO mean to someone who has never heard the acronyms.
@@ -40,12 +45,21 @@ export const FINDABILITY = [
    Order is the order shown. Add the founder here when the details arrive. */
 export const TEAM = [
   {
+    /* supplied in English only — no Thai spelling is guessed */
+    key: 'ratthakan',
+    nameEn: 'Ratthakan Suwanphakdee',
+    role: 'Creative Director',
+    photo: '/team/ratthakan.webp',
+  },
+  {
     key: 'namfon',
     nameTh: 'น้ำฝน',
     nameEn: 'Namfon',
     role: 'Sales Director',
     photo: '/team/namfon.webp',
     avatar: '/team/namfon-avatar.webp',
+    /* the person shown beside the phone number on /contact */
+    contact: true,
   },
 ];
 
