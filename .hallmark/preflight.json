@@ -1,0 +1,10 @@
+{
+  "date": "2026-09-26",
+  "framework": "Next.js 16 (app router, turbopack)",
+  "fonts": "IBM Plex Sans Thai + IBM Plex Mono (next/font, src/app/layout.js)",
+  "palette": "hex custom properties in :root (src/app/globals.css) — replaced with OKLCH by Hallmark",
+  "motion": "framer-motion 12 — removed, Grid theme forbids scroll reveals",
+  "spacing": "Tailwind v4 default scale",
+  "preserved": ["IBM Plex Sans Thai", "Next.js route structure", "portfolio content"],
+  "introduced": ["OKLCH tokens", "Grid theme", "Portfolio Grid macrostructure", "N7 nav", "Ft4 footer"]
+}

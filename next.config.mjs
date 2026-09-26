@@ -17,6 +17,19 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
 
+  /* ── Routes retired in the 2026-09 rebrand ─────────────────────────
+     These paths were indexed under the old positioning. A permanent
+     redirect keeps their standing instead of handing search engines a 404. */
+  async redirects() {
+    return [
+      { source: '/services', destination: '/standard', permanent: true },
+      { source: '/stack',    destination: '/standard', permanent: true },
+      { source: '/process',  destination: '/approach', permanent: true },
+      { source: '/pricing',  destination: '/approach', permanent: true },
+      { source: '/about',    destination: '/studio',   permanent: true },
+    ];
+  },
+
   // ─── Security & performance headers ────────────────────────────────
   async headers() {
     return [

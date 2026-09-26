@@ -4,6 +4,8 @@ export const alt = 'EFFICIENCY — Web Development Studio';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
+/* The plate, rendered as the share card: ultramarine ground, the rails
+   carried across it, one claim. No photography, no gradient. */
 export default function OpengraphImage() {
   return new ImageResponse(
     (
@@ -14,48 +16,34 @@ export default function OpengraphImage() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: 'linear-gradient(135deg, #ffffff 0%, #eef4ff 55%, #e6f7f4 100%)',
+          background: '#1a3fd0',
+          color: '#ffffff',
           padding: '72px',
           fontFamily: 'sans-serif',
+          backgroundImage:
+            'repeating-linear-gradient(to right, rgba(255,255,255,0.18) 0 1px, transparent 1px 100px)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 26, letterSpacing: 8, color: '#0b1526', fontWeight: 700 }}>
-            EFFICIENCY
-          </span>
-          <span style={{ fontSize: 34, color: '#2563eb', fontWeight: 700, lineHeight: 0.7 }}>.</span>
+          <span style={{ fontSize: 24, letterSpacing: 9, fontWeight: 700 }}>EFFICIENCY</span>
+          <span style={{ width: 13, height: 13, background: '#ffffff' }} />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ fontSize: 62, fontWeight: 700, color: '#0b1526', lineHeight: 1.2 }}>
-            Web Development Studio
+          <div style={{ fontSize: 108, fontWeight: 700, lineHeight: 1, letterSpacing: -3 }}>
+            SEO · AEO · GEO
           </div>
-          <div style={{ fontSize: 34, color: '#2563eb', marginTop: 14, fontWeight: 700 }}>
-            Company Profile · Lead Generation · Web System
-          </div>
-          <div style={{ fontSize: 26, color: '#46566c', marginTop: 18 }}>
-            Clear scope and pricing agreed before we start
+          <div style={{ fontSize: 30, marginTop: 26, opacity: 0.86, maxWidth: 900 }}>
+            Web development studio. Sites that people, search engines and AI assistants read the same way.
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              background: '#2563eb',
-              color: '#ffffff',
-              borderRadius: 14,
-              padding: '16px 26px',
-              fontSize: 28,
-            }}
-          >
-            <span style={{ fontSize: 20 }}>Packages from</span>
-            <span style={{ fontWeight: 700 }}>THB 29,000</span>
-            <span style={{ fontSize: 18, opacity: 0.85 }}>incl. VAT</span>
-          </div>
-          <span style={{ fontSize: 24, color: '#7b8899' }}>efficiency.co.th · 063 859 8423</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 22, fontSize: 22, opacity: 0.8 }}>
+          <span>efficiency.co.th</span>
+          <span>·</span>
+          <span>063 859 8423</span>
+          <span>·</span>
+          <span>11 projects live</span>
         </div>
       </div>
     ),

@@ -2,153 +2,129 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect, useCallback } from 'react';
-import { Menu, X, ArrowRight, Phone } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 import { CONTACT } from '@/lib/content';
-import { trackCall } from '@/lib/track';
+import ThemeToggle from '@/components/ThemeToggle';
+
+/**
+ * NavBar — N7 Brutal slab
+ *
+ * Full-width slab, 2px solid rule below, all-caps tracked link row,
+ * zero radius, zero shadow. The signal ink is spent on the active marker only.
+ */
 
 export const NAV_LINKS = [
-  { label: 'หน้าแรก', href: '/' },
-  { label: 'บริการ', href: '/services' },
-  { label: 'แพ็กเกจและราคา', href: '/pricing' },
-  { label: 'ขั้นตอนการทำงาน', href: '/process' },
-  { label: 'ผลงาน', href: '/work' },
-  { label: 'เทคโนโลยี', href: '/stack' },
-  { label: 'เกี่ยวกับเรา', href: '/about' },
+  { label: 'Work', href: '/work' },
+  { label: 'Standard', href: '/standard' },
+  { label: 'Approach', href: '/approach' },
+  { label: 'Studio', href: '/studio' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export default function NavBar() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const onScroll = useCallback(() => setScrolled(window.scrollY > 12), []);
-
-  useEffect(() => {
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [onScroll]);
-
-  useEffect(() => {
-    if (!mobileOpen) return;
-    const handleKey = (e) => { if (e.key === 'Escape') setMobileOpen(false); };
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
-  }, [mobileOpen]);
+  const isActive = (href) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || mobileOpen
-          ? 'bg-white/85 backdrop-blur-xl border-b border-line'
-          : 'border-b border-transparent'
-      }`}
-    >
-      <nav className="max-w-7xl mx-auto px-6 lg:px-8" aria-label="เมนูหลัก">
-        <div className="flex items-center h-[68px] gap-4">
+    <header className="relative z-30 bg-paper" style={{ borderBottom: 'var(--rule-solid) solid var(--color-rule-ink)' }}>
+      <div className="shell">
+        <div className="flex items-stretch justify-between gap-6" style={{ minHeight: 68 }}>
 
-          {/* โลโก้ */}
-          <Link href="/" className="flex items-baseline gap-1 mr-auto shrink-0" aria-label="EFFICIENCY — หน้าแรก">
-            <span className="font-mono text-[13px] font-semibold tracking-[0.22em] uppercase text-ink">
+          {/* wordmark — the period square stands in for the full stop */}
+          <Link
+            href="/"
+            className="flex items-center gap-1 self-stretch"
+            aria-label="EFFICIENCY — หน้าแรก"
+          >
+            <span
+              className="label label--ink"
+              style={{ fontSize: 15, letterSpacing: '0.18em', fontWeight: 700 }}
+            >
               EFFICIENCY
             </span>
-            <span className="text-brand text-lg font-bold leading-none" aria-hidden="true">.</span>
+            <span className="mark-square" aria-hidden="true" />
           </Link>
 
-          {/* เมนูเดสก์ท็อป */}
-          <div className="hidden xl:flex items-center gap-1">
-            {NAV_LINKS.map((link) => {
-              const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`relative px-3 py-2 text-[14.5px] whitespace-nowrap rounded-md transition-colors duration-200 ${
-                    isActive ? 'text-brand-dark font-medium' : 'text-ink-2 hover:text-ink'
-                  }`}
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  {link.label}
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-underline"
-                      className="absolute -bottom-px left-3 right-3 h-[2px] rounded-full bg-brand"
-                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                    />
-                  )}
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* ปุ่มหลัก */}
-          <a
-            href={CONTACT.phoneHref}
-            onClick={() => trackCall('navbar')}
-            className="btn btn-primary btn-sm hidden sm:inline-flex shrink-0"
-          >
-            <Phone size={15} />
-            <span className="num">{CONTACT.phone}</span>
-          </a>
-
-          {/* ปุ่มเมนูมือถือ */}
-          <button
-            onClick={() => setMobileOpen((v) => !v)}
-            className="xl:hidden p-3 -mr-3 text-ink-2 hover:text-ink transition-colors"
-            aria-label={mobileOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-menu"
-          >
-            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-      </nav>
-
-      {/* เมนูมือถือ */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            id="mobile-menu"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.22, ease: 'easeInOut' }}
-            className="xl:hidden bg-white border-t border-line overflow-hidden"
-          >
-            <div className="px-6 py-5">
-              <ul className="divide-y divide-line-soft">
-                {NAV_LINKS.map((link) => {
-                  const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href);
-                  return (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        onClick={() => setMobileOpen(false)}
-                        className={`flex items-center justify-between py-3.5 text-[16px] ${
-                          isActive ? 'text-brand-dark font-medium' : 'text-ink-2'
-                        }`}
-                        aria-current={isActive ? 'page' : undefined}
-                      >
-                        {link.label}
-                        <ArrowRight size={16} className="opacity-30" />
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-              <a
-                href={CONTACT.phoneHref}
-                onClick={() => trackCall('mobile-menu')}
-                className="btn btn-primary w-full mt-5"
+          {/* link row — uppercase tracked, single line only (gate 49) */}
+          <nav className="hidden md:flex items-stretch" aria-label="เมนูหลัก">
+            {NAV_LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                aria-current={isActive(l.href) ? 'page' : undefined}
+                className="label flex items-center px-4 whitespace-nowrap transition-colors"
+                style={{
+                  color: isActive(l.href) ? 'var(--color-ink)' : undefined,
+                  boxShadow: isActive(l.href)
+                    ? 'inset 0 -3px 0 0 var(--color-signal)'
+                    : undefined,
+                }}
               >
-                <Phone size={16} />
-                โทร <span className="num">{CONTACT.phone}</span>
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-1">
+            <ThemeToggle />
+            <a
+              href={CONTACT.phoneHref}
+              className="label label--ink hidden lg:flex items-center whitespace-nowrap num"
+              style={{ letterSpacing: '0.06em', minHeight: 44, paddingInline: 'var(--space-sm)' }}
+            >
+              {CONTACT.phone}
+            </a>
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-controls="nav-sheet"
+              className="label label--ink md:hidden flex items-center justify-center"
+              style={{ minWidth: 48, minHeight: 48 }}
+            >
+              {open ? 'ปิด' : 'เมนู'}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* mobile sheet — ruled rows, no overlay, no animation choreography */}
+      {open && (
+        <div
+          id="nav-sheet"
+          className="md:hidden bg-paper"
+          style={{ borderTop: 'var(--rule-hairline) solid var(--color-rule)' }}
+        >
+          <div className="shell">
+            {NAV_LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                aria-current={isActive(l.href) ? 'page' : undefined}
+                className="flex items-center justify-between"
+                style={{
+                  minHeight: 56,
+                  borderBottom: 'var(--rule-hairline) solid var(--color-rule)',
+                  color: isActive(l.href) ? 'var(--color-signal)' : 'var(--color-ink)',
+                }}
+              >
+                <span style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>{l.label}</span>
+                <span className="mark-quarter" aria-hidden="true" />
+              </Link>
+            ))}
+            <a
+              href={CONTACT.phoneHref}
+              className="btn btn--signal w-full"
+              style={{ marginBlock: 'var(--space-lg)' }}
+            >
+              โทร {CONTACT.phone}
+            </a>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

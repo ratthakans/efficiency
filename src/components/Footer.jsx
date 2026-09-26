@@ -1,62 +1,59 @@
 import Link from 'next/link';
-import { Mail, Phone, MapPin, ExternalLink } from 'lucide-react';
 import { CONTACT } from '@/lib/content';
 
-const SITE_LINKS = [
-  { label: 'หน้าแรก', href: '/' },
-  { label: 'บริการ', href: '/services' },
-  { label: 'แพ็กเกจและราคา', href: '/pricing' },
-  { label: 'ขั้นตอนการทำงาน', href: '/process' },
-];
+/**
+ * Footer — Ft4 Dense colophon
+ *
+ * A printed colophon: caps labels, tabular meta, hairline-split cells, the
+ * registration mark as a folio device. No link columns, no social row.
+ */
 
-const MORE_LINKS = [
-  { label: 'ผลงาน', href: '/work' },
-  { label: 'เทคโนโลยีที่ใช้', href: '/stack' },
-  { label: 'เกี่ยวกับเรา', href: '/about' },
-  { label: 'ติดต่อเรา', href: '/contact' },
+const SITE = [
+  { label: 'Selected work', href: '/work' },
+  { label: 'Our standard', href: '/standard' },
+  { label: 'How we work', href: '/approach' },
+  { label: 'Taste and intent', href: '/taste-and-intent' },
+  { label: 'Studio', href: '/studio' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-line bg-soft">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 md:py-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
+    <footer className="rule-top">
+      <div className="shell">
+        <div className="grid gap-x-8 gap-y-10 py-14 md:grid-cols-[minmax(0,5fr)_minmax(0,3fr)_minmax(0,4fr)]">
 
-          {/* แบรนด์ */}
-          <div className="col-span-2">
-            <div className="flex items-baseline gap-1 mb-4">
-              <span className="font-mono text-[13px] font-semibold tracking-[0.22em] uppercase text-ink">
+          {/* colophon — who made this and what it is */}
+          <div>
+            <div className="flex items-center gap-1">
+              <span className="label label--ink" style={{ fontSize: 15, letterSpacing: '0.18em', fontWeight: 700 }}>
                 EFFICIENCY
               </span>
-              <span className="text-brand text-lg font-bold leading-none" aria-hidden="true">.</span>
+              <span className="mark-square" aria-hidden="true" />
             </div>
-            <p className="text-[15px] text-ink-2 leading-relaxed max-w-sm">
-              สตูดิโอออกแบบและพัฒนาเว็บไซต์สำหรับธุรกิจไทย
-              ตั้งแต่ Company Profile จนถึง Web System ที่มีสมาชิกและหลังบ้าน
+            <p className="prose mt-4" style={{ fontSize: 'var(--text-sm)' }}>
+              Digital Craft Studio ในกรุงเทพฯ
+              เรากำจัดแรงเสียดทานที่ไม่จำเป็น โดยไม่ตัดอารมณ์และรายละเอียดทิ้งไปพร้อมกัน
             </p>
-            <p className="mt-4 text-sm text-ink-3">
-              แพ็กเกจเริ่มต้น <span className="num text-ink font-medium">29,000</span> บาท · ขอบเขตชัดเจนก่อนเริ่มงาน
-            </p>
+            <div className="mt-6 flex items-center gap-3">
+              <span className="mark-register" aria-hidden="true" />
+              <span className="label">{CONTACT.companyEn}</span>
+            </div>
           </div>
 
-          {/* เมนู */}
+          {/* index */}
           <nav aria-label="เมนูส่วนท้าย">
-            <p className="label-th mb-4">เมนู</p>
-            <ul className="space-y-1">
-              {SITE_LINKS.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="inline-block py-2.5 text-[15px] text-ink-2 hover:text-brand transition-colors">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <ul className="space-y-1">
-              {MORE_LINKS.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="inline-block py-2.5 text-[15px] text-ink-2 hover:text-brand transition-colors">
+            <p className="label mb-4">สารบัญ</p>
+            <ul>
+              {SITE.map((l) => (
+                <li key={l.href} style={{ borderTop: 'var(--rule-hairline) solid var(--color-rule)' }}>
+                  <Link
+                    href={l.href}
+                    className="flex items-center whitespace-nowrap transition-colors hover:text-[var(--color-signal)]"
+                    style={{ minHeight: 44, fontSize: 'var(--text-sm)' }}
+                  >
                     {l.label}
                   </Link>
                 </li>
@@ -64,69 +61,68 @@ export default function Footer() {
             </ul>
           </nav>
 
-          {/* ติดต่อ */}
+          {/* meta — tabular, mono-ish via tabular-nums */}
           <div>
-            <p className="label-th mb-4">ติดต่อ</p>
-            <ul className="space-y-3 text-[15px] text-ink-2">
-              <li>
-                <a href={`mailto:${CONTACT.email}`} className="inline-flex items-start gap-2.5 py-2.5 hover:text-brand transition-colors">
-                  <Mail size={16} className="mt-1 shrink-0 text-ink-3" />
-                  {CONTACT.email}
-                </a>
-              </li>
-              <li>
-                <a href={CONTACT.phoneHref} className="inline-flex items-start gap-2.5 py-2.5 hover:text-brand transition-colors">
-                  <Phone size={16} className="mt-1 shrink-0 text-ink-3" />
-                  <span className="num">{CONTACT.phone}</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={CONTACT.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-start gap-2.5 py-1.5 text-sm leading-relaxed text-ink-3 hover:text-brand transition-colors"
-                >
-                  <MapPin size={16} className="mt-1 shrink-0" />
-                  <span>
-                    {CONTACT.address[0]}
-                    <br />
-                    {CONTACT.address[1]}
-                    <span className="inline-flex items-center gap-1 ml-1.5 text-brand">
-                      ดูแผนที่
-                      <ExternalLink size={12} />
-                    </span>
-                  </span>
-                </a>
-              </li>
-            </ul>
+            <p className="label mb-4">ติดต่อ</p>
+            <dl className="defs" style={{ borderTopWidth: 'var(--rule-hairline)', borderTopColor: 'var(--color-rule)' }}>
+              <div className="def" style={{ paddingBlock: 'var(--space-sm)' }}>
+                <dt className="label">โทร</dt>
+                <dd>
+                  <a href={CONTACT.phoneHref} className="num whitespace-nowrap hover:text-[var(--color-signal)]" style={{ fontSize: 'var(--text-sm)' }}>
+                    {CONTACT.phone}
+                  </a>
+                </dd>
+              </div>
+              <div className="def" style={{ paddingBlock: 'var(--space-sm)' }}>
+                <dt className="label">อีเมล</dt>
+                <dd>
+                  <a href={`mailto:${CONTACT.email}`} className="whitespace-nowrap hover:text-[var(--color-signal)]" style={{ fontSize: 'var(--text-sm)' }}>
+                    {CONTACT.email}
+                  </a>
+                </dd>
+              </div>
+              <div className="def" style={{ paddingBlock: 'var(--space-sm)' }}>
+                <dt className="label">ที่ตั้ง</dt>
+                <dd style={{ fontSize: 'var(--text-sm)', lineHeight: 1.6 }}>
+                  {CONTACT.address[0]}
+                  <br />
+                  {CONTACT.address[1]}
+                  <br />
+                  <a
+                    href={CONTACT.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link mt-2"
+                    style={{ fontSize: 'var(--text-sm)' }}
+                  >
+                    แผนที่
+                  </a>
+                </dd>
+              </div>
+              <div className="def" style={{ paddingBlock: 'var(--space-sm)' }}>
+                <dt className="label">เวลาทำการ</dt>
+                <dd style={{ fontSize: 'var(--text-sm)' }}>{CONTACT.hours}</dd>
+              </div>
+            </dl>
           </div>
         </div>
 
-        <div className="mt-14 pt-6 border-t border-line space-y-3">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5">
-            <p className="text-[13.5px] text-ink-2">
-              {CONTACT.companyTh} · {CONTACT.companyEn}
-            </p>
-            <p className="text-[13px] text-ink-3">
-              เลขทะเบียนนิติบุคคล <span className="num">{CONTACT.registrationNo}</span>
-            </p>
-          </div>
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5">
-            <p className="text-[13px] text-ink-3">
-              © {year} {CONTACT.companyTh} · สงวนลิขสิทธิ์ ·{' '}
-              <Link href="/privacy" className="hover:text-brand transition-colors underline underline-offset-2">
-                นโยบายความเป็นส่วนตัว
-              </Link>{' '}
-              ·{' '}
-              <Link href="/terms" className="hover:text-brand transition-colors underline underline-offset-2">
-                เงื่อนไขการให้บริการ
-              </Link>
-            </p>
-            <p className="text-[13px] text-ink-3">
-              ราคาและขอบเขตในเว็บไซต์เป็นข้อมูลเบื้องต้น ยึดตามใบเสนอราคาที่ยืนยันร่วมกัน
-            </p>
-          </div>
+        {/* folio line */}
+        <div
+          className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2 py-6"
+          style={{ borderTop: 'var(--rule-hairline) solid var(--color-rule)' }}
+        >
+          <p className="label">
+            © {year} {CONTACT.companyTh} · ทะเบียน <span className="num">{CONTACT.registrationNo}</span>
+          </p>
+          <p className="label flex items-center gap-4">
+            <Link href="/privacy" className="whitespace-nowrap hover:text-[var(--color-signal)]">
+              ความเป็นส่วนตัว
+            </Link>
+            <Link href="/terms" className="whitespace-nowrap hover:text-[var(--color-signal)]">
+              เงื่อนไขบริการ
+            </Link>
+          </p>
         </div>
       </div>
     </footer>
