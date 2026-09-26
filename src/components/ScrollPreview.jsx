@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import { scrollSeconds } from '@/lib/scroll';
 
 /**
  * Hover a project and read the whole site, top to bottom, without leaving.
@@ -18,7 +19,7 @@ export default function ScrollPreview({ src, height }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const cell = ref.current?.closest('.work-cell');
+    const cell = ref.current?.closest('[data-scroll-host]');
     if (!cell || armed) return undefined;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
 
@@ -36,8 +37,7 @@ export default function ScrollPreview({ src, height }) {
     };
   }, [armed]);
 
-  /* 800px-wide captures: a 4000px page travels in ~5s, a short one in ~2.5s */
-  const seconds = Math.min(6, Math.max(2.5, (height / 800) * 1.0));
+  const seconds = scrollSeconds(height);
 
   return (
     <div

@@ -16,6 +16,7 @@ export default function ProjectCell({ project, priority = false }) {
       target="_blank"
       rel="noopener noreferrer"
       className="work-cell group"
+      data-scroll-host
       aria-label={`เปิดเว็บไซต์ ${project.name} ในแท็บใหม่`}
     >
       <figure className="work-figure" style={{ aspectRatio: '16 / 10', position: 'relative' }}>

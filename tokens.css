@@ -13,6 +13,10 @@
  * fills that used to be signal — the plate, the period square, buttons — are
  * ink. The colour on these pages now comes from the work.
  *
+ * One exception, added when the site turned client-first: the signal ink also
+ * fills every call button (.btn--call) and colours the phone number. Calling is
+ * the only conversion this studio has, so it is the one thing allowed colour.
+ *
  * The paper is white and the greys are neutral — chroma 0 across the whole
  * achromatic set. An earlier pass warmed them toward cream to keep "no colour"
  * from reading as a wireframe; the studio wanted white, so the job of keeping
@@ -60,8 +64,8 @@
   --color-rule: oklch(90% 0 0);
   --color-rule-ink: oklch(17% 0 0);
 
-  /* ── The signal ink — link text and focus rings, nothing else ─
-     Never a solid fill. Solid marks use --color-ink. */
+  /* ── The signal ink — links, focus rings, and the call ───────
+     The only solid fill it takes is .btn--call. Other marks use --color-ink. */
   --color-signal: oklch(42% 0.085 250);
   /* the same value as a string, because Chrome resolves colour custom
      properties to lab() and the Adaptive Light demo prints this one.

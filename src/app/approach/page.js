@@ -95,7 +95,7 @@ export default function ApproachPage() {
       <Band rule="ink" tight>
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHead title={BRAND.promise} />
-          <a href={CONTACT.phoneHref} className="btn btn--ghost">โทร {CONTACT.phone}</a>
+          <a href={CONTACT.phoneHref} className="btn btn--call">โทร {CONTACT.phone}</a>
         </div>
       </Band>
     </>

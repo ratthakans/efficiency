@@ -42,7 +42,7 @@ export default function ContactPage() {
             <p className="label mt-4">{CONTACT.hours} · {CONTACT.replyTime}</p>
 
             <div className="mt-10 flex flex-wrap gap-3">
-              <a href={CONTACT.phoneHref} className="btn btn--signal">
+              <a href={CONTACT.phoneHref} className="btn btn--call">
                 โทรเลย
               </a>
               <a href={`mailto:${CONTACT.email}`} className="btn btn--ghost">

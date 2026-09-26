@@ -88,8 +88,8 @@ export default function NavBar() {
             <ThemeToggle />
             <a
               href={CONTACT.phoneHref}
-              className="label label--ink hidden lg:flex items-center whitespace-nowrap num"
-              style={{ letterSpacing: '0.06em', minHeight: 44, paddingInline: 'var(--space-sm)' }}
+              className="label hidden lg:flex items-center whitespace-nowrap num"
+              style={{ letterSpacing: '0.06em', minHeight: 44, paddingInline: 'var(--space-sm)', color: 'var(--color-signal)' }}
             >
               {CONTACT.phone}
             </a>

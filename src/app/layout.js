@@ -26,9 +26,9 @@ const plexMono = IBM_Plex_Mono({
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 const SITE_URL = 'https://efficiency.co.th';
-const SITE_TITLE = 'EFFICIENCY | Poetic Engineering · Digital Craft Studio';
+const SITE_TITLE = 'EFFICIENCY | ออกแบบและพัฒนาเว็บไซต์ · Poetic Engineering';
 const SITE_DESC =
-  'Digital Craft Studio ในกรุงเทพฯ เราออกแบบและพัฒนาเว็บไซต์โดยกำจัดแรงเสียดทานที่ไม่จำเป็น แต่ไม่ตัดอารมณ์และรายละเอียดทิ้ง — Poetic Engineering.';
+  'ออกแบบและพัฒนาเว็บไซต์ ที่ทั้งคน Google และ AI อ่านเข้าใจ — SEO · AEO · GEO โดย Digital Craft Studio ในกรุงเทพฯ ดูผลงานจริง 11 โครงการ หรือโทร 063 859 8423';
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),

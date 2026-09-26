@@ -1,74 +1,134 @@
 import Link from 'next/link';
 import { Band, SectionHead } from '@/components/ui/Section';
 import ProjectCell from '@/components/ProjectCell';
-import { BRAND, PROJECTS, PRINCIPLES, DISCIPLINES, CONTACT } from '@/lib/content';
+import FeaturedProject from '@/components/FeaturedProject';
+import {
+  BRAND,
+  CONTACT,
+  DISCIPLINES,
+  FAQS,
+  FEATURED,
+  FINDABILITY,
+  HOME_BENEFIT_ORDER,
+  PROJECTS,
+  STEPS,
+} from '@/lib/content';
 
 export const metadata = { alternates: { canonical: '/' } };
 
-const SELECTED = PROJECTS.slice(0, 3);
+/* The home page answers, in order, what a first-time client asks: what do you
+   do, what have you made, what will my site get, how does it start. The brand
+   lines stay as the voice; the philosophy lives on /approach and /studio. */
+const featured = PROJECTS.find((p) => p.key === FEATURED);
+const SELECTED = PROJECTS.filter((p) => p.key !== FEATURED).slice(0, 6);
+const BENEFITS = HOME_BENEFIT_ORDER.map((k) => DISCIPLINES.find((d) => d.key === k));
+const HOME_FAQS = FAQS.filter((f) => f.home);
 
 export default function HomePage() {
   return (
     <>
-      {/* ── 01 · Hero ───────────────────────────────────────────── */}
+      {/* ── 01 · What we do — the brand line, then the plain sentence ── */}
       <Band tight>
         <div className="cols gap-y-12">
-          <div className="col-span-12 lg:col-span-9">
-            <h1 className="display" style={{ maxWidth: '12ch' }}>
-              {BRAND.positioning.replace('.', '')}
-              <span className="mark-square mark-square--caret" aria-hidden="true" />
+          <div className="col-span-12 lg:col-span-8">
+            {/* One h1 carrying both: the brand line people remember and the
+                Thai sentence search engines and first-time readers need. */}
+            <h1>
+              <span className="display block" style={{ maxWidth: '12ch' }}>
+                {BRAND.positioning.replace('.', '')}
+                <span className="mark-square mark-square--caret" aria-hidden="true" />
+              </span>
+              <span className="hero-what mt-8 block">
+                <span className="block">{BRAND.whatWeDo[0]}</span>{' '}
+                <span className="block">{BRAND.whatWeDo[1]}</span>
+              </span>
             </h1>
-            <p className="lede mt-9" style={{ fontSize: 'var(--text-2xl)', maxWidth: '30rem' }}>
-              {BRAND.belief}
-            </p>
-            <p className="prose mt-5" style={{ maxWidth: '32rem' }}>
-              เรากำจัดความซับซ้อนและสิ่งที่ไม่จำเป็นออกไป
-              โดยไม่ตัดอารมณ์ รายละเอียด และตัวตนของแบรนด์ทิ้งไปพร้อมกัน
-            </p>
+
+            <ul className="findability mt-6" aria-label="สิ่งที่เว็บไซต์ของคุณถูกออกแบบให้ทำได้">
+              {FINDABILITY.map((f) => (
+                <li key={f.key}>
+                  <span className="mono findability__key">{f.key}</span>
+                  <span>{f.gloss}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-9 flex flex-wrap gap-3">
+              <a href={CONTACT.phoneHref} className="btn btn--call">
+                โทร {CONTACT.phone}
+              </a>
+              <Link href="/work" className="btn btn--ghost">
+                ดูผลงานทั้งหมด
+              </Link>
+            </div>
           </div>
 
-          <div className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end">
-            <p className="label label--ink">{BRAND.category}</p>
-            <p className="label mt-2">Bangkok</p>
-          </div>
+          {featured && (
+            <div className="col-span-12 lg:col-span-4 lg:col-start-9 lg:self-end">
+              <FeaturedProject project={featured} />
+            </div>
+          )}
         </div>
       </Band>
 
-      {/* ── 02 · Brand essence ──────────────────────────────────── */}
+      {/* ── 02 · Selected work ─────────────────────────────────── */}
+      <Band rule="ink" tight>
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <SectionHead
+            title="Selected work"
+            lede="ผลงานที่เปิดใช้งานจริง ออกแบบและพัฒนาเองทั้งหมด กดที่การ์ดเพื่อเปิดเว็บไซต์จริง"
+          />
+          <Link href="/work" className="link">
+            ดูทั้ง {PROJECTS.length} โครงการ →
+          </Link>
+        </div>
+
+        <div className="work-grid mt-10">
+          {SELECTED.map((p) => (
+            <ProjectCell key={p.key} project={p} />
+          ))}
+        </div>
+      </Band>
+
+      {/* ── 03 · What your site gets — the six standards as outcomes ── */}
       <Band rule="ink">
-        <div className="cols gap-y-10">
-          <div className="col-span-12 lg:col-span-6">
-            <h2 className="display-s">{BRAND.essence}</h2>
-            <p className="prose mt-7">
-              ประสบการณ์ดิจิทัลที่ดีเกิดจากรายละเอียดเล็ก ๆ ที่ผู้ใช้อาจไม่ได้สังเกตเห็นโดยตรง
-              แต่รู้สึกได้ จังหวะของตัวอักษร ระยะห่างระหว่างองค์ประกอบ น้ำหนักของการตอบสนอง
-              และเวลาที่ภาพปรากฏ
-            </p>
-            <p className="prose mt-5" style={{ color: 'var(--color-ink)' }}>
-              รายละเอียดไม่ใช่การตกแต่ง รายละเอียดคือสิ่งที่ทำให้ประสบการณ์ดิจิทัลมีชีวิต
-            </p>
-          </div>
-
-          <div className="col-span-12 lg:col-span-5 lg:col-start-8 lg:self-end">
-            <p className="label label--ink">{BRAND.proposition}</p>
-            <p className="annotation mt-2">Strategy → Design → Motion → Code → Browser</p>
-          </div>
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <SectionHead
+            title="สิ่งที่เว็บของคุณได้"
+            lede="มาตรฐานหกข้อนี้อยู่ในทุกโครงการ ไม่ใช่ตัวเลือกที่ต้องซื้อเพิ่ม"
+          />
+          <Link href="/standard" className="link">
+            ดูของจริงทีละข้อ →
+          </Link>
         </div>
+
+        <ul className="benefits mt-12">
+          {BENEFITS.map((d) => (
+            <li key={d.key} className="benefit">
+              {d.tag && <p className="annotation annotation--ink">{d.tag}</p>}
+              <h3 className="benefit__title">{d.benefit}</h3>
+              <p className="prose mt-3" style={{ fontSize: 'var(--text-sm)' }}>
+                {d.benefitLine}
+              </p>
+              <p className="label mt-4">{d.title}</p>
+            </li>
+          ))}
+        </ul>
       </Band>
 
-      {/* ── 03 · The plate — one loud move per page ─────────────── */}
+      {/* ── 04 · The plate — one loud move per page ─────────────── */}
       <section className="plate">
         <div className="shell band--tight relative">
           <div className="cols gap-y-10">
             <div className="col-span-12 lg:col-span-8">
-              <p className="display" style={{ color: 'var(--color-on-signal)', lineHeight: 0.94 }}>
+              <p className="display" style={{ color: 'var(--color-paper)', lineHeight: 0.94 }}>
                 {BRAND.philosophy[0]}
                 <br />
                 {BRAND.philosophy[1]}
               </p>
             </div>
             <div className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end">
-              <p style={{ color: 'var(--color-on-signal)', fontSize: 'var(--text-lg)', lineHeight: 1.65 }}>
+              <p style={{ color: 'var(--color-paper)', fontSize: 'var(--text-lg)', lineHeight: 1.65 }}>
                 สิ่งที่ไม่มีเหตุผลไม่จำเป็นต้องอยู่ แต่สิ่งที่ควรอยู่ ต้องได้รับการใส่ใจอย่างเต็มที่
               </p>
             </div>
@@ -76,130 +136,59 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 04 · Selected work ─────────────────────────────────── */}
-      <Band rule="ink" tight>
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHead title="Selected work" />
-          <Link href="/work" className="link">
-            ดูทั้ง {PROJECTS.length} โครงการ →
-          </Link>
-        </div>
-
-        <div className="work-grid mt-10">
-          {SELECTED.map((p, i) => (
-            <ProjectCell key={p.key} project={p} priority={i < 3} />
-          ))}
-        </div>
-      </Band>
-
-      {/* ── 05 · Core principles ───────────────────────────────── */}
+      {/* ── 05 · How it starts ─────────────────────────────────── */}
       <Band rule="ink">
-        <div className="grid gap-0 md:grid-cols-3">
-          {PRINCIPLES.map((p, i) => (
-            <div
-              key={p.key}
-              className="py-9 md:px-8"
-              style={{
-                borderTop: 'var(--rule-solid) solid var(--color-rule-ink)',
-                borderInlineStart: i === 0 ? undefined : 'var(--rule-hairline) solid var(--color-rule)',
-                paddingInlineStart: i === 0 ? 0 : undefined,
-              }}
-            >
-              <h3 style={{ fontSize: 'var(--text-4xl)' }}>{p.title}</h3>
-              <p className="label mt-3">{p.sub}</p>
-              <p className="prose mt-6" style={{ fontSize: 'var(--text-sm)' }}>{p.body}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-10">
-          <Link href="/approach" className="link">How we work →</Link>
-        </div>
-      </Band>
-
-      {/* ── 06 · Our standard ──────────────────────────────────── */}
-      <Band rule="ink">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHead
-            title="Our standard."
-            lede="หกมาตรฐานงานคราฟต์ที่ใช้กับทุกโครงการ ไม่ใช่รายการฟีเจอร์ที่เลือกซื้อเพิ่ม"
-          />
-          <Link href="/standard" className="link">ดูทั้งหมดพร้อมของจริง →</Link>
+        <p className="label">{BRAND.proposition}</p>
+        <div className="mt-3">
+          <SectionHead title="เริ่มงานกับเรา" lede="สี่ขั้น ตั้งแต่สายแรกจนเว็บไซต์เปิดใช้งาน" />
         </div>
 
-        <ol className="defs mt-12">
-          {DISCIPLINES.map((d) => (
-            <li key={d.key} className="def" style={{ gridTemplateColumns: 'minmax(0,1fr)' }}>
-              <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1">
-                <span className="label label--signal num">{d.n}</span>
-                <h3 style={{ fontSize: 'var(--text-2xl)' }}>{d.title}</h3>
-                <p className="label">{d.sub}</p>
-              </div>
+        <ol className="steps mt-12">
+          {STEPS.map((s, i) => (
+            <li key={s.title} className="step">
+              <span className="mono step__n">{String(i + 1).padStart(2, '0')}</span>
+              <h3 className="step__title">{s.title}</h3>
+              <p className="prose mt-3" style={{ fontSize: 'var(--text-sm)' }}>
+                {s.body}
+              </p>
             </li>
           ))}
         </ol>
       </Band>
 
-      {/* ── 07 · AI positioning ────────────────────────────────── */}
+      {/* ── 06 · Questions, then the call ──────────────────────── */}
       <Band rule="ink">
-        <div className="cols gap-y-10">
-          <div className="col-span-12 lg:col-span-8">
-            <h2 className="display-s">
-              {BRAND.aiLine[0]}
-              <br />
-              {BRAND.aiLine[1]}
-            </h2>
-            <p className="prose mt-8">
-              เราไม่ต่อต้าน AI และใช้มันในส่วนที่ทำให้การทำงานเร็วขึ้น
-              แต่การมีเครื่องมือที่สร้างของได้เร็วขึ้น ไม่ได้ทำให้คำถามสำคัญที่สุดหายไปว่า
-              เราควรสร้างอะไร
-            </p>
+        <div className="cols gap-y-14">
+          <div className="col-span-12 lg:col-span-6">
+            <h2 className="display-s">คำถามที่พบบ่อย</h2>
+            <dl className="mt-10" style={{ borderTop: 'var(--rule-hairline) solid var(--color-rule-ink)' }}>
+              {HOME_FAQS.map((f) => (
+                <div key={f.q} className="py-6" style={{ borderBottom: 'var(--rule-hairline) solid var(--color-rule)' }}>
+                  <dt style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>{f.q}</dt>
+                  <dd className="prose mt-2" style={{ fontSize: 'var(--text-sm)' }}>
+                    {f.a}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <Link href="/approach#faq" className="link mt-8">
+              ดูคำถามทั้งหมด →
+            </Link>
           </div>
-          <div className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end">
-            <p className="label">When everyone can build,</p>
-            <p className="label label--ink mt-1">discernment becomes the advantage.</p>
-            <Link href="/taste-and-intent" className="link mt-6">อ่านต่อ →</Link>
-          </div>
-        </div>
-      </Band>
 
-      {/* ── 08 · Proof mode ────────────────────────────────────── */}
-      <Band rule="ink" tight>
-        <div className="cols gap-y-8">
-          <div className="col-span-12 lg:col-span-7">
-            <h2 className="display-s" style={{ maxWidth: '16ch' }}>
-              Beauty on the surface. Engineering underneath.
-            </h2>
-            <p className="prose mt-7">
-              เปิด <strong style={{ color: 'var(--color-ink)' }}>Proof Mode</strong> ที่มุมขวาล่างของหน้าจอ
-              เพื่อดูชั้นเทคนิคที่ซ่อนอยู่ใต้หน้านี้ ทั้ง LCP, TTFB, จำนวน DOM node, ขนาดที่โหลดจริง
-              ไปจนถึงโครงสร้างหัวข้อและ schema — อ่านจากเอกสารหน้านี้ในเครื่องคุณ ไม่ใช่ตัวเลขที่เราพิมพ์ไว้
-            </p>
-          </div>
-          <div className="col-span-12 lg:col-span-4 lg:col-start-9 lg:self-end">
-            <span className="mark-register" aria-hidden="true" />
-            <p className="label mt-5">Performance · Semantics</p>
-          </div>
-        </div>
-      </Band>
-
-      {/* ── 09 · Close ─────────────────────────────────────────── */}
-      <Band rule="ink">
-        <div className="cols gap-y-10">
-          <div className="col-span-12 lg:col-span-8">
+          <div className="col-span-12 lg:col-span-5 lg:col-start-8 lg:self-end">
             <h2 className="display-s" style={{ maxWidth: '14ch' }}>
               Build what deserves to exist.
             </h2>
-            <p className="prose mt-7">
+            <p className="prose mt-6" style={{ color: 'var(--color-ink)' }}>
               เล่าโจทย์มาได้เลย เราจะบอกตรง ๆ ว่าอะไรควรมี อะไรไม่ควรมี และควรเริ่มตรงไหน
             </p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <a href={CONTACT.phoneHref} className="btn btn--signal">โทร {CONTACT.phone}</a>
-              <Link href="/contact" className="btn btn--ghost">ช่องทางอื่น</Link>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href={CONTACT.phoneHref} className="btn btn--call">
+                โทร {CONTACT.phone}
+              </a>
             </div>
-          </div>
-          <div className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end">
-            <p className="label label--ink">{BRAND.promise}</p>
-            <p className="label mt-4">{CONTACT.hours}</p>
+            <p className="label mt-5">{CONTACT.hours}</p>
           </div>
         </div>
       </Band>

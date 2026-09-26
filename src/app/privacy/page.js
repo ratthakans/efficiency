@@ -232,7 +232,7 @@ export default function PrivacyPage() {
 
             <div className="py-10" style={{ borderTop: 'var(--rule-solid) solid var(--color-rule-ink)' }}>
               <div className="flex flex-wrap gap-3">
-                <a href={CONTACT.phoneHref} className="btn btn--signal">
+                <a href={CONTACT.phoneHref} className="btn btn--call">
                   โทร {CONTACT.phone}
                 </a>
                 <Link href="/" className="btn btn--ghost">

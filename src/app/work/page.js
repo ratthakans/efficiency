@@ -45,7 +45,7 @@ export default function WorkPage() {
             />
           </div>
           <div className="col-span-12 lg:col-span-4 lg:col-start-9 lg:self-end">
-            <a href={CONTACT.phoneHref} className="btn btn--signal w-full">
+            <a href={CONTACT.phoneHref} className="btn btn--call w-full">
               โทร {CONTACT.phone}
             </a>
           </div>

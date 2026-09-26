@@ -103,7 +103,7 @@ export default function StandardPage() {
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHead title="มาตรฐานนี้ใช้กับงานของคุณได้ไหม" />
           <div className="flex flex-wrap gap-3">
-            <a href={CONTACT.phoneHref} className="btn btn--signal">โทร {CONTACT.phone}</a>
+            <a href={CONTACT.phoneHref} className="btn btn--call">โทร {CONTACT.phone}</a>
             <Link href="/work" className="btn btn--ghost">ดูผลงาน</Link>
           </div>
         </div>

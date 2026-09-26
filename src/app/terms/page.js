@@ -132,7 +132,7 @@ export default function TermsPage() {
                 เรายินดีอธิบายให้ชัดก่อนเซ็นใบเสนอราคา
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <a href={CONTACT.phoneHref} className="btn btn--signal">
+                <a href={CONTACT.phoneHref} className="btn btn--call">
                   โทร {CONTACT.phone}
                 </a>
                 <Link href="/work" className="btn btn--ghost">

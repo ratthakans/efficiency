@@ -38,6 +38,29 @@ export default function StudioPage() {
         </div>
       </Band>
 
+      {/* Essence — moved from the home page, where it spoke before the reader
+          knew what the studio did. Here it follows the introduction. */}
+      <Band rule="ink">
+        <div className="cols gap-y-10">
+          <div className="col-span-12 lg:col-span-6">
+            <h2 className="display-s">{BRAND.essence}</h2>
+            <p className="lede mt-6" style={{ color: 'var(--color-ink)' }}>
+              {BRAND.belief}
+            </p>
+          </div>
+          <div className="col-span-12 lg:col-span-5 lg:col-start-8 lg:self-end">
+            <p className="prose">
+              ประสบการณ์ดิจิทัลที่ดีเกิดจากรายละเอียดเล็ก ๆ ที่ผู้ใช้อาจไม่ได้สังเกตเห็นโดยตรง
+              แต่รู้สึกได้ จังหวะของตัวอักษร ระยะห่างระหว่างองค์ประกอบ น้ำหนักของการตอบสนอง
+              และเวลาที่ภาพปรากฏ
+            </p>
+            <p className="prose mt-5" style={{ color: 'var(--color-ink)' }}>
+              รายละเอียดไม่ใช่การตกแต่ง รายละเอียดคือสิ่งที่ทำให้ประสบการณ์ดิจิทัลมีชีวิต
+            </p>
+          </div>
+        </div>
+      </Band>
+
       {/* Manifesto — the studio's own voice, set as a document */}
       <Band rule="ink">
         <div className="cols">
@@ -115,7 +138,7 @@ export default function StudioPage() {
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHead title={BRAND.promise} />
           <div className="flex flex-wrap gap-3">
-            <a href={CONTACT.phoneHref} className="btn btn--signal">โทร {CONTACT.phone}</a>
+            <a href={CONTACT.phoneHref} className="btn btn--call">โทร {CONTACT.phone}</a>
             <Link href="/work" className="btn btn--ghost">Selected work</Link>
           </div>
         </div>

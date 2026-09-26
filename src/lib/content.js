@@ -19,7 +19,21 @@ export const BRAND = {
   promise: 'Every decision earns its place.',
   aiLine: ['Code can be generated.', 'Judgment cannot be automated.'],
   tone: 'Quiet confidence.',
+  /* The sentence the brand lines were missing: what the studio sells, in the
+     reader's language. Sits under the display line and inside the h1.
+     Two phrases, because Thai line-breaking picks its own point otherwise and
+     split "คน Google" across lines. */
+  whatWeDo: ['ออกแบบและพัฒนาเว็บไซต์', 'ที่ทั้งคน Google และ AI อ่านเข้าใจ'],
 };
+
+/* What SEO / AEO / GEO mean to someone who has never heard the acronyms.
+   Each gloss names the outcome the discipline aims at — none is a promise of
+   rank; the FAQ says so plainly. */
+export const FINDABILITY = [
+  { key: 'SEO', gloss: 'ค้นเจอบน Google' },
+  { key: 'AEO', gloss: 'ถูกหยิบไปเป็นคำตอบ' },
+  { key: 'GEO', gloss: 'ถูกอ้างอิงในคำตอบของ AI' },
+];
 
 /* ── ข้อมูลติดต่อ ───────────────────────────────────────────── */
 export const CONTACT = {
@@ -65,6 +79,8 @@ export const DISCIPLINES = [
   {
     n: '01',
     key: 'light',
+    benefit: 'สวยทั้งโหมดสว่างและโหมดมืด',
+    benefitLine: 'โหมดมืดออกแบบแยก ไม่ใช่แค่กลับสี ภาพและสีแบรนด์ถูกปรับให้เหมาะกับแต่ละโหมด',
     title: 'Adaptive Light',
     sub: 'Designed for darkness, not inverted for it.',
     body:
@@ -73,7 +89,7 @@ export const DISCIPLINES = [
       'สีแบรนด์ถูกเลือกใหม่ต่อโหมด ไม่ใช่ค่าเดิมที่หรี่ลง',
       'ภาพถูกปรับ luminance เพราะภาพหน้าจอถูกถ่ายมาบนพื้นขาว',
       'คอนทราสต์ตัวอักษรผ่านเกณฑ์ทั้งสองโหมด',
-      'เส้นกริดเปลี่ยนน้ำหนักตามพื้น ไม่ใช่ความทึบเดียวกัน',
+      'เส้นคั่นเปลี่ยนน้ำหนักตามพื้น ไม่ใช่ความทึบเดียวกัน',
     ],
     demo: 'adaptive-light',
     token: '[data-theme] · --color-signal · --image-grade',
@@ -81,6 +97,8 @@ export const DISCIPLINES = [
   {
     n: '02',
     key: 'type',
+    benefit: 'ภาษาไทยอ่านสบาย',
+    benefitLine: 'ระยะบรรทัดและระยะตัวอักษรตั้งแยกสำหรับไทยและอังกฤษ สระไม่ชนกัน บรรทัดไม่ยาวจนตาล้า',
     title: 'Editorial Type',
     sub: 'Every language deserves its own rhythm.',
     body:
@@ -97,6 +115,8 @@ export const DISCIPLINES = [
   {
     n: '03',
     key: 'space',
+    benefit: 'ใช้ได้ดีทุกขนาดจอ',
+    benefitLine: 'ตัวอักษรและระยะไล่ขนาดต่อเนื่องตั้งแต่มือถือถึงจอกว้าง ปุ่มกดง่ายบนจอสัมผัส',
     title: 'Fluid Space',
     sub: 'No device should feel like an afterthought.',
     body:
@@ -113,6 +133,8 @@ export const DISCIPLINES = [
   {
     n: '04',
     key: 'speed',
+    benefit: 'เปิดเร็ว แม้เน็ตช้า',
+    benefitLine: 'ภาพถูกย่อตามขนาดที่ใช้จริง เนื้อหาสำคัญมาพร้อมหน้าแรกโดยไม่รอสคริปต์',
     title: 'Invisible Speed',
     sub: 'The best performance is the one you never notice.',
     body:
@@ -129,6 +151,8 @@ export const DISCIPLINES = [
   {
     n: '05',
     key: 'motion',
+    benefit: 'ขยับเท่าที่ช่วยให้เข้าใจ',
+    benefitLine: 'การเคลื่อนไหวมีไว้บอกสถานะและนำสายตา และลดลงเองสำหรับผู้ใช้ที่ตั้งค่าไว้',
     title: 'Intentional Motion',
     sub: 'Nothing moves without a reason.',
     body:
@@ -145,6 +169,8 @@ export const DISCIPLINES = [
   {
     n: '06',
     key: 'semantic',
+    benefit: 'Google และ AI อ่านเว็บคุณเข้าใจ',
+    benefitLine: 'โครงสร้างหน้าและข้อมูลองค์กรถูกเขียนให้เครื่องอ่านได้ตั้งแต่แรก เพื่อให้ถูกค้นเจอ ถูกหยิบไปตอบ และถูกอ้างอิง',
     title: 'Machine-Readable Meaning',
     sub: 'Built to be understood by people, search engines and AI.',
     body:
@@ -157,7 +183,23 @@ export const DISCIPLINES = [
     ],
     demo: 'semantic',
     token: 'semantic HTML · JSON-LD @graph',
+    tag: 'SEO · AEO · GEO',
   },
+];
+
+/* The home page lists the disciplines by what a client asks about first. */
+export const HOME_BENEFIT_ORDER = ['semantic', 'speed', 'space', 'type', 'light', 'motion'];
+
+/* ── How a project runs ─────────────────────────────────────────
+   Every step restates something the terms page or the FAQ already commits
+   to — scope confirmed before work, Milestone payments, the clock starting on
+   complete content and the first payment, delivery with admin accounts.
+   Nothing here is new policy. */
+export const STEPS = [
+  { title: 'โทรเล่าโจทย์', body: 'บอกว่าธุรกิจทำอะไร และอยากให้เว็บช่วยเรื่องไหน ยังไม่ต้องเตรียมเอกสาร' },
+  { title: 'สรุปขอบเขต ราคา ระยะเวลา', body: 'เราสรุปเป็นใบเสนอราคาและ Scope of Work ให้ยืนยันร่วมกันก่อนเริ่มงาน' },
+  { title: 'ออกแบบและพัฒนา', body: 'ทำงานเป็นงวดตาม Milestone เริ่มนับเวลาเมื่อได้รับข้อมูลครบและชำระงวดแรก' },
+  { title: 'ส่งมอบและตรวจรับ', body: 'ได้เว็บไซต์ที่เปิดใช้งานจริง พร้อมบัญชีผู้ดูแลตามขอบเขตงาน' },
 ];
 
 /* ── 7 · The enemy ──────────────────────────────────────────── */
@@ -211,6 +253,10 @@ export const WORK_KINDS = [
   { key: 'brand', label: 'เว็บไซต์แบรนด์' },
   { key: 'corporate', label: 'เว็บไซต์องค์กร' },
 ];
+
+/* The project shown beside the home headline. Any key from PROJECTS works;
+   it is left out of the grid below so it never appears twice on one page. */
+export const FEATURED = 'vela';
 
 /* ── Selected work — ชื่อเท่านั้น ไม่แสดง URL ────────────────── */
 export const PROJECTS = [
@@ -279,6 +325,7 @@ export const FAQS = [
   },
   {
     q: 'คิดราคาอย่างไร ทำไมไม่มีแพ็กเกจบนเว็บ',
+    home: true,
     a: 'เราประเมินตามขอบเขตงานจริงของแต่ละโครงการ ไม่ใช้แพ็กเกจสำเร็จรูป เพราะเว็บไซต์องค์กรกับแพลตฟอร์มที่มีระบบหลังบ้านต่างกันมากเกินกว่าจะใส่ในตารางเดียว โทรมาเล่าโจทย์ได้เลย เราสรุปขอบเขตกลับไปให้',
   },
   {
@@ -287,10 +334,12 @@ export const FAQS = [
   },
   {
     q: 'ทำเว็บไซต์ใช้เวลานานแค่ไหน',
+    home: true,
     a: 'ขึ้นกับขอบเขต เว็บไซต์องค์กรที่เนื้อหาพร้อมแล้วใช้เวลาประมาณสองถึงสามสัปดาห์ ส่วนแพลตฟอร์มที่มีสมาชิกและหลังบ้านใช้เวลาหลายเดือน เราสรุประยะเวลาให้ชัดก่อนเริ่มเสมอ',
   },
   {
     q: 'รับประกันอันดับบน Google ไหม',
+    home: true,
     a: 'ไม่รับประกันอันดับ เพราะผลลัพธ์ขึ้นกับปัจจัยนอกการควบคุมของเรา สิ่งที่เรารับผิดชอบคือโครงสร้างพื้นฐานที่ถูกต้อง ทั้งความหมายเชิงโครงสร้าง ความเร็ว และความชัดเจนของเนื้อหา ซึ่งเปิด Semantic View ตรวจได้เองบนเว็บนี้',
   },
   {

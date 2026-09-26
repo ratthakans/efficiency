@@ -142,7 +142,7 @@ export default function TasteAndIntentPage() {
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHead title="What should we build?" lede="คำถามนี้ยังเป็นของมนุษย์ และเป็นงานที่เราทำ" />
           <div className="flex flex-wrap gap-3">
-            <a href={CONTACT.phoneHref} className="btn btn--signal">โทร {CONTACT.phone}</a>
+            <a href={CONTACT.phoneHref} className="btn btn--call">โทร {CONTACT.phone}</a>
             <Link href="/approach" className="btn btn--ghost">How we work</Link>
           </div>
         </div>
