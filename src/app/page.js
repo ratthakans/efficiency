@@ -18,8 +18,6 @@ export default function HomePage() {
               {BRAND.positioning.replace('.', '')}
               <span className="mark-square" aria-hidden="true" />
             </h1>
-            <p className="annotation mt-4">--text-display · clamp(52px, 9vw, 120px)</p>
-
             <p className="lede mt-9" style={{ fontSize: 'var(--text-2xl)', maxWidth: '30rem' }}>
               {BRAND.belief}
             </p>
@@ -31,8 +29,7 @@ export default function HomePage() {
 
           <div className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end">
             <p className="label label--ink">{BRAND.category}</p>
-            <p className="label mt-2">{BRAND.descriptor}</p>
-            <p className="label mt-6">Bangkok</p>
+            <p className="label mt-2">Bangkok</p>
           </div>
         </div>
       </Band>

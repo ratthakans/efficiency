@@ -77,11 +77,10 @@ export default function NavBar() {
               className="mono hidden lg:flex items-center justify-center"
               style={{
                 minHeight: 34,
-                paddingInline: 10,
-                marginInlineEnd: 4,
+                paddingInline: 8,
+                marginInlineEnd: 2,
                 fontSize: 'var(--text-label)',
                 color: 'var(--color-muted)',
-                border: 'var(--rule-hairline) solid var(--color-rule)',
               }}
             >
               ⌘K
@@ -130,7 +129,6 @@ export default function NavBar() {
                 }}
               >
                 <span style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>{l.label}</span>
-                <span className="mark-quarter" aria-hidden="true" />
               </Link>
             ))}
             <a

@@ -92,29 +92,10 @@
   padding: var(--space-sm) var(--space-md);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   The exposed grid — this is the theme, not scaffolding
-   ───────────────────────────────────────────────────────────── */
-.rails {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-}
-
-.rails__inner {
-  width: 100%;
-  max-width: var(--shell);
-  margin-inline: var(--gutter);
-  background-image: repeating-linear-gradient(
-    to right,
-    var(--color-rule) 0 1px,
-    transparent 1px calc(100% / 12)
-  );
-  background-size: calc(100% + 1px) 100%;
-}
+/* The exposed 12-column grid the Grid theme paints behind every page was
+   removed on 2026-09-26. Over a portfolio of real screenshots the rails ran
+   straight through the images and read as a wireframe. The grid still governs
+   the layout below; it is simply no longer drawn. See tokens.css. */
 
 /* ─────────────────────────────────────────────────────────────
    Shell and bands
@@ -142,7 +123,7 @@
   border-top: var(--rule-hairline) solid var(--color-rule);
 }
 
-/* 12-column content track that rides the painted rails */
+/* 12-column content track — the grid, governing but undrawn */
 .cols {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -182,7 +163,7 @@
 }
 
 .label--signal {
-  color: var(--color-signal);
+  color: var(--color-ink);
 }
 
 .lede {
@@ -222,21 +203,24 @@
   line-height: 1.5;
 }
 .annotation--signal {
-  color: var(--color-signal);
+  color: var(--color-ink-2);
 }
 
 /* ─────────────────────────────────────────────────────────────
    The marks kit — constructed geometry, never an icon font
    ───────────────────────────────────────────────────────────── */
 
-/* the period square — a solid square where a full stop would fall */
+/* the period square — a solid square where a full stop would fall.
+   Sized like the full stop it replaces, not like a logo block: at display
+   sizes a 0.5em square stops reading as punctuation and starts reading as
+   a colour field, which is the thing this palette exists to avoid. */
 .mark-square {
   display: inline-block;
-  width: 0.52em;
-  height: 0.52em;
-  background: var(--color-signal);
+  width: 0.3em;
+  height: 0.3em;
+  background: var(--color-ink);
   vertical-align: baseline;
-  margin-inline-start: 0.12em;
+  margin-inline-start: 0.1em;
 }
 
 /* the bar — a signal rule over a head, cut to a column width */
@@ -244,15 +228,17 @@
   display: block;
   width: min(120px, 22vw);
   height: var(--rule-bar);
-  background: var(--color-signal);
+  background: var(--color-ink);
 }
 
-/* the quarter-disc — answers the pointer with a snapped 90° turn */
+/* the quarter-disc — answers the pointer with a snapped 90° turn.
+   Kept only where the turn itself is the point; it is not a decoration
+   to hang on every row. */
 .mark-quarter {
   display: block;
-  width: 28px;
-  height: 28px;
-  background: var(--color-signal);
+  width: 18px;
+  height: 18px;
+  background: var(--color-ink);
   border-start-start-radius: 100%;
   transition: transform var(--dur-base) var(--ease-out);
 }
@@ -299,7 +285,7 @@
 .mark-steps span:nth-child(2) { width: 72%; }
 .mark-steps span:nth-child(3) { width: 84%; }
 .mark-steps span:nth-child(4) { width: 46%; }
-.mark-steps span:first-child { background: var(--color-signal); opacity: 1; }
+.mark-steps span:first-child { background: var(--color-ink); opacity: 1; }
 
 /* the cropped numeral — art, not a heading */
 .numeral {
@@ -324,26 +310,13 @@
    ───────────────────────────────────────────────────────────── */
 .plate {
   position: relative;
-  background: var(--color-signal);
-  color: var(--color-on-signal);
+  background: var(--color-ink);
+  color: var(--color-paper);
   overflow: clip;
 }
 
-.plate::before {
-  /* the rails continue across the plate so the grid is never interrupted */
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    to right,
-    rgb(255 255 255 / 0.16) 0 1px,
-    transparent 1px calc(100% / 12)
-  );
-}
-
 .plate .label {
-  color: rgb(255 255 255 / 0.72);
+  color: color-mix(in oklab, var(--color-paper) 72%, transparent);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -385,13 +358,13 @@
 }
 
 .btn--signal {
-  background: var(--color-signal);
-  border-color: var(--color-signal);
-  color: var(--color-on-signal);
-}
-.btn--signal:hover {
   background: var(--color-ink);
   border-color: var(--color-ink);
+  color: var(--color-paper);
+}
+.btn--signal:hover {
+  background: transparent;
+  color: var(--color-ink);
 }
 
 .btn--ghost {
@@ -547,13 +520,6 @@
    Responsive — the archetype must still feel like itself
    ───────────────────────────────────────────────────────────── */
 @media (max-width: 60rem) {
-  .rails__inner {
-    background-image: repeating-linear-gradient(
-      to right,
-      var(--color-rule) 0 1px,
-      transparent 1px calc(100% / 4)
-    );
-  }
   .def {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-xs);
@@ -572,13 +538,6 @@
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-  }
-  .rails__inner {
-    background-image: repeating-linear-gradient(
-      to right,
-      var(--color-rule) 0 1px,
-      transparent 1px calc(100% / 2)
-    );
   }
   .lede {
     font-size: var(--text-lg);

@@ -33,7 +33,13 @@ export default function ProjectCell({ project, priority = false }) {
         <h3 className="work-cell__name" style={{ fontSize: 'var(--text-xl)', lineHeight: 1.3 }}>
           {project.name}
         </h3>
-        <span className="mark-quarter mt-1 shrink-0" aria-hidden="true" />
+        <span
+          className="mono shrink-0"
+          aria-hidden="true"
+          style={{ color: 'var(--color-muted)', fontSize: 'var(--text-sm)', lineHeight: 1.6 }}
+        >
+          ↗
+        </span>
       </div>
 
       <p className="annotation mt-2">{project.stack}</p>

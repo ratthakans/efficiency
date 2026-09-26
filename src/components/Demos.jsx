@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 
 /**
  * Interactive proof for four of the six disciplines. Each demo manipulates the
@@ -11,8 +11,33 @@ import { useState } from 'react';
  */
 
 /* ── 01 · Adaptive Light ─────────────────────────────────────── */
+
+/* Each half carries the opposite theme's data-theme attribute, so the real
+   token blocks in tokens.css apply inside it. The captions read --signal-spec
+   off those halves rather than repeating a literal — which is how this demo
+   went stale the first time, still advertising a blue the site had stopped
+   using. (--color-signal itself comes back as lab(); the spec token is the
+   authored oklch, kept beside it.) */
+function readSignals() {
+  const probe = (theme) => {
+    const el = document.createElement('div');
+    el.setAttribute('data-theme', theme);
+    el.style.cssText = 'position:absolute;visibility:hidden;top:-9999px';
+    document.body.appendChild(el);
+    const value = getComputedStyle(el).getPropertyValue('--signal-spec').trim().replace(/^"|"$/g, '');
+    el.remove();
+    return value;
+  };
+  return `${probe('light')}|${probe('dark')}`;
+}
+
+const noSubscribe = () => () => {};
+const noServer = () => null;
+
 export function AdaptiveLightDemo() {
   const [split, setSplit] = useState(50);
+  const signals = useSyncExternalStore(noSubscribe, readSignals, noServer);
+  const [lightSignal, darkSignal] = (signals ?? '|').split('|');
 
   return (
     <figure className="m-0">
@@ -23,10 +48,11 @@ export function AdaptiveLightDemo() {
           border: 'var(--rule-hairline) solid var(--color-rule)',
         }}
       >
-        {/* the dark treatment sits underneath, graded and on its own sheet */}
+        {/* the dark treatment sits underneath, on its own sheet of tokens */}
         <div
+          data-theme="dark"
           className="absolute inset-0"
-          style={{ background: 'oklch(17% 0.012 255)' }}
+          style={{ background: 'var(--color-paper)' }}
           aria-hidden="true"
         >
           <Image
@@ -34,25 +60,22 @@ export function AdaptiveLightDemo() {
             alt=""
             fill
             sizes="(max-width: 60rem) 100vw, 50vw"
-            style={{
-              objectFit: 'cover',
-              objectPosition: 'top',
-              filter: 'brightness(0.86) contrast(1.04) saturate(0.96)',
-            }}
+            style={{ objectFit: 'cover', objectPosition: 'top', filter: 'var(--image-grade)' }}
           />
           <span
             className="annotation absolute"
-            style={{ insetInlineEnd: 12, insetBlockEnd: 10, color: 'oklch(74% 0.15 264)' }}
+            style={{ insetInlineEnd: 12, insetBlockEnd: 10, color: 'var(--color-signal)' }}
           >
-            dark · signal oklch(74% 0.15 264)
+            dark · {darkSignal}
           </span>
         </div>
 
         {/* the light treatment is clipped back to reveal it */}
         <div
+          data-theme="light"
           className="absolute inset-0"
           style={{
-            background: 'oklch(99% 0.003 255)',
+            background: 'var(--color-paper)',
             clipPath: `inset(0 ${100 - split}% 0 0)`,
           }}
         >
@@ -61,13 +84,13 @@ export function AdaptiveLightDemo() {
             alt="ภาพเดียวกันภายใต้การไล่สีของโหมดสว่างและโหมดมืด"
             fill
             sizes="(max-width: 60rem) 100vw, 50vw"
-            style={{ objectFit: 'cover', objectPosition: 'top' }}
+            style={{ objectFit: 'cover', objectPosition: 'top', filter: 'var(--image-grade)' }}
           />
           <span
             className="annotation absolute"
-            style={{ insetInlineStart: 12, insetBlockEnd: 10, color: 'oklch(45% 0.19 264)' }}
+            style={{ insetInlineStart: 12, insetBlockEnd: 10, color: 'var(--color-signal)' }}
           >
-            light · signal oklch(45% 0.19 264)
+            light · {lightSignal}
           </span>
         </div>
 
@@ -75,7 +98,7 @@ export function AdaptiveLightDemo() {
         <span
           aria-hidden="true"
           className="absolute inset-y-0"
-          style={{ insetInlineStart: `${split}%`, width: 2, background: 'var(--color-signal)' }}
+          style={{ insetInlineStart: `${split}%`, width: 2, background: 'var(--color-ink)' }}
         />
       </div>
 
@@ -88,12 +111,12 @@ export function AdaptiveLightDemo() {
           value={split}
           onChange={(e) => setSplit(Number(e.target.value))}
           className="mt-2 w-full"
-          style={{ accentColor: 'var(--color-signal)', minHeight: 44 }}
+          style={{ accentColor: 'var(--color-ink)', minHeight: 44 }}
         />
       </label>
 
       <figcaption className="prose mt-2" style={{ fontSize: 'var(--text-sm)' }}>
-        ภาพเดียวกัน สองการไล่สี สีแบรนด์ในโหมดมืดไม่ใช่ค่าเดิมที่หรี่ลง แต่ถูกเลือกใหม่ให้คอนทราสต์ผ่านเกณฑ์บนพื้นเข้ม
+        ภาพเดียวกัน สองการไล่สี สีลิงก์ในโหมดมืดไม่ใช่ค่าเดิมที่หรี่ลง แต่ถูกเลือกใหม่ให้คอนทราสต์ผ่านเกณฑ์บนพื้นเข้ม
       </figcaption>
     </figure>
   );
@@ -233,7 +256,7 @@ export function FluidCanvasDemo() {
           value={w}
           onChange={(e) => setW(Number(e.target.value))}
           className="mt-2 w-full"
-          style={{ accentColor: 'var(--color-signal)', minHeight: 44 }}
+          style={{ accentColor: 'var(--color-ink)', minHeight: 44 }}
         />
       </label>
 
