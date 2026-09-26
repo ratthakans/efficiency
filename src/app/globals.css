@@ -225,7 +225,7 @@
   display: inline-block;
   width: 0.3em;
   height: 0.3em;
-  background: var(--color-ink);
+  background: var(--gradient-brand);
   vertical-align: baseline;
   margin-inline-start: 0.1em;
 }
@@ -286,6 +286,26 @@
   background: var(--color-ink);
   color: var(--color-paper);
   overflow: clip;
+  isolation: isolate;
+}
+[data-theme='dark'] .plate {
+  background: oklch(9% 0.02 285);
+  color: oklch(97% 0.005 285);
+}
+
+/* the aurora — the gradient as light behind the type, never under small text */
+.plate::before {
+  content: "";
+  position: absolute;
+  inset: -40% -10% -40% 35%;
+  z-index: -1;
+  background:
+    radial-gradient(closest-side at 30% 40%, var(--grad-blue), transparent),
+    radial-gradient(closest-side at 65% 35%, var(--grad-violet), transparent),
+    radial-gradient(closest-side at 55% 75%, var(--grad-coral), transparent);
+  filter: blur(70px);
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .plate .label {
@@ -327,13 +347,13 @@
   gap: var(--space-xs);
 }
 .findability__key {
-  color: var(--color-ink);
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 11px;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-paper);
   font-weight: 500;
-}
-
-.featured__frame {
-  position: relative;
-  aspect-ratio: 4 / 5;
 }
 
 /* Benefits and steps: rows of hairlines, no vertical rules — so nothing is
@@ -358,13 +378,23 @@
   font-weight: 700;
   line-height: 1.35;
 }
+.benefit::before,
+.step::before {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--gradient-brand);
+  margin-bottom: var(--space-md);
+}
 .benefit .annotation {
   margin-bottom: var(--space-xs);
 }
 .step__n {
   display: block;
   font-size: var(--text-sm);
-  color: var(--color-muted);
+  color: var(--color-signal);
   margin-bottom: var(--space-sm);
 }
 
@@ -382,11 +412,6 @@
   }
   .steps {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-@media (max-width: 60rem) {
-  .featured__frame {
-    aspect-ratio: 16 / 10;
   }
 }
 
@@ -414,6 +439,89 @@
 .speed__unit {
   font-size: var(--text-sm);
   color: var(--color-muted);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Spectrum mesh — the brand gradient as light behind a section
+   ───────────────────────────────────────────────────────────── */
+.has-mesh {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+/* page tops: let the light spill down into the next section instead of being
+   cut at the band's edge — upward it disappears under the opaque header, and
+   sideways the root's overflow-x: clip already holds it */
+.has-mesh--bleed {
+  overflow: visible;
+}
+/* inner pages: a corner light, not a wash — small text sits in the right
+   column of several page tops and must stay on near-white */
+/* .mesh is declared further down; the doubled class outranks it */
+.mesh.mesh--page {
+  width: min(480px, 72vw);
+  opacity: calc(var(--mesh-opacity) * 0.72);
+}
+/* inner page titles sign off with a short bar of the brand gradient — the
+   colour comes from a mark, not from a wash behind the reading column */
+.page-top h1::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--gradient-brand);
+  margin-top: var(--space-lg);
+}
+
+/* the home headline is capped a step below --text-display so the period
+   square keeps clear of the fanned cards beside it */
+.hero-display {
+  font-size: clamp(52px, 8vw, 108px);
+}
+.mesh {
+  position: absolute;
+  z-index: -1;
+  width: min(820px, 90vw);
+  aspect-ratio: 1;
+  pointer-events: none;
+  filter: blur(64px);
+  opacity: var(--mesh-opacity);
+  background:
+    radial-gradient(circle at 30% 30%, var(--grad-blue) 0, transparent 46%),
+    radial-gradient(circle at 70% 40%, var(--grad-violet) 0, transparent 44%),
+    radial-gradient(circle at 55% 75%, var(--grad-coral) 0, transparent 46%);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Hero stack — three real sites fanned over the mesh
+   ───────────────────────────────────────────────────────────── */
+.hero-stack {
+  position: relative;
+  height: clamp(300px, 34vw, 460px);
+}
+.hero-stack__card {
+  position: absolute;
+  width: 78%;
+  aspect-ratio: 16 / 10;
+  border: 7px solid #ffffff;
+  border-radius: var(--radius-figure);
+  overflow: clip;
+  background: #ffffff;
+  box-shadow: var(--figure-shadow);
+  transition: transform 260ms var(--ease-out), box-shadow 260ms var(--ease-out);
+}
+.hero-stack__card:nth-child(1) { top: 0; left: 0; transform: rotate(-6deg); }
+.hero-stack__card:nth-child(2) { top: 20%; right: 0; transform: rotate(4deg); }
+.hero-stack__card:nth-child(3) { bottom: 0; left: 10%; transform: rotate(-1deg); z-index: 1; }
+.hero-stack__card:hover,
+.hero-stack__card:focus-visible {
+  transform: rotate(0) translateY(-4px);
+  z-index: 2;
+}
+[data-theme='dark'] .hero-stack__card {
+  border-color: oklch(26% 0.018 285);
+  background: oklch(26% 0.018 285);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -474,7 +582,7 @@
   min-height: 48px;
   padding-inline: var(--space-lg);
   border: var(--rule-solid) solid var(--color-ink);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-pill);
   font-size: var(--text-sm);
   font-weight: 600;
   letter-spacing: var(--tracking-label);
@@ -483,7 +591,9 @@
   transition:
     background-color var(--dur-base) var(--ease-out),
     color var(--dur-base) var(--ease-out),
-    border-color var(--dur-base) var(--ease-out);
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
 }
 
 .btn--signal {
@@ -500,14 +610,14 @@
    else is filled with the signal ink, so the eye has one place to land and it
    is the action the studio actually wants. */
 .btn--call {
-  background: var(--color-signal);
-  border-color: var(--color-signal);
-  color: var(--color-on-signal);
+  background: var(--gradient-action);
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 0 8px 22px rgb(90 60 240 / 0.28);
 }
 .btn--call:hover {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
-  color: var(--color-paper);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgb(90 60 240 / 0.38);
 }
 
 .btn--ghost {
@@ -553,8 +663,16 @@
 .work-figure {
   margin: 0;
   border: var(--rule-hairline) solid var(--color-rule);
+  border-radius: var(--radius-figure);
   background: var(--color-paper-2);
   overflow: clip;
+  transition:
+    box-shadow var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+}
+.work-cell:hover .work-figure {
+  box-shadow: var(--figure-shadow);
+  transform: translateY(-3px);
 }
 
 .work-figure img {
@@ -734,6 +852,9 @@
     transition-duration: 150ms !important;
   }
   .work-row:hover .work-row__title,
+  .hero-stack__card:hover,
+  .hero-stack__card:focus-visible,
+  .work-cell:hover .work-figure,
   .work-cell:hover .work-cell__name,
   .work-row:hover .mark-quarter,
   [data-scroll-host]:is(:hover, :focus-visible) .scroll-preview img {

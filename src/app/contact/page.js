@@ -20,7 +20,8 @@ const PREPARE = [
 export default function ContactPage() {
   return (
     <>
-      <Band tight>
+      <Band tight className="has-mesh has-mesh--bleed page-top">
+        <div className="mesh mesh--page" aria-hidden="true" style={{ right: '-18%', top: '-58%' }} />
         <div className="cols gap-y-12">
           <div className="col-span-12 lg:col-span-7">
             <h1 className="display-s" style={{ maxWidth: '16ch' }}>

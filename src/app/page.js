@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import { Band, SectionHead } from '@/components/ui/Section';
 import ProjectCell from '@/components/ProjectCell';
-import FeaturedProject from '@/components/FeaturedProject';
+import HeroStack from '@/components/HeroStack';
 import Steps from '@/components/Steps';
 import {
   BRAND,
   CONTACT,
   DISCIPLINES,
   FAQS,
-  FEATURED,
+  HERO_STACK,
   FINDABILITY,
   HOME_BENEFIT_ORDER,
   PROJECTS,
@@ -19,8 +19,8 @@ export const metadata = { alternates: { canonical: '/' } };
 /* The home page answers, in order, what a first-time client asks: what do you
    do, what have you made, what will my site get, how does it start. The brand
    lines stay as the voice; the philosophy lives on /approach and /studio. */
-const featured = PROJECTS.find((p) => p.key === FEATURED);
-const SELECTED = PROJECTS.filter((p) => p.key !== FEATURED).slice(0, 6);
+const STACK = HERO_STACK.map((k) => PROJECTS.find((p) => p.key === k));
+const SELECTED = PROJECTS.filter((p) => !HERO_STACK.includes(p.key)).slice(0, 6);
 const BENEFITS = HOME_BENEFIT_ORDER.map((k) => DISCIPLINES.find((d) => d.key === k));
 const HOME_FAQS = FAQS.filter((f) => f.home);
 
@@ -28,13 +28,14 @@ export default function HomePage() {
   return (
     <>
       {/* ── 01 · What we do — the brand line, then the plain sentence ── */}
-      <Band tight>
+      <Band tight className="has-mesh has-mesh--bleed">
+        <div className="mesh" aria-hidden="true" style={{ right: '-16%', top: '-6%' }} />
         <div className="cols gap-y-12">
-          <div className="col-span-12 lg:col-span-8">
+          <div className="col-span-12 lg:col-span-7">
             {/* One h1 carrying both: the brand line people remember and the
                 Thai sentence search engines and first-time readers need. */}
             <h1>
-              <span className="display block" style={{ maxWidth: '12ch' }}>
+              <span className="display hero-display block" style={{ maxWidth: '12ch' }}>
                 {BRAND.positioning.replace('.', '')}
                 <span className="mark-square mark-square--caret" aria-hidden="true" />
               </span>
@@ -63,11 +64,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          {featured && (
-            <div className="col-span-12 lg:col-span-4 lg:col-start-9 lg:self-end">
-              <FeaturedProject project={featured} />
-            </div>
-          )}
+          <div className="col-span-12 lg:col-span-5 lg:col-start-8 lg:self-center">
+            <HeroStack projects={STACK} />
+          </div>
         </div>
       </Band>
 
@@ -147,7 +146,8 @@ export default function HomePage() {
       </Band>
 
       {/* ── 06 · Questions, then the call ──────────────────────── */}
-      <Band rule="ink">
+      <Band rule="ink" className="has-mesh">
+        <div className="mesh" aria-hidden="true" style={{ right: '-30%', bottom: '-75%' }} />
         <div className="cols gap-y-14">
           <div className="col-span-12 lg:col-span-6">
             <h2 className="display-s">คำถามที่พบบ่อย</h2>

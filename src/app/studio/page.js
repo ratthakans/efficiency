@@ -14,7 +14,8 @@ export default function StudioPage() {
 
   return (
     <>
-      <Band tight>
+      <Band tight className="has-mesh has-mesh--bleed page-top">
+        <div className="mesh mesh--page" aria-hidden="true" style={{ right: '-18%', top: '-58%' }} />
         <div className="cols gap-y-10">
           <div className="col-span-12 lg:col-span-8">
             <h1 className="display-s" style={{ maxWidth: '18ch' }}>

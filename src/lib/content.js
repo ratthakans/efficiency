@@ -254,9 +254,10 @@ export const WORK_KINDS = [
   { key: 'corporate', label: 'เว็บไซต์องค์กร' },
 ];
 
-/* The project shown beside the home headline. Any key from PROJECTS works;
-   it is left out of the grid below so it never appears twice on one page. */
-export const FEATURED = 'vela';
+/* The three sites fanned beside the home headline, back to front. Any keys
+   from PROJECTS work; they are left out of the home grid so nothing appears
+   twice on one page. The share card (scripts/render-og.mjs) uses the same three. */
+export const HERO_STACK = ['orions', 'bhealthy', 'zolza'];
 
 /* ── Selected work — ชื่อเท่านั้น ไม่แสดง URL ────────────────── */
 export const PROJECTS = [

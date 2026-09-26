@@ -12,7 +12,8 @@ export const metadata = {
 export default function TasteAndIntentPage() {
   return (
     <>
-      <Band tight>
+      <Band tight className="has-mesh has-mesh--bleed page-top">
+        <div className="mesh mesh--page" aria-hidden="true" style={{ right: '-18%', top: '-58%' }} />
         <div className="cols gap-y-10">
           <div className="col-span-12 lg:col-span-9">
             <h1 className="display" style={{ maxWidth: '13ch' }}>
