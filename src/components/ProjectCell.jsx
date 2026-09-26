@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import ScrollPreview from '@/components/ScrollPreview';
 
 /**
  * ProjectCell — one cell of the work index.
@@ -17,7 +18,7 @@ export default function ProjectCell({ project, priority = false }) {
       className="work-cell group"
       aria-label={`เปิดเว็บไซต์ ${project.name} ในแท็บใหม่`}
     >
-      <figure className="work-figure" style={{ aspectRatio: '16 / 10' }}>
+      <figure className="work-figure" style={{ aspectRatio: '16 / 10', position: 'relative' }}>
         <Image
           src={project.image}
           alt={`หน้าแรกของเว็บไซต์ ${project.name}`}
@@ -27,6 +28,9 @@ export default function ProjectCell({ project, priority = false }) {
           sizes="(max-width: 40rem) 100vw, (max-width: 72rem) 50vw, 33vw"
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
         />
+        {project.full && (
+          <ScrollPreview src={project.full.src} height={project.full.height} />
+        )}
       </figure>
 
       <div className="mt-5 flex items-start justify-between gap-4">

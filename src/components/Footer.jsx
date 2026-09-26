@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { CONTACT } from '@/lib/content';
 import PerformanceFolio from '@/components/PerformanceFolio';
+import StudioClock from '@/components/StudioClock';
 
 /**
  * Footer — Ft4 Dense colophon
@@ -41,6 +42,9 @@ export default function Footer() {
             <div className="mt-6 flex items-center gap-3">
               <span className="mark-register" aria-hidden="true" />
               <span className="label">{CONTACT.companyEn}</span>
+            </div>
+            <div className="mt-3" style={{ paddingInlineStart: 30 }}>
+              <StudioClock />
             </div>
           </div>
 

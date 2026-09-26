@@ -16,7 +16,7 @@ export default function HomePage() {
           <div className="col-span-12 lg:col-span-9">
             <h1 className="display" style={{ maxWidth: '12ch' }}>
               {BRAND.positioning.replace('.', '')}
-              <span className="mark-square" aria-hidden="true" />
+              <span className="mark-square mark-square--caret" aria-hidden="true" />
             </h1>
             <p className="lede mt-9" style={{ fontSize: 'var(--text-2xl)', maxWidth: '30rem' }}>
               {BRAND.belief}

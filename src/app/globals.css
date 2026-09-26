@@ -226,6 +226,16 @@
   margin-inline-start: 0.1em;
 }
 
+/* On the home hero the period square is also a text caret: it blinks four
+   times as the page arrives — the line has just been written — then holds.
+   Poetic (a sentence) and Engineering (a cursor) in one mark. */
+.mark-square--caret {
+  animation: caret 1.06s steps(1, end) 450ms 4;
+}
+@keyframes caret {
+  50% { opacity: 0; }
+}
+
 /* the quarter-disc — answers the pointer with a snapped 90° turn.
    Kept only where the turn itself is the point; it is not a decoration
    to hang on every row. */
@@ -281,19 +291,31 @@
 /* ─────────────────────────────────────────────────────────────
    Links and buttons — signage voice, no pills, no shadows
    ───────────────────────────────────────────────────────────── */
+/* At rest a link sits on an ink hairline; on intent a signal rule draws
+   across it from the left. Two background layers rather than a border, so the
+   draw is a background-size change and never moves the text. */
 .link {
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
-  padding-block: 2px;
-  border-bottom: var(--rule-solid) solid var(--color-signal);
+  padding-block: 2px 4px;
   color: var(--color-ink);
   font-weight: 600;
-  transition: color var(--dur-base) var(--ease-out);
   white-space: nowrap;
+  background-image:
+    linear-gradient(var(--color-signal), var(--color-signal)),
+    linear-gradient(var(--color-rule-ink), var(--color-rule-ink));
+  background-repeat: no-repeat;
+  background-position: 0 100%, 0 100%;
+  background-size: 0% 2px, 100% 1px;
+  transition:
+    color var(--dur-base) var(--ease-out),
+    background-size 320ms var(--ease-out);
 }
-.link:hover {
+.link:hover,
+.link:focus-visible {
   color: var(--color-signal);
+  background-size: 100% 2px, 100% 1px;
 }
 
 .btn {
@@ -377,6 +399,37 @@
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* The whole site, read on hover. The overlay is a size container so the
+   image can travel exactly its own height less the frame's — 100cqh — as a
+   transform, never a repaint. Leaving the card returns it quickly; arriving
+   reads slowly, at a pace set per page in --scroll-dur. */
+.scroll-preview {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  container-type: size;
+  pointer-events: none;
+}
+.scroll-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transform: translateY(0);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform 700ms var(--ease-out);
+}
+.scroll-preview[data-ready] img {
+  opacity: 1;
+}
+.work-cell:is(:hover, :focus-visible) .scroll-preview[data-ready] img {
+  transform: translateY(calc(-100% + 100cqh));
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--scroll-dur, 4s) cubic-bezier(0.45, 0, 0.4, 1) 250ms;
 }
 
 /* gate 50 — image-bearing tracks never use a bare 1fr */
@@ -520,7 +573,18 @@
   }
   .work-row:hover .work-row__title,
   .work-cell:hover .work-cell__name,
-  .work-row:hover .mark-quarter {
+  .work-row:hover .mark-quarter,
+  .work-cell:is(:hover, :focus-visible) .scroll-preview img {
     transform: none;
   }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Theme switch — ThemeToggle animates a circle on the new snapshot,
+   so the default crossfade is switched off for the root.
+   ───────────────────────────────────────────────────────────── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }

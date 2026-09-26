@@ -216,57 +216,57 @@ export const WORK_KINDS = [
 export const PROJECTS = [
   {
     key: 'ace', name: 'ACE! Network', url: 'https://ace-community-site.vercel.app',
-    image: '/work/ace.webp', kind: 'platform', stack: 'TanStack Start',
+    image: '/work/ace.webp', full: { src: '/work/full/ace.webp', height: 1756 }, kind: 'platform', stack: 'TanStack Start',
     summary: 'เครือข่ายและคลังความรู้สำหรับคนทำหนัง รวมคอร์ส บทความ และกิจกรรมของชุมชนไว้ในที่เดียว',
   },
   {
     key: 'routte', name: 'ROUTTE', url: 'https://routte.to/',
-    image: '/work/routte.webp', kind: 'platform', stack: 'Next.js',
+    image: '/work/routte.webp', full: { src: '/work/full/routte.webp', height: 3255 }, kind: 'platform', stack: 'Next.js',
     summary: 'แพลตฟอร์มวางทริปและเครือข่ายประสบการณ์ ที่เปลี่ยนเวลาว่างให้เป็นวันที่เล่าเป็นเรื่องได้',
   },
   {
     key: 'hongmove', name: 'Hong Move', url: 'https://hongmove.com',
-    image: '/work/hongmove.webp', kind: 'platform', stack: 'Next.js',
+    image: '/work/hongmove.webp', full: { src: '/work/full/hongmove.webp', height: 4000 }, kind: 'platform', stack: 'Next.js',
     summary: 'แพลตฟอร์มเรียกรถ EV และจองทัวร์เหมาคันของสนามบินหาดใหญ่ ทำงานร่วมกับแอปมือถือ',
   },
   {
     key: 'parallax', name: 'Parallax', url: 'https://parallax-xi-azure.vercel.app',
-    image: '/work/parallax.webp', kind: 'platform', stack: 'Next.js',
+    image: '/work/parallax.webp', full: { src: '/work/full/parallax.webp', height: 4000 }, kind: 'platform', stack: 'Next.js',
     summary: 'เครื่องมืออ่านพฤติกรรมลูกค้าและคาดการณ์การกลับมาซื้อซ้ำ พร้อมคอนโซลสำหรับทีมงาน',
   },
   {
     key: 'orions', name: 'ØRIONS', url: 'https://www.orions.agency/',
-    image: '/work/orions.webp', kind: 'brand', stack: 'Next.js',
+    image: '/work/orions.webp', full: { src: '/work/full/orions.webp', height: 4000 }, kind: 'brand', stack: 'Next.js',
     summary: 'เว็บไซต์ครีเอทีฟเอเจนซีสองภาษา ที่ต้องอธิบายวิธีทำงานให้ชัดก่อนจะขายงาน',
   },
   {
     key: 'antarctix', name: 'ANTARCTIX', url: 'https://antarctix.co',
-    image: '/work/antarctix.webp', kind: 'brand', stack: 'Next.js',
+    image: '/work/antarctix.webp', full: { src: '/work/full/antarctix.webp', height: 4000 }, kind: 'brand', stack: 'Next.js',
     summary: 'เว็บไซต์สตูดิโอด้านข้อมูลและ AI ที่เล่าเรื่องส่วนที่มองไม่เห็นของงานเป็นแกนหลัก',
   },
   {
     key: 'vela', name: 'VELA Wellness Residence', url: 'https://www.velawellnessresidence.com',
-    image: '/work/vela.webp', kind: 'brand', stack: 'Next.js',
+    image: '/work/vela.webp', full: { src: '/work/full/vela.webp', height: 4000 }, kind: 'brand', stack: 'Next.js',
     summary: 'เว็บไซต์โครงการที่พักเพื่อสุขภาพ ที่ขายด้วยบรรยากาศและจังหวะการอ่านมากกว่ารายการสเปก',
   },
   {
     key: 'zolza', name: 'ZOLZA', url: 'https://zolza.vercel.app',
-    image: '/work/zolza.webp', kind: 'brand', stack: 'Next.js',
+    image: '/work/zolza.webp', full: { src: '/work/full/zolza.webp', height: 2849 }, kind: 'brand', stack: 'Next.js',
     summary: 'เว็บไซต์แบรนด์เครื่องดื่มน้ำส้มสายชูหมักอัดแก๊ส ที่ต้องสื่อรสชาติผ่านสีและภาพสินค้า',
   },
   {
     key: 'cacao', name: 'Cacao Republic', url: 'https://cacao-republic.org/',
-    image: '/work/cacao.webp', kind: 'corporate', stack: 'WordPress',
+    image: '/work/cacao.webp', full: { src: '/work/full/cacao.webp', height: 2164 }, kind: 'corporate', stack: 'WordPress',
     summary: 'เว็บไซต์องค์กรด้านเกษตรและโกโก้ ที่รวมข้อมูลโครงการและการติดต่อไว้ให้ครบในหน้าเดียว',
   },
   {
     key: 'bhealthy', name: 'B-Healthy', url: 'https://www.b-healthy.co',
-    image: '/work/bhealthy.webp', kind: 'corporate', stack: 'Next.js',
+    image: '/work/bhealthy.webp', full: { src: '/work/full/bhealthy.webp', height: 4000 }, kind: 'corporate', stack: 'Next.js',
     summary: 'เว็บไซต์บริการ Corporate Wellness ที่แยก Retreat, Workshop และ Membership ให้ HR เทียบง่าย',
   },
   {
     key: 'brc', name: 'Bangpakong Riverside Country Club', url: 'https://brc-kycgolf.com/',
-    image: '/work/brc.webp', kind: 'corporate', stack: 'WordPress',
+    image: '/work/brc.webp', full: { src: '/work/full/brc.webp', height: 3992 }, kind: 'corporate', stack: 'WordPress',
     summary: 'เว็บไซต์สนามกอล์ฟริมแม่น้ำบางปะกง รวมข้อมูลสนาม สิ่งอำนวยความสะดวก และกิจกรรมประจำปี',
   },
 ];
