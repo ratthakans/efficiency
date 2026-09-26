@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CONTACT } from '@/lib/content';
 import ThemeToggle from '@/components/ThemeToggle';
 import { OPEN_EVENT } from '@/components/CommandPalette';
@@ -27,6 +27,27 @@ export const NAV_LINKS = [
 export default function NavBar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  /* while the sheet is open the page behind it must not scroll, and Escape
+     closes it — the same contract as the ⌘K palette */
+  useEffect(() => {
+    if (!open) return undefined;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    /* the sheet lives inside the header's stacking context, so it cannot rise
+       above the call bar by z-index — the bar steps aside instead, and the
+       sheet shows its own call button */
+    document.documentElement.dataset.menu = 'open';
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      delete document.documentElement.dataset.menu;
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
 
   const isActive = (href) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
@@ -109,53 +130,46 @@ export default function NavBar() {
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-controls="nav-sheet"
-              className="label label--ink md:hidden flex items-center justify-center"
-              style={{ minWidth: 48, minHeight: 48 }}
+              aria-label={open ? 'ปิดเมนู' : 'เปิดเมนู'}
+              className="menu-button flex items-center md:hidden"
             >
-              {open ? 'ปิด' : 'เมนู'}
+              <span className="menu-button__icon" data-open={open || undefined} aria-hidden="true">
+                <span />
+                <span />
+              </span>
+              <span className="label label--ink">{open ? 'ปิด' : 'เมนู'}</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* mobile sheet — ruled rows, no overlay, no animation choreography */}
+      {/* mobile sheet — the whole screen under the header: big targets for a
+          thumb, the call at the bottom where the thumb already is */}
       {open && (
-        <div
-          id="nav-sheet"
-          className="md:hidden bg-paper"
-          style={{ borderTop: 'var(--rule-hairline) solid var(--color-rule)' }}
-        >
-          <div className="shell">
+        <div id="nav-sheet" className="mobile-menu flex flex-col md:hidden">
+          <nav className="shell mobile-menu__links" aria-label="เมนูหลัก (มือถือ)">
             {NAV_LINKS.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
                 aria-current={isActive(l.href) ? 'page' : undefined}
-                className="flex items-center justify-between"
-                style={{
-                  minHeight: 56,
-                  borderBottom: 'var(--rule-hairline) solid var(--color-rule)',
-                  color: isActive(l.href) ? 'var(--color-signal)' : 'var(--color-ink)',
-                }}
+                className="mobile-menu__link"
               >
-                <span style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>{l.label}</span>
+                <span>{l.label}</span>
+                <span aria-hidden="true" className="mobile-menu__arrow">→</span>
               </Link>
             ))}
-            <div
-              className="flex items-center justify-between"
-              style={{ minHeight: 56, borderBottom: 'var(--rule-hairline) solid var(--color-rule)' }}
-            >
+          </nav>
+          <div className="shell mobile-menu__foot">
+            <div className="flex items-center justify-between" style={{ minHeight: 56 }}>
               <span className="label">โหมดหน้าจอ</span>
               <ThemeToggle />
             </div>
-            <a
-              href={CONTACT.phoneHref}
-              className="btn btn--call w-full"
-              style={{ marginBlock: 'var(--space-lg)' }}
-            >
+            <a href={CONTACT.phoneHref} className="btn btn--call w-full">
               โทร {CONTACT.phone}
             </a>
+            <p className="label mt-3 text-center">{CONTACT.hours}</p>
           </div>
         </div>
       )}

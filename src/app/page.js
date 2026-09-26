@@ -3,6 +3,7 @@ import { Band, SectionHead } from '@/components/ui/Section';
 import ProjectCell from '@/components/ProjectCell';
 import HeroStack from '@/components/HeroStack';
 import Steps from '@/components/Steps';
+import FaqList from '@/components/FaqList';
 import {
   BRAND,
   CONTACT,
@@ -82,11 +83,14 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="work-grid mt-10">
+        {/* on phones the grid becomes a swipe rail — six stacked cards were
+            2,800px of scrolling before the reader met anything else */}
+        <div className="work-grid work-grid--rail mt-10">
           {SELECTED.map((p) => (
             <ProjectCell key={p.key} project={p} />
           ))}
         </div>
+        <p className="rail-hint annotation" aria-hidden="true">ปัดเพื่อดูผลงานถัดไป →</p>
       </Band>
 
       {/* ── 03 · What your site gets — the six standards as outcomes ── */}
@@ -151,16 +155,7 @@ export default function HomePage() {
         <div className="cols gap-y-14">
           <div className="col-span-12 lg:col-span-6">
             <h2 className="display-s">คำถามที่พบบ่อย</h2>
-            <dl className="mt-10" style={{ borderTop: 'var(--rule-hairline) solid var(--color-rule-ink)' }}>
-              {HOME_FAQS.map((f) => (
-                <div key={f.q} className="py-6" style={{ borderBottom: 'var(--rule-hairline) solid var(--color-rule)' }}>
-                  <dt style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>{f.q}</dt>
-                  <dd className="prose mt-2" style={{ fontSize: 'var(--text-sm)' }}>
-                    {f.a}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <FaqList items={HOME_FAQS} openFirst className="mt-10" />
             <Link href="/approach#faq" className="link mt-8">
               ดูคำถามทั้งหมด →
             </Link>

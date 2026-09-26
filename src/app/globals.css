@@ -104,11 +104,12 @@
   width: 100%;
   max-width: var(--shell);
   margin-inline: auto;
-  padding-inline: var(--gutter);
+  /* the notch side in landscape takes whichever is wider */
+  padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(var(--gutter), env(safe-area-inset-right));
 }
 
 .band {
-  padding-block: clamp(var(--space-3xl), 11vw, var(--space-6xl));
+  padding-block: clamp(56px, 11vw, var(--space-6xl));
 }
 
 .band--tight {
@@ -249,7 +250,7 @@
   display: block;
   width: 18px;
   height: 18px;
-  background: var(--color-ink);
+  background: var(--gradient-brand);
   border-start-start-radius: 100%;
   transition: transform var(--dur-base) var(--ease-out);
 }
@@ -722,6 +723,231 @@
   border-radius: 50%;
   border: 2px solid var(--color-paper);
   object-fit: cover;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FAQ — native disclosure, plus that turns to minus
+   ───────────────────────────────────────────────────────────── */
+.faq {
+  border-top: var(--rule-hairline) solid var(--color-rule-ink);
+}
+.faq__item {
+  border-bottom: var(--rule-hairline) solid var(--color-rule);
+}
+.faq__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: 60px;
+  padding-block: var(--space-md);
+  list-style: none;
+  cursor: pointer;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1.45;
+  transition: color var(--dur-base) var(--ease-out);
+}
+.faq__q::-webkit-details-marker {
+  display: none;
+}
+.faq__q:hover {
+  color: var(--color-signal);
+}
+.faq__icon {
+  position: relative;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: var(--rule-hairline) solid var(--color-rule);
+}
+.faq__icon::before,
+.faq__icon::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 11px;
+  height: 1.5px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.faq__icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+.faq__item[open] .faq__icon {
+  border-color: transparent;
+  background: var(--color-signal-soft);
+  color: var(--color-signal);
+}
+.faq__item[open] .faq__icon::after {
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+.faq__a {
+  margin: 0;
+  padding-bottom: var(--space-lg);
+  font-size: var(--text-sm);
+  max-width: 44rem;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Mobile menu — the whole screen under the header
+   ───────────────────────────────────────────────────────────── */
+.menu-button {
+  gap: 10px;
+  min-height: 48px;
+  padding-inline: 4px;
+}
+.menu-button__icon {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 12px;
+}
+.menu-button__icon span {
+  position: absolute;
+  inset-inline: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-ink);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.menu-button__icon span:first-child { top: 0; }
+.menu-button__icon span:last-child { bottom: 0; }
+.menu-button__icon[data-open] span:first-child { transform: translateY(5px) rotate(45deg); }
+.menu-button__icon[data-open] span:last-child { transform: translateY(-5px) rotate(-45deg); }
+
+.mobile-menu {
+  position: fixed;
+  inset: 69px 0 0 0;
+  z-index: 55;
+  justify-content: space-between;
+  overflow-y: auto;
+  background: var(--color-paper);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+html[data-menu='open'] .callbar {
+  visibility: hidden;
+}
+.mobile-menu__links {
+  padding-top: var(--space-md);
+}
+.mobile-menu__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 68px;
+  border-bottom: var(--rule-hairline) solid var(--color-rule);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.mobile-menu__link[aria-current="page"] {
+  color: var(--color-signal);
+}
+.mobile-menu__arrow {
+  font-size: var(--text-lg);
+  color: var(--color-muted);
+}
+.mobile-menu__foot {
+  padding-block: var(--space-lg) var(--space-xl);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Phones — rails instead of stacks, and a thumb-sized everything
+   ───────────────────────────────────────────────────────────── */
+.rail-hint {
+  display: none;
+}
+@media (max-width: 39.99rem) {
+  /* the home work grid becomes a swipe rail; the /work page keeps its column */
+  /* doubled class: .work-grid is declared further down and would win */
+  .work-grid.work-grid--rail {
+    display: flex;
+    gap: var(--space-md);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    margin-inline: calc(var(--gutter) * -1);
+    padding: var(--space-sm) var(--gutter) var(--space-lg);
+    scrollbar-width: none;
+  }
+  .work-grid.work-grid--rail::-webkit-scrollbar {
+    display: none;
+  }
+  .work-grid.work-grid--rail > * {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+  }
+  .rail-hint {
+    display: block;
+  }
+
+  /* filter pills scroll sideways instead of wrapping into two rows */
+  /* doubled class: the base .filters rule comes later in the file */
+  .filters.filters--scroll {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 2px var(--gutter);
+    scrollbar-width: none;
+  }
+  .filters.filters--scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .filters.filters--scroll .filter {
+    flex: 0 0 auto;
+  }
+
+  /* denser lists — the same content in less thumb travel */
+  .benefit,
+  .step,
+  .ruled-cell {
+    padding-block: var(--space-lg);
+  }
+  .benefit__title,
+  .step__title {
+    font-size: var(--text-xl);
+  }
+  .faq__q {
+    font-size: var(--text-base);
+  }
+
+  /* the footer index in two columns */
+  footer nav ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-lg);
+  }
+  footer button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  /* the whole row is the target, not just the short word */
+  footer nav a {
+    width: 100%;
+  }
+}
+
+/* Touch: every target reaches 44px. Links keep their look — an invisible
+   pad around them takes the extra, so the underline stays under the text. */
+@media (pointer: coarse) {
+  button.filter {
+    min-height: 44px;
+  }
+  .link,
+  .call-number {
+    position: relative;
+  }
+  .link::after,
+  .call-number::after {
+    content: "";
+    position: absolute;
+    inset: -8px -8px;
+  }
 }
 
 /* ─────────────────────────────────────────────────────────────

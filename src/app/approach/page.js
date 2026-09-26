@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Band, SectionHead } from '@/components/ui/Section';
 import Steps from '@/components/Steps';
+import FaqList from '@/components/FaqList';
 import { PRINCIPLES, FRICTIONS, BRAND, FAQS, CONTACT } from '@/lib/content';
 
 export const metadata = {
@@ -78,18 +79,7 @@ export default function ApproachPage() {
             <h2 className="display-s" style={{ whiteSpace: 'nowrap' }}>คำถามที่พบบ่อย</h2>
           </div>
           <div className="col-span-12 lg:col-span-7 lg:col-start-6">
-            <dl className="defs">
-              {FAQS.map((f) => (
-                <div
-                  key={f.q}
-                  className="py-6"
-                  style={{ borderBottom: 'var(--rule-hairline) solid var(--color-rule)' }}
-                >
-                  <dt style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>{f.q}</dt>
-                  <dd className="prose mt-3" style={{ fontSize: 'var(--text-sm)' }}>{f.a}</dd>
-                </div>
-              ))}
-            </dl>
+            <FaqList items={FAQS} openFirst />
           </div>
         </div>
       </Band>

@@ -17,7 +17,7 @@ export default function WorkClient() {
 
   return (
     <>
-      <div className="filters mt-10" role="group" aria-label="กรองผลงานตามประเภท">
+      <div className="filters filters--scroll mt-10" role="group" aria-label="กรองผลงานตามประเภท">
         {WORK_KINDS.map((k) => {
           const count =
             k.key === 'all' ? PROJECTS.length : PROJECTS.filter((p) => p.kind === k.key).length;

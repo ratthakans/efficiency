@@ -34,6 +34,9 @@ const SITE_DESC =
 
 /* the browser chrome on phones takes the page's paper colour in each mode */
 export const viewport = {
+  /* 'cover' makes env(safe-area-inset-*) real on iPhones, which the call bar
+     and the page gutters use to stay clear of the home indicator and notch */
+  viewportFit: 'cover',
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
     { media: '(prefers-color-scheme: dark)', color: '#0e0f16' },
