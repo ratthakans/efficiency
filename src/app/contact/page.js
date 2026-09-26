@@ -1,6 +1,7 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { Band, SectionHead } from '@/components/ui/Section';
-import { CONTACT } from '@/lib/content';
+import { CONTACT, TEAM } from '@/lib/content';
 
 export const metadata = {
   title: 'ติดต่อ',
@@ -41,6 +42,21 @@ export default function ContactPage() {
               {CONTACT.phone}
             </a>
             <p className="label mt-4">{CONTACT.hours} · {CONTACT.replyTime}</p>
+
+            {TEAM[0] && (
+              <div className="contact-person mt-8">
+                <span className="contact-person__ring">
+                  <Image src={TEAM[0].avatar} alt="" width={56} height={56} className="contact-person__img" />
+                </span>
+                <span>
+                  <span className="label block">คุยเรื่องโปรเจกต์กับ</span>
+                  <span className="block" style={{ fontSize: 'var(--text-lg)', fontWeight: 700 }}>
+                    {TEAM[0].nameTh}
+                    <span className="label" style={{ marginInlineStart: 8 }}>{TEAM[0].role}</span>
+                  </span>
+                </span>
+              </div>
+            )}
 
             <div className="mt-10 flex flex-wrap gap-3">
               <a href={CONTACT.phoneHref} className="btn btn--call">

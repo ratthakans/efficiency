@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Band, SectionHead } from '@/components/ui/Section';
-import { BRAND, MANIFESTO, PROJECTS, CONTACT } from '@/lib/content';
+import PersonCard from '@/components/PersonCard';
+import { BRAND, MANIFESTO, PROJECTS, CONTACT, TEAM } from '@/lib/content';
 
 export const metadata = {
   title: 'สตูดิโอ',
@@ -33,6 +34,30 @@ export default function StudioPage() {
           <div className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end">
             <p className="stat-n stat-n--huge">{PROJECTS.length}</p>
             <p className="label mt-3">เว็บไซต์ที่เปิดใช้งานจริง</p>
+          </div>
+        </div>
+      </Band>
+
+      {/* The people — a studio this size is its people; the page had none */}
+      <Band rule="ink">
+        <div className="cols gap-y-12">
+          <div className="col-span-12 lg:col-span-5">
+            <SectionHead
+              title="ทีม"
+              lede={
+                <>
+                  เราตั้งใจให้คุณได้คุยกับคนที่ทำงานจริง{' '}
+                  <span className="whitespace-nowrap">ตั้งแต่สายแรก</span>
+                </>
+              }
+            />
+          </div>
+          <div className="col-span-12 lg:col-span-6 lg:col-start-7">
+            <div className="team-grid">
+              {TEAM.map((p) => (
+                <PersonCard key={p.key} person={p} />
+              ))}
+            </div>
           </div>
         </div>
       </Band>

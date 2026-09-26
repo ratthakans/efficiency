@@ -3,7 +3,7 @@ import Script from 'next/script';
 import { IBM_Plex_Sans_Thai, IBM_Plex_Mono } from 'next/font/google';
 import SiteLayout from '@/components/SiteLayout';
 import ThemeScript from '@/components/ThemeScript';
-import { CONTACT, PROJECTS, FAQS } from '@/lib/content';
+import { CONTACT, PROJECTS, FAQS, TEAM } from '@/lib/content';
 
 /* One grotesk across the whole page — the Grid theme allows no second family.
    IBM Plex Sans Thai stands in for Archivo because it carries Thai. */
@@ -88,6 +88,17 @@ const LD = {
       openingHours: 'Mo-Fr 09:00-18:00',
       areaServed: 'TH',
       knowsLanguage: ['th', 'en'],
+      /* who works here — read by search engines and assistants answering
+         "who do I talk to at EFFICIENCY" */
+      employee: TEAM.map((p) => ({
+        '@type': 'Person',
+        '@id': `${SITE_URL}/studio#${p.key}`,
+        name: p.nameTh,
+        alternateName: p.nameEn,
+        jobTitle: p.role,
+        image: `${SITE_URL}${p.photo}`,
+        worksFor: { '@id': `${SITE_URL}#org` },
+      })),
       knowsAbout: [
         'Web development',
         'Search engine optimization',

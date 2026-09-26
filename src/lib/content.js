@@ -35,6 +35,20 @@ export const FINDABILITY = [
   { key: 'GEO', gloss: 'ถูกอ้างอิงในคำตอบของ AI' },
 ];
 
+/* ── ทีม ────────────────────────────────────────────────────────
+   Only what was supplied for publication: name and role, and the photo.
+   Order is the order shown. Add the founder here when the details arrive. */
+export const TEAM = [
+  {
+    key: 'namfon',
+    nameTh: 'น้ำฝน',
+    nameEn: 'Namfon',
+    role: 'Sales Director',
+    photo: '/team/namfon.webp',
+    avatar: '/team/namfon-avatar.webp',
+  },
+];
+
 /* ── ข้อมูลติดต่อ ───────────────────────────────────────────── */
 export const CONTACT = {
   companyTh: 'บริษัท เอฟฟิเชียนซี่ จำกัด',

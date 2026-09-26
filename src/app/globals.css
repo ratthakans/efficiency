@@ -665,6 +665,66 @@
 }
 
 /* ─────────────────────────────────────────────────────────────
+   People
+   ───────────────────────────────────────────────────────────── */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 280px));
+  gap: var(--space-xl);
+}
+.person__photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-figure);
+  overflow: clip;
+  background: var(--color-paper-2);
+  box-shadow: var(--figure-shadow);
+}
+.person__photo img {
+  filter: var(--image-grade);
+}
+.person__name {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1.3;
+}
+/* the gradient under the name is the same short bar the benefits carry */
+.person figcaption::before {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--gradient-brand);
+  margin-bottom: var(--space-sm);
+}
+
+.contact-person {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xs) var(--space-lg) var(--space-xs) var(--space-xs);
+  border: var(--rule-hairline) solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  background: var(--color-paper);
+}
+/* a gradient ring around the avatar — the brand light, at avatar size */
+.contact-person__ring {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--gradient-brand);
+}
+.contact-person__img {
+  display: block;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--color-paper);
+  object-fit: cover;
+}
+
+/* ─────────────────────────────────────────────────────────────
    Call bar — phones only, pinned under the thumb
    ───────────────────────────────────────────────────────────── */
 .callbar {
