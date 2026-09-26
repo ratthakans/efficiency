@@ -49,6 +49,7 @@ export function SchemaPrint() {
           padding: 'var(--space-lg)',
           background: 'var(--color-paper-2)',
           border: 'var(--rule-hairline) solid var(--color-rule)',
+          borderRadius: 'var(--radius-figure)',
           fontSize: 'var(--text-label)',
           lineHeight: 1.7,
           maxHeight: 420,

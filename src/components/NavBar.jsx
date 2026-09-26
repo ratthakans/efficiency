@@ -31,7 +31,7 @@ export default function NavBar() {
   const isActive = (href) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
   return (
-    <header className="relative z-30 bg-paper" style={{ borderBottom: 'var(--rule-solid) solid var(--color-rule-ink)' }}>
+    <header className="relative z-30 bg-paper" style={{ borderBottom: 'var(--rule-hairline) solid var(--color-rule)' }}>
       <div className="shell">
         <div className="flex items-stretch justify-between gap-6" style={{ minHeight: 68 }}>
 
@@ -63,9 +63,11 @@ export default function NavBar() {
                   fontSize: 'var(--text-sm)',
                   letterSpacing: 0,
                   color: isActive(l.href) ? 'var(--color-ink)' : undefined,
-                  boxShadow: isActive(l.href)
-                    ? 'inset 0 -3px 0 0 var(--color-signal)'
-                    : undefined,
+                  /* the active page is underlined in the brand gradient */
+                  backgroundImage: isActive(l.href) ? 'var(--gradient-brand)' : undefined,
+                  backgroundSize: '100% 3px',
+                  backgroundPosition: 'bottom',
+                  backgroundRepeat: 'no-repeat',
                 }}
               >
                 {l.label}

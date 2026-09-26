@@ -32,6 +32,14 @@ const SITE_TITLE = 'EFFICIENCY | ออกแบบและพัฒนาเ�
 const SITE_DESC =
   'ออกแบบและพัฒนาเว็บไซต์ ที่ทั้งคน Google และ AI อ่านเข้าใจ — SEO · AEO · GEO โดย Digital Craft Studio ในกรุงเทพฯ ดูผลงานจริง 11 โครงการ หรือโทร 063 859 8423';
 
+/* the browser chrome on phones takes the page's paper colour in each mode */
+export const viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0e0f16' },
+  ],
+};
+
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: SITE_TITLE, template: '%s | EFFICIENCY' },

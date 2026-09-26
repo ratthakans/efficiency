@@ -88,7 +88,8 @@ const ARTICLES = [
 export default function TermsPage() {
   return (
     <>
-      <Band tight>
+      <Band tight className="has-mesh has-mesh--bleed page-top">
+        <div className="mesh mesh--page" aria-hidden="true" style={{ right: '-18%', top: '-58%' }} />
         <div className="cols">
           <div className="col-span-12 lg:col-span-7">
             <h1 className="display-s" style={{ maxWidth: '18ch' }}>
@@ -126,7 +127,7 @@ export default function TermsPage() {
               </article>
             ))}
 
-            <div className="py-10" style={{ borderTop: 'var(--rule-solid) solid var(--color-rule-ink)' }}>
+            <div className="py-10" style={{ borderTop: 'var(--rule-hairline) solid var(--color-rule-ink)' }}>
               <p className="prose">
                 มีข้อสงสัยเรื่องเงื่อนไขข้อไหน โทรมาถามก่อนตัดสินใจได้เลย
                 เรายินดีอธิบายให้ชัดก่อนเซ็นใบเสนอราคา

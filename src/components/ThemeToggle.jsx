@@ -82,8 +82,13 @@ export default function ThemeToggle() {
         style={{
           width: 14,
           height: 14,
-          border: 'var(--rule-solid) solid currentColor',
-          background: theme === 'dark' ? 'currentColor' : 'transparent',
+          borderRadius: '50%',
+          border: '1.5px solid currentColor',
+          /* ◐ — the lit half flips with the mode */
+          background:
+            theme === 'dark'
+              ? 'linear-gradient(90deg, transparent 50%, currentColor 50%)'
+              : 'linear-gradient(90deg, currentColor 50%, transparent 50%)',
         }}
       />
       {theme === 'dark' ? 'Dark' : 'Light'}

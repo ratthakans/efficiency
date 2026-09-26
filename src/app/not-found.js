@@ -5,7 +5,8 @@ export const metadata = { title: 'Not found' };
 
 export default function NotFound() {
   return (
-    <Band>
+    <Band className="has-mesh has-mesh--bleed page-top">
+      <div className="mesh mesh--page" aria-hidden="true" style={{ right: '-18%', top: '-58%' }} />
       <div className="cols gap-y-12">
         <div className="col-span-12 lg:col-span-8">
           <h1 className="display-s" style={{ maxWidth: '16ch' }}>
@@ -21,7 +22,7 @@ export default function NotFound() {
           </div>
         </div>
         <div className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end" style={{ overflow: 'clip' }}>
-          <span className="numeral block" aria-hidden="true">404</span>
+          <span className="stat-n stat-n--huge" aria-hidden="true">404</span>
           <p className="label mt-4">Nothing unnecessary.</p>
         </div>
       </div>

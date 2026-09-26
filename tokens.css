@@ -93,6 +93,10 @@
   /* Discipline 01 — imagery is re-graded per mode, not left alone */
   --image-grade: none;
   --figure-shadow: 0 18px 44px rgb(40 20 90 / 0.16);
+
+  /* the plate is always a dark sheet with light type — in both modes */
+  --plate-bg: oklch(17% 0.012 285);
+  --plate-ink: oklch(99% 0.003 285);
 }
 
 [data-theme='dark'] {
@@ -122,6 +126,9 @@
   /* screenshots are lit for white pages — soften them on a dark sheet */
   --image-grade: brightness(0.86) contrast(1.04) saturate(0.96);
   --figure-shadow: 0 18px 44px rgb(0 0 0 / 0.45);
+
+  --plate-bg: oklch(9% 0.02 285);
+  --plate-ink: oklch(97% 0.005 285);
 }
 
 :root {
@@ -178,6 +185,10 @@
   --gradient-brand: linear-gradient(120deg, var(--grad-blue), var(--grad-violet) 55%, var(--grad-coral));
   /* the call button: white text holds 6.2:1 at the blue end, 5.4:1 at violet */
   --gradient-action: linear-gradient(120deg, #4a3cff, #7a3dff);
+  /* for type set in the gradient: the coral end is deepened to #e0512a so the
+     lightest point still clears 3:1 for large text on white (the light-effect
+     coral, #ff7a4d, is only ~2.6:1) */
+  --gradient-text: linear-gradient(120deg, #3f5bff, #8b3dff 55%, #e0512a);
 
   /* ── Shell ─────────────────────────────────────────────────── */
   --shell: 1320px;

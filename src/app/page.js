@@ -120,14 +120,14 @@ export default function HomePage() {
         <div className="shell band--tight relative">
           <div className="cols gap-y-10">
             <div className="col-span-12 lg:col-span-8">
-              <p className="display" style={{ color: 'var(--color-paper)', lineHeight: 0.94 }}>
+              <p className="display" style={{ lineHeight: 0.94 }}>
                 {BRAND.philosophy[0]}
                 <br />
                 {BRAND.philosophy[1]}
               </p>
             </div>
             <div className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end">
-              <p style={{ color: 'var(--color-paper)', fontSize: 'var(--text-lg)', lineHeight: 1.65 }}>
+              <p style={{ fontSize: 'var(--text-lg)', lineHeight: 1.65 }}>
                 สิ่งที่ไม่มีเหตุผลไม่จำเป็นต้องอยู่ แต่สิ่งที่ควรอยู่ ต้องได้รับการใส่ใจอย่างเต็มที่
               </p>
             </div>

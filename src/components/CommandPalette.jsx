@@ -105,28 +105,12 @@ export default function CommandPalette() {
       aria-modal="true"
       aria-label="ไปยังหน้าอื่น"
       onKeyDown={onKeyDown}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 70,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        paddingTop: '12vh',
-        paddingInline: 'var(--gutter)',
-        background: 'color-mix(in oklab, var(--color-ink) 42%, transparent)',
-      }}
+      className="palette-scrim"
       onClick={(e) => {
         if (e.target === e.currentTarget) close();
       }}
     >
-      <div
-        style={{
-          width: 'min(560px, 100%)',
-          background: 'var(--color-paper)',
-          border: 'var(--rule-solid) solid var(--color-rule-ink)',
-        }}
-      >
+      <div className="palette">
         <input
           ref={inputRef}
           value={query}
@@ -136,25 +120,19 @@ export default function CommandPalette() {
           }}
           placeholder="พิมพ์เพื่อค้นหาหน้า…"
           aria-label="ค้นหาหน้า"
-          className="field mono"
-          style={{ border: 0, borderBottom: 'var(--rule-hairline) solid var(--color-rule)' }}
+          className="palette__input"
         />
-        <ul>
+        <ul className="palette__list">
           {hits.map((d, i) => (
             <li key={d.href}>
               <button
                 type="button"
                 onClick={() => go(d.href)}
                 onMouseEnter={() => setActive(i)}
-                className="flex w-full items-center justify-between gap-4 text-left"
-                style={{
-                  minHeight: 52,
-                  paddingInline: 'var(--space-md)',
-                  background: i === active ? 'var(--color-paper-2)' : 'transparent',
-                  borderBottom: 'var(--rule-hairline) solid var(--color-rule)',
-                }}
+                className="palette__row"
+                data-active={i === active || undefined}
               >
-                <span style={{ fontSize: 'var(--text-lg)' }}>{d.label}</span>
+                <span style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>{d.label}</span>
                 <span className="annotation">{d.hint}</span>
               </button>
             </li>
@@ -165,9 +143,7 @@ export default function CommandPalette() {
             </li>
           )}
         </ul>
-        <p className="annotation" style={{ padding: 'var(--space-sm) var(--space-md)' }}>
-          ↑↓ เลือก · ⏎ ไป · esc ปิด
-        </p>
+        <p className="annotation palette__foot">↑↓ เลือก · ⏎ ไป · esc ปิด</p>
       </div>
     </div>
   );

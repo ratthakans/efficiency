@@ -33,20 +33,20 @@ export default function ApproachPage() {
         <Link href="#faq" className="link mt-10">ราคาและระยะเวลา — ดูคำถามที่พบบ่อย →</Link>
       </Band>
 
-      {/* alternation is carried by which side the head sits on, not by a tint */}
-      {PRINCIPLES.map((p, i) => (
-        <Band key={p.key} rule="ink">
-          <div className="cols gap-y-8">
-            <div className={i % 2 === 1 ? 'col-span-12 lg:col-span-5 lg:col-start-8' : 'col-span-12 lg:col-span-5'}>
-              <h2 className="display-s">{p.title}</h2>
-              <p className="label mt-3">{p.sub}</p>
+      {/* the three principles read as one idea, so they share one band — three
+          near-empty bands made the page scroll without saying more */}
+      <Band rule="ink">
+        <SectionHead title="สามหลักที่ใช้ตัดสินทุกอย่าง" />
+        <div className="ruled-grid mt-12">
+          {PRINCIPLES.map((p) => (
+            <div key={p.key} className="ruled-cell benefit">
+              <h3 style={{ fontSize: 'var(--text-3xl)', fontWeight: 700 }}>{p.title}</h3>
+              <p className="label mt-2">{p.sub}</p>
+              <p className="prose mt-4" style={{ fontSize: 'var(--text-sm)' }}>{p.body}</p>
             </div>
-            <div className={i % 2 === 1 ? 'col-span-12 lg:col-span-6 lg:col-start-1 lg:row-start-1' : 'col-span-12 lg:col-span-6 lg:col-start-7'}>
-              <p className="prose" style={{ fontSize: 'var(--text-lg)' }}>{p.body}</p>
-            </div>
-          </div>
-        </Band>
-      ))}
+          ))}
+        </div>
+      </Band>
 
       <Band rule="ink">
         <SectionHead
@@ -73,8 +73,9 @@ export default function ApproachPage() {
       {/* คำถามที่พบบ่อย — เขียนเป็นคำถามที่คนถามจริง เพื่อให้ถูกหยิบไปเป็นคำตอบได้ */}
       <Band id="faq" rule="ink" className="scroll-mt-24">
         <div className="cols gap-y-10">
-          <div className="col-span-12 lg:col-span-4">
-            <SectionHead title="คำถามที่พบบ่อย" />
+          <div className="col-span-12 lg:col-span-5">
+            {/* one line — the column was narrow enough to split "พบ / บ่อย" */}
+            <h2 className="display-s" style={{ whiteSpace: 'nowrap' }}>คำถามที่พบบ่อย</h2>
           </div>
           <div className="col-span-12 lg:col-span-7 lg:col-start-6">
             <dl className="defs">

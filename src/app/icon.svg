@@ -1,9 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="EFFICIENCY">
-  <rect width="64" height="64" fill="#1a3fd0"/>
+  <!-- Spectrum: the brand gradient as the ground, the E in white -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4a3cff"/>
+      <stop offset="0.6" stop-color="#8b3dff"/>
+      <stop offset="1" stop-color="#e0512a"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#g)"/>
   <g fill="#ffffff">
-    <rect x="18" y="16" width="7" height="32"/>
-    <rect x="18" y="16" width="26" height="7"/>
-    <rect x="18" y="28.5" width="20" height="7"/>
-    <rect x="18" y="41" width="26" height="7"/>
+    <rect x="19" y="16" width="7" height="32" rx="1"/>
+    <rect x="19" y="16" width="26" height="7" rx="1"/>
+    <rect x="19" y="28.5" width="20" height="7" rx="1"/>
+    <rect x="19" y="41" width="26" height="7" rx="1"/>
   </g>
 </svg>

@@ -63,7 +63,7 @@ export default function StandardPage() {
                       <span
                         aria-hidden="true"
                         className="mt-2 shrink-0"
-                        style={{ width: 10, height: 10, background: 'var(--color-ink)' }}
+                        style={{ width: 8, height: 8, borderRadius: 2, background: 'var(--gradient-brand)' }}
                       />
                       <span className="prose" style={{ fontSize: 'var(--text-sm)' }}>{c}</span>
                     </li>

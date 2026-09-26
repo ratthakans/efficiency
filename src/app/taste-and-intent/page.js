@@ -66,7 +66,7 @@ export default function TasteAndIntentPage() {
                     style={{
                       textAlign: 'start',
                       padding: '0 var(--space-lg) var(--space-sm) 0',
-                      borderBottom: 'var(--rule-solid) solid var(--color-rule-ink)',
+                      borderBottom: 'var(--rule-hairline) solid var(--color-rule-ink)',
                       color: i === 2 ? 'var(--color-signal)' : undefined,
                     }}
                   >

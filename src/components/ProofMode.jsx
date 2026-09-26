@@ -187,21 +187,7 @@ export default function ProofMode() {
         onClick={openPanel}
         aria-expanded={open}
         aria-controls="proof-panel"
-        className="label label--ink hidden md:inline-flex"
-        style={{
-          position: 'fixed',
-          insetInlineEnd: 0,
-          insetBlockEnd: open ? 'auto' : 0,
-          top: open ? 'auto' : undefined,
-          zIndex: 60,
-          minHeight: 44,
-          paddingInline: 'var(--space-md)',
-          background: 'var(--color-paper)',
-          borderTop: 'var(--rule-solid) solid var(--color-rule-ink)',
-          borderInlineStart: 'var(--rule-solid) solid var(--color-rule-ink)',
-          alignItems: 'center',
-          gap: 8,
-        }}
+        className="label label--ink proof-chip hidden md:inline-flex"
       >
         <span className="mark-square" aria-hidden="true" style={{ marginInlineStart: 0 }} />
         Proof mode
@@ -212,23 +198,14 @@ export default function ProofMode() {
         <aside
           id="proof-panel"
           aria-label="Proof mode"
-          style={{
-            position: 'fixed',
-            insetInline: 0,
-            insetBlockEnd: 0,
-            zIndex: 60,
-            background: 'var(--color-paper)',
-            borderTop: 'var(--rule-solid) solid var(--color-rule-ink)',
-            maxHeight: '62vh',
-            overflowY: 'auto',
-          }}
+          className="proof-sheet"
         >
           <div className="shell" style={{ paddingBlock: 'var(--space-lg)' }}>
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-1">
                 <p className="label label--ink">Beauty on the surface. Engineering underneath.</p>
               </div>
-              <div className="flex items-center gap-0">
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
                   className="filter"
@@ -250,7 +227,7 @@ export default function ProofMode() {
                 </button>
                 <button
                   type="button"
-                  className="filter"
+                  className="filter proof-close"
                   onClick={() => setOpen(false)}
                   aria-label="ปิด Proof mode"
                 >

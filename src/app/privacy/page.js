@@ -42,7 +42,8 @@ function Article({ n, title, children }) {
 export default function PrivacyPage() {
   return (
     <>
-      <Band tight>
+      <Band tight className="has-mesh has-mesh--bleed page-top">
+        <div className="mesh mesh--page" aria-hidden="true" style={{ right: '-18%', top: '-58%' }} />
         <div className="cols">
           <div className="col-span-12 lg:col-span-7">
             <h1 className="display-s" style={{ maxWidth: '18ch' }}>
@@ -113,7 +114,7 @@ export default function PrivacyPage() {
                           style={{
                             textAlign: 'start',
                             padding: '12px 16px 12px 0',
-                            borderBottom: 'var(--rule-solid) solid var(--color-rule-ink)',
+                            borderBottom: 'var(--rule-hairline) solid var(--color-rule-ink)',
                           }}
                         >
                           {h}
@@ -230,7 +231,7 @@ export default function PrivacyPage() {
               </p>
             </Article>
 
-            <div className="py-10" style={{ borderTop: 'var(--rule-solid) solid var(--color-rule-ink)' }}>
+            <div className="py-10" style={{ borderTop: 'var(--rule-hairline) solid var(--color-rule-ink)' }}>
               <div className="flex flex-wrap gap-3">
                 <a href={CONTACT.phoneHref} className="btn btn--call">
                   โทร {CONTACT.phone}

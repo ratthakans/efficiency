@@ -47,6 +47,7 @@ export function AdaptiveLightDemo() {
         style={{
           aspectRatio: '16 / 9',
           border: 'var(--rule-hairline) solid var(--color-rule)',
+          borderRadius: 'var(--radius-figure)',
         }}
       >
         {/* the dark treatment sits underneath, on its own sheet of tokens */}
@@ -112,7 +113,7 @@ export function AdaptiveLightDemo() {
           value={split}
           onChange={(e) => setSplit(Number(e.target.value))}
           className="mt-2 w-full"
-          style={{ accentColor: 'var(--color-ink)', minHeight: 44 }}
+          style={{ accentColor: 'var(--color-signal)', minHeight: 44 }}
         />
       </label>
 
@@ -213,6 +214,7 @@ export function FluidCanvasDemo() {
           width: `${w}px`,
           maxWidth: '100%',
           border: 'var(--rule-hairline) solid var(--color-rule)',
+          borderRadius: 'var(--radius-figure)',
           padding: 'var(--space-lg)',
           transition: 'none',
         }}
@@ -261,7 +263,7 @@ export function FluidCanvasDemo() {
           value={w}
           onChange={(e) => setW(Number(e.target.value))}
           className="mt-2 w-full"
-          style={{ accentColor: 'var(--color-ink)', minHeight: 44 }}
+          style={{ accentColor: 'var(--color-signal)', minHeight: 44 }}
         />
       </label>
 

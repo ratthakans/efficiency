@@ -31,10 +31,8 @@ export default function StudioPage() {
             </p>
           </div>
           <div className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end">
-            <p className="label label--ink num" style={{ fontSize: 'var(--text-4xl)', letterSpacing: '-0.01em' }}>
-              {PROJECTS.length}
-            </p>
-            <p className="label mt-2">projects live</p>
+            <p className="stat-n stat-n--huge">{PROJECTS.length}</p>
+            <p className="label mt-3">เว็บไซต์ที่เปิดใช้งานจริง</p>
           </div>
         </div>
       </Band>

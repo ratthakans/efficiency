@@ -35,8 +35,8 @@ export default function ContactPage() {
 
             <a
               href={CONTACT.phoneHref}
-              className="display mt-10 block whitespace-nowrap num"
-              style={{ color: 'var(--color-signal)', fontSize: 'var(--text-display-s)' }}
+              className="display call-number mt-10 block w-fit whitespace-nowrap num"
+              style={{ fontSize: 'var(--text-display-s)' }}
             >
               {CONTACT.phone}
             </a>
