@@ -11,13 +11,14 @@ import { useRouter } from 'next/navigation';
  * anyone who types.
  */
 const DESTINATIONS = [
-  { label: 'Home', hint: 'Poetic Engineering', href: '/' },
-  { label: 'Selected work', hint: '11 projects', href: '/work' },
-  { label: 'Our standard', hint: 'six disciplines', href: '/standard' },
-  { label: 'How we work', hint: 'taste · intent · fidelity', href: '/approach' },
-  { label: 'Taste and intent', hint: 'the AI position', href: '/taste-and-intent' },
-  { label: 'Studio', hint: 'manifesto · personality', href: '/studio' },
-  { label: 'Contact', hint: 'โทร 063 859 8423', href: '/contact' },
+  { label: 'หน้าแรก', hint: 'home · Poetic Engineering', href: '/' },
+  { label: 'ผลงาน', hint: 'work · 11 projects', href: '/work' },
+  { label: 'มาตรฐานงาน', hint: 'standard · SEO AEO GEO', href: '/standard' },
+  { label: 'วิธีทำงาน', hint: 'approach · 4 steps', href: '/approach' },
+  { label: 'คำถามที่พบบ่อย', hint: 'faq · price · time', href: '/approach#faq' },
+  { label: 'จุดยืนเรื่อง AI', hint: 'taste and intent', href: '/taste-and-intent' },
+  { label: 'สตูดิโอ', hint: 'studio · about', href: '/studio' },
+  { label: 'ติดต่อ', hint: 'contact · 063 859 8423', href: '/contact' },
 ];
 
 export const OPEN_EVENT = 'efficiency:palette';

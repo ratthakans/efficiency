@@ -12,12 +12,13 @@ import { ProofModeLink } from '@/components/ProofMode';
  */
 
 const SITE = [
-  { label: 'Selected work', href: '/work' },
-  { label: 'Our standard', href: '/standard' },
-  { label: 'How we work', href: '/approach' },
-  { label: 'Taste and intent', href: '/taste-and-intent' },
-  { label: 'Studio', href: '/studio' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'ผลงาน', href: '/work' },
+  { label: 'มาตรฐานงาน', href: '/standard' },
+  { label: 'วิธีทำงาน', href: '/approach' },
+  { label: 'คำถามที่พบบ่อย', href: '/approach#faq' },
+  { label: 'จุดยืนเรื่อง AI', href: '/taste-and-intent' },
+  { label: 'สตูดิโอ', href: '/studio' },
+  { label: 'ติดต่อ', href: '/contact' },
 ];
 
 export default function Footer() {

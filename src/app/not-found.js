@@ -16,7 +16,7 @@ export default function NotFound() {
             ซึ่งตรงกับสิ่งที่เราทำกับทุกอย่างที่ไม่มีเหตุผลให้อยู่ต่อ
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
-            <Link href="/work" className="btn btn--signal">Selected work</Link>
+            <Link href="/work" className="btn btn--signal">ดูผลงาน</Link>
             <Link href="/" className="btn btn--ghost">กลับหน้าแรก</Link>
           </div>
         </div>

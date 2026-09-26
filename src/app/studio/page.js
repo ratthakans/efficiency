@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { Band, SectionHead } from '@/components/ui/Section';
-import { BRAND, PERSONALITY, MANIFESTO, PROJECTS, CONTACT } from '@/lib/content';
+import { BRAND, MANIFESTO, PROJECTS, CONTACT } from '@/lib/content';
 
 export const metadata = {
-  title: 'Studio',
+  title: 'สตูดิโอ',
   description:
     'EFFICIENCY เป็น Digital Craft Studio ในกรุงเทพฯ ทำงานออกแบบ พัฒนา และสถาปัตยกรรมเว็บในทีมเดียวกัน เพื่อไม่ให้รายละเอียดหล่นหายระหว่างส่งต่องาน',
   alternates: { canonical: '/studio' },
@@ -78,24 +78,7 @@ export default function StudioPage() {
                 {line}
               </p>
             ))}
-            <p className="display-s mt-10">
-              {BRAND.philosophy[0]}
-              <br />
-              {BRAND.philosophy[1]}
-            </p>
           </div>
-        </div>
-      </Band>
-
-      <Band rule="ink">
-        <SectionHead title="Personality" lede={BRAND.tone} />
-        <div className="ruled-grid mt-12">
-          {PERSONALITY.map((p) => (
-            <div key={p.title} className="ruled-cell">
-              <h3 style={{ fontSize: 'var(--text-xl)' }}>{p.title}</h3>
-              <p className="prose mt-3" style={{ fontSize: 'var(--text-sm)' }}>{p.body}</p>
-            </div>
-          ))}
         </div>
       </Band>
 
@@ -131,7 +114,7 @@ export default function StudioPage() {
           <SectionHead title={BRAND.promise} />
           <div className="flex flex-wrap gap-3">
             <a href={CONTACT.phoneHref} className="btn btn--call">โทร {CONTACT.phone}</a>
-            <Link href="/work" className="btn btn--ghost">Selected work</Link>
+            <Link href="/work" className="btn btn--ghost">ดูผลงาน</Link>
           </div>
         </div>
       </Band>

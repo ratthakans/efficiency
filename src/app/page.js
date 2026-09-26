@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Band, SectionHead } from '@/components/ui/Section';
 import ProjectCell from '@/components/ProjectCell';
 import FeaturedProject from '@/components/FeaturedProject';
+import Steps from '@/components/Steps';
 import {
   BRAND,
   CONTACT,
@@ -11,7 +12,6 @@ import {
   FINDABILITY,
   HOME_BENEFIT_ORDER,
   PROJECTS,
-  STEPS,
 } from '@/lib/content';
 
 export const metadata = { alternates: { canonical: '/' } };
@@ -143,17 +143,7 @@ export default function HomePage() {
           <SectionHead title="เริ่มงานกับเรา" lede="สี่ขั้น ตั้งแต่สายแรกจนเว็บไซต์เปิดใช้งาน" />
         </div>
 
-        <ol className="steps mt-12">
-          {STEPS.map((s, i) => (
-            <li key={s.title} className="step">
-              <span className="mono step__n">{String(i + 1).padStart(2, '0')}</span>
-              <h3 className="step__title">{s.title}</h3>
-              <p className="prose mt-3" style={{ fontSize: 'var(--text-sm)' }}>
-                {s.body}
-              </p>
-            </li>
-          ))}
-        </ol>
+        <Steps className="mt-12" />
       </Band>
 
       {/* ── 06 · Questions, then the call ──────────────────────── */}

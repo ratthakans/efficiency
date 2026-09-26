@@ -3,7 +3,7 @@ import WorkClient from './WorkClient';
 import { PROJECTS, CONTACT } from '@/lib/content';
 
 export const metadata = {
-  title: 'Selected Work',
+  title: 'ผลงานเว็บไซต์',
   description:
     'ผลงานเว็บไซต์ 11 โครงการที่เปิดใช้งานจริง ตั้งแต่แพลตฟอร์มที่มีระบบสมาชิก เว็บไซต์แบรนด์ จนถึงเว็บไซต์องค์กร พัฒนาด้วย Next.js, TanStack Start และ WordPress',
   alternates: { canonical: '/work' },

@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { Band, SectionHead } from '@/components/ui/Section';
+import Steps from '@/components/Steps';
 import { PRINCIPLES, FRICTIONS, BRAND, FAQS, CONTACT } from '@/lib/content';
 
 export const metadata = {
-  title: 'How We Work',
+  title: 'วิธีทำงาน',
   description:
-    'วิธีทำงานของ EFFICIENCY ตั้งอยู่บนหลักสามข้อ Taste, Intent และ Fidelity และต่อต้านสิ่งเดียวคือ Unnecessary Friction',
+    'วิธีทำงานของ EFFICIENCY สี่ขั้นตั้งแต่โทรเล่าโจทย์จนส่งมอบ หลักคิด Taste, Intent และ Fidelity และคำถามที่พบบ่อยเรื่องราคา ระยะเวลา และ SEO · AEO · GEO',
   alternates: { canonical: '/approach' },
 };
 
@@ -22,6 +23,13 @@ export default function ApproachPage() {
             </p>
           </div>
         </div>
+      </Band>
+
+      {/* What someone clicking "วิธีทำงาน" expects first: the steps. */}
+      <Band rule="ink">
+        <SectionHead title="สี่ขั้น ตั้งแต่สายแรกจนเว็บเปิดใช้งาน" />
+        <Steps className="mt-12" />
+        <Link href="#faq" className="link mt-10">ราคาและระยะเวลา — ดูคำถามที่พบบ่อย →</Link>
       </Band>
 
       {/* alternation is carried by which side the head sits on, not by a tint */}
@@ -41,7 +49,7 @@ export default function ApproachPage() {
 
       <Band rule="ink">
         <SectionHead
-          title="The enemy."
+          title="สิ่งที่เราตัดทิ้งให้คุณ"
           lede="เราไม่ได้ต่อต้านความซับซ้อน บางระบบจำเป็นต้องซับซ้อน สิ่งที่เราต่อต้านคือแรงเสียดทานที่ไม่มีเหตุผล"
         />
         <div className="ruled-grid mt-12">
@@ -57,7 +65,7 @@ export default function ApproachPage() {
       <Band rule="ink" tight>
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHead title="Our standard of craft." lede="หลักสามข้อนี้ถูกแปลเป็นมาตรฐานหกด้านที่ตรวจได้จริง" />
-          <Link href="/standard" className="btn btn--signal">ดู Our Standard</Link>
+          <Link href="/standard" className="btn btn--signal">ดูมาตรฐานงาน</Link>
         </div>
       </Band>
 

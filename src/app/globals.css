@@ -306,6 +306,14 @@
   color: var(--color-ink);
 }
 
+/* /standard — the outcome, in Thai, before the English discipline line */
+.benefit-lead {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
 .findability {
   display: flex;
   flex-wrap: wrap;

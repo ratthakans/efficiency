@@ -3,7 +3,7 @@ import { Band, SectionHead } from '@/components/ui/Section';
 import { BRAND, GENERATED_VS_CRAFTED, PRINCIPLES, CONTACT } from '@/lib/content';
 
 export const metadata = {
-  title: 'Taste and Intent',
+  title: 'จุดยืนเรื่อง AI · Taste and Intent',
   description:
     'Code can be generated. Judgment cannot be automated. จุดยืนของ EFFICIENCY ต่อยุค AI — เมื่อการผลิตถูกลง สิ่งที่มีค่าขึ้นคือการตัดสินใจว่าอะไรคือสิ่งที่ควรสร้าง',
   alternates: { canonical: '/taste-and-intent' },
@@ -135,7 +135,7 @@ export default function TasteAndIntentPage() {
           <SectionHead title="What should we build?" lede="คำถามนี้ยังเป็นของมนุษย์ และเป็นงานที่เราทำ" />
           <div className="flex flex-wrap gap-3">
             <a href={CONTACT.phoneHref} className="btn btn--call">โทร {CONTACT.phone}</a>
-            <Link href="/approach" className="btn btn--ghost">How we work</Link>
+            <Link href="/approach" className="btn btn--ghost">วิธีทำงาน</Link>
           </div>
         </div>
       </Band>

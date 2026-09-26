@@ -14,12 +14,14 @@ import { OPEN_EVENT } from '@/components/CommandPalette';
  * zero radius, zero shadow. The signal ink is spent on the active marker only.
  */
 
+/* Thai labels: a client scans the bar for ผลงาน and ติดต่อ, not for Approach.
+   The URLs stay English, so no redirects were needed. */
 export const NAV_LINKS = [
-  { label: 'Work', href: '/work' },
-  { label: 'Standard', href: '/standard' },
-  { label: 'Approach', href: '/approach' },
-  { label: 'Studio', href: '/studio' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'ผลงาน', href: '/work' },
+  { label: 'มาตรฐานงาน', href: '/standard' },
+  { label: 'วิธีทำงาน', href: '/approach' },
+  { label: 'สตูดิโอ', href: '/studio' },
+  { label: 'ติดต่อ', href: '/contact' },
 ];
 
 export default function NavBar() {
@@ -57,6 +59,9 @@ export default function NavBar() {
                 aria-current={isActive(l.href) ? 'page' : undefined}
                 className="label flex items-center px-4 whitespace-nowrap transition-colors"
                 style={{
+                  /* Thai has no caps; the Latin label tracking only spreads it */
+                  fontSize: 'var(--text-sm)',
+                  letterSpacing: 0,
                   color: isActive(l.href) ? 'var(--color-ink)' : undefined,
                   boxShadow: isActive(l.href)
                     ? 'inset 0 -3px 0 0 var(--color-signal)'

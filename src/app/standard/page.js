@@ -5,7 +5,7 @@ import { SchemaPrint, TypeScalePrint } from '@/components/RealSource';
 import { DISCIPLINES, CONTACT } from '@/lib/content';
 
 export const metadata = {
-  title: 'Our Standard',
+  title: 'มาตรฐานงาน · SEO AEO GEO',
   description:
     'มาตรฐานงานคราฟต์หกด้านของ EFFICIENCY — Adaptive Light, Editorial Type, Fluid Space, Invisible Speed, Intentional Motion และ Machine-Readable Meaning พร้อมของจริงให้ลองเอง',
   alternates: { canonical: '/standard' },
@@ -45,7 +45,9 @@ export default function StandardPage() {
                   <span className="label label--signal num">{d.n}</span>
                   <h2 style={{ fontSize: 'var(--text-4xl)' }}>{d.title}</h2>
                 </div>
-                <p className="label mt-3">{d.sub}</p>
+                <p className="benefit-lead mt-4">{d.benefit}</p>
+                {d.tag && <p className="annotation annotation--ink mt-1">{d.tag}</p>}
+                <p className="label mt-4">{d.sub}</p>
                 <p className="annotation mt-2">{d.token}</p>
                 <p className="prose mt-7">{d.body}</p>
 
@@ -59,7 +61,7 @@ export default function StandardPage() {
                       <span
                         aria-hidden="true"
                         className="mt-2 shrink-0"
-                        style={{ width: 10, height: 10, background: 'var(--color-signal)' }}
+                        style={{ width: 10, height: 10, background: 'var(--color-ink)' }}
                       />
                       <span className="prose" style={{ fontSize: 'var(--text-sm)' }}>{c}</span>
                     </li>
