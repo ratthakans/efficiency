@@ -76,6 +76,7 @@ export const DISCIPLINES = [
       'เส้นกริดเปลี่ยนน้ำหนักตามพื้น ไม่ใช่ความทึบเดียวกัน',
     ],
     demo: 'adaptive-light',
+    token: '[data-theme] · --color-signal · --image-grade',
   },
   {
     n: '02',
@@ -91,6 +92,7 @@ export const DISCIPLINES = [
       'หัวข้อใหญ่ตัดคำภายในคำได้ เพื่อไม่ให้ล้นจอเล็ก',
     ],
     demo: 'type-rhythm',
+    token: '--tracking-display · line-height · ch measure',
   },
   {
     n: '03',
@@ -106,6 +108,7 @@ export const DISCIPLINES = [
       'ทุกพื้นที่กดได้ไม่ต่ำกว่า 44px บนจอสัมผัส',
     ],
     demo: 'fluid-canvas',
+    token: 'clamp() · minmax(0, 1fr) · no breakpoint jumps',
   },
   {
     n: '04',
@@ -121,6 +124,7 @@ export const DISCIPLINES = [
       'ตัวเลขจริงดูได้เองจาก Proof Mode ไม่ต้องเชื่อคำโฆษณา',
     ],
     demo: 'proof',
+    token: 'PerformanceObserver · navigation timing',
   },
   {
     n: '05',
@@ -136,6 +140,7 @@ export const DISCIPLINES = [
       'prefers-reduced-motion ยุบการเคลื่อนที่เหลือการเปลี่ยนความทึบ',
     ],
     demo: 'motion-intent',
+    token: 'transform · opacity · prefers-reduced-motion',
   },
   {
     n: '06',
@@ -151,6 +156,7 @@ export const DISCIPLINES = [
       'เปิด Semantic View ดูโครงสร้างจริงของหน้านี้ได้ทันที',
     ],
     demo: 'semantic',
+    token: 'semantic HTML · JSON-LD @graph',
   },
 ];
 

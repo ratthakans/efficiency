@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { CONTACT } from '@/lib/content';
+import PerformanceFolio from '@/components/PerformanceFolio';
 
 /**
  * Footer — Ft4 Dense colophon
@@ -123,6 +124,25 @@ export default function Footer() {
               เงื่อนไขบริการ
             </Link>
           </p>
+        </div>
+
+        {/* press run — what this page is made of, and what it cost */}
+        <div
+          className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2"
+          /* the extra foot clears the two fixed chips — Proof Mode at the
+             bottom-right, the viewport folio at the bottom-left — which would
+             otherwise sit on this line once the page is scrolled to its end */
+          style={{
+            borderTop: 'var(--rule-hairline) solid var(--color-rule)',
+            paddingTop: 'var(--space-lg)',
+            paddingBottom: 'var(--space-3xl)',
+          }}
+        >
+          <p className="annotation">
+            Next.js {process.env.NEXT_PUBLIC_NEXT_VERSION} · built {process.env.NEXT_PUBLIC_BUILD_DATE} · Poetic
+            Engineering
+          </p>
+          <PerformanceFolio />
         </div>
       </div>
     </footer>

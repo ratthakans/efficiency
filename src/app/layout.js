@@ -1,6 +1,6 @@
 import './globals.css';
 import Script from 'next/script';
-import { IBM_Plex_Sans_Thai } from 'next/font/google';
+import { IBM_Plex_Sans_Thai, IBM_Plex_Mono } from 'next/font/google';
 import SiteLayout from '@/components/SiteLayout';
 import ThemeScript from '@/components/ThemeScript';
 import { CONTACT, PROJECTS, FAQS } from '@/lib/content';
@@ -12,6 +12,15 @@ const plexThai = IBM_Plex_Sans_Thai({
   weight: ['400', '500', '600', '700'],
   display: 'swap',
   variable: '--font-plex-thai',
+});
+
+/* The machine voice. Four weights would be waste — the mono only ever sets
+   values, so one regular and one medium carry every use on the site. */
+const plexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  display: 'swap',
+  variable: '--font-plex-mono',
 });
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
@@ -111,7 +120,7 @@ const LD = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="th" className={plexThai.variable} suppressHydrationWarning>
+    <html lang="th" className={`${plexThai.variable} ${plexMono.variable}`} suppressHydrationWarning>
       <head>
         <ThemeScript />
       </head>

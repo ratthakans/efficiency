@@ -27,7 +27,7 @@ export default function WorkPage() {
           </div>
           <div className="col-span-12 lg:col-span-4 lg:col-start-9 lg:self-end">
             <p className="label">เทคโนโลยีที่ใช้ในชุดนี้</p>
-            <p className="mt-3" style={{ fontSize: 'var(--text-lg)', lineHeight: 1.6 }}>
+            <p className="mono mt-3" style={{ fontSize: 'var(--text-lg)', lineHeight: 1.6 }}>
               {stacks.join(' · ')}
             </p>
           </div>

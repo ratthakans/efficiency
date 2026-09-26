@@ -6,6 +6,8 @@ import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import ProofMode from '@/components/ProofMode';
 import CallTracking from '@/components/CallTracking';
+import ViewportFolio from '@/components/ViewportFolio';
+import CommandPalette from '@/components/CommandPalette';
 
 export default function SiteLayout({ children }) {
   return (
@@ -24,6 +26,8 @@ export default function SiteLayout({ children }) {
 
       <ProofMode />
       <CallTracking />
+      <ViewportFolio />
+      <CommandPalette />
     </div>
   );
 }

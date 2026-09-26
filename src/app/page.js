@@ -18,6 +18,8 @@ export default function HomePage() {
               {BRAND.positioning.replace('.', '')}
               <span className="mark-square" aria-hidden="true" />
             </h1>
+            <p className="annotation mt-4">--text-display · clamp(52px, 9vw, 120px)</p>
+
             <p className="lede mt-9" style={{ fontSize: 'var(--text-2xl)', maxWidth: '30rem' }}>
               {BRAND.belief}
             </p>
@@ -53,7 +55,7 @@ export default function HomePage() {
           <div className="col-span-12 lg:col-span-5 lg:col-start-8 lg:self-end">
             <SteppedBars />
             <p className="label mt-5">{BRAND.proposition}</p>
-            <p className="label mt-2">Strategy → Design → Motion → Code → Browser</p>
+            <p className="annotation mt-2">Strategy → Design → Motion → Code → Browser</p>
           </div>
         </div>
       </Band>

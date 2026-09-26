@@ -96,7 +96,7 @@ export default function StudioPage() {
                 const used = PROJECTS.filter((p) => p.stack === s);
                 return (
                   <div className="def" key={s}>
-                    <dt style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>{s}</dt>
+                    <dt className="mono" style={{ fontSize: 'var(--text-lg)', fontWeight: 500 }}>{s}</dt>
                     <dd className="prose" style={{ fontSize: 'var(--text-sm)' }}>
                       ใช้ใน <span className="num">{used.length}</span> โครงการ ·{' '}
                       {used.map((p) => p.name).join(', ')}

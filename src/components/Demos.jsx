@@ -41,7 +41,7 @@ export function AdaptiveLightDemo() {
             }}
           />
           <span
-            className="label num absolute"
+            className="annotation absolute"
             style={{ insetInlineEnd: 12, insetBlockEnd: 10, color: 'oklch(74% 0.15 264)' }}
           >
             dark · signal oklch(74% 0.15 264)
@@ -64,7 +64,7 @@ export function AdaptiveLightDemo() {
             style={{ objectFit: 'cover', objectPosition: 'top' }}
           />
           <span
-            className="label num absolute"
+            className="annotation absolute"
             style={{ insetInlineStart: 12, insetBlockEnd: 10, color: 'oklch(45% 0.19 264)' }}
           >
             light · signal oklch(45% 0.19 264)
@@ -80,7 +80,7 @@ export function AdaptiveLightDemo() {
       </div>
 
       <label className="mt-4 block">
-        <span className="label">ลากเพื่อเทียบการไล่สีของสองโหมด · {split}%</span>
+        <span className="label">ลากเพื่อเทียบการไล่สีของสองโหมด · <span className="mono">{split}%</span></span>
         <input
           type="range"
           min="0"
@@ -160,7 +160,7 @@ export function TypeRhythmDemo() {
         ].map(([k, v]) => (
           <div className="def" key={k} style={{ paddingBlock: 'var(--space-sm)' }}>
             <dt className="label">{k}</dt>
-            <dd className="num" style={{ fontSize: 'var(--text-sm)' }}>{v}</dd>
+            <dd className="mono" style={{ fontSize: 'var(--text-sm)' }}>{v}</dd>
           </div>
         ))}
       </dl>
@@ -224,7 +224,7 @@ export function FluidCanvasDemo() {
 
       <label className="mt-4 block">
         <span className="label">
-          ลากเพื่อเปลี่ยนความกว้างของผืนผ้าใบ · <span className="num">{w}px</span>
+          ลากเพื่อเปลี่ยนความกว้างของผืนผ้าใบ · <span className="mono">{w}px</span>
         </span>
         <input
           type="range"
@@ -245,7 +245,7 @@ export function FluidCanvasDemo() {
         ].map(([k, v]) => (
           <div className="def" key={k} style={{ paddingBlock: 'var(--space-sm)' }}>
             <dt className="label">{k}</dt>
-            <dd className="num" style={{ fontSize: 'var(--text-sm)' }}>{v}</dd>
+            <dd className="mono" style={{ fontSize: 'var(--text-sm)' }}>{v}</dd>
           </div>
         ))}
       </dl>

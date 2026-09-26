@@ -36,7 +36,7 @@ export default function ProjectCell({ project, priority = false }) {
         <span className="mark-quarter mt-1 shrink-0" aria-hidden="true" />
       </div>
 
-      <p className="label mt-2">{project.stack}</p>
+      <p className="annotation mt-2">{project.stack}</p>
       <p className="prose mt-3" style={{ fontSize: 'var(--text-sm)' }}>
         {project.summary}
       </p>

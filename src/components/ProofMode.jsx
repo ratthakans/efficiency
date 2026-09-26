@@ -251,7 +251,7 @@ export default function ProofMode() {
                     }}
                   >
                     <p className="label">{k}</p>
-                    <p className="num" style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>
+                    <p className="mono" style={{ fontSize: 'var(--text-lg)', fontWeight: 500 }}>
                       {v}
                     </p>
                   </div>
@@ -272,7 +272,7 @@ export default function ProofMode() {
                           fontSize: 'var(--text-sm)',
                         }}
                       >
-                        <span className="label t-signal">h{h.level}</span>
+                        <span className="annotation annotation--signal">h{h.level}</span>
                         <span style={{ minWidth: 0, overflowWrap: 'anywhere' }}>{h.text}</span>
                       </li>
                     ))}
@@ -297,7 +297,7 @@ export default function ProofMode() {
                         }}
                       >
                         <dt className="label">{k}</dt>
-                        <dd className="num" style={{ textAlign: 'end', minWidth: 0, overflowWrap: 'anywhere' }}>
+                        <dd className="mono" style={{ textAlign: 'end', minWidth: 0, overflowWrap: 'anywhere' }}>
                           {String(v ?? '—')}
                         </dd>
                       </div>

@@ -1,3 +1,10 @@
+import { createRequire } from 'node:module';
+
+/* The colophon's press run. Resolved at build time, not asserted in copy:
+   the Next version comes from the installed package, the date from the build. */
+const require = createRequire(import.meta.url);
+const NEXT_VERSION = require('next/package.json').version;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // ─── Image optimisation ────────────────────────────────────────────
@@ -51,6 +58,12 @@ const nextConfig = {
         ],
       },
     ];
+  },
+
+  /* ── Build stamp — read by the footer colophon ───────────────────── */
+  env: {
+    NEXT_PUBLIC_NEXT_VERSION: NEXT_VERSION,
+    NEXT_PUBLIC_BUILD_DATE: new Date().toISOString().slice(0, 10),
   },
 
   // ─── Misc ───────────────────────────────────────────────────────────

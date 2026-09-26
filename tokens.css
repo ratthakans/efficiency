@@ -9,10 +9,19 @@
  * pure #fff, and the signal ink is re-picked — the light ultramarine would fall
  * under 4.5:1 on a dark ground, so dark mode raises its lightness and drops chroma.
  *
- * Deviation from the Grid spec, recorded deliberately: the spec calls for Archivo
- * 800, but the brand is Thai-serving and Archivo carries no Thai glyphs. The single
- * grotesk is IBM Plex Sans Thai at 700. Display tracking is relaxed from -0.045em
- * to -0.01em because negative tracking collides with Thai vowel marks.
+ * Two deviations from the Grid spec, both deliberate and both recorded:
+ *
+ * 1. The spec calls for Archivo 800, but the brand is Thai-serving and Archivo
+ *    carries no Thai glyphs. The single grotesk is IBM Plex Sans Thai at 700, and
+ *    display tracking is relaxed from -0.045em to -0.01em because negative
+ *    tracking collides with Thai vowel marks.
+ *
+ * 2. The spec allows one family and tells you not to load a mono. This build
+ *    loads one anyway, under a rule the brand needs: humans speak in the grotesk,
+ *    machines speak in mono. Mono is reserved for values the machine emits —
+ *    measurements, CSS values, metrics, coordinates, breakpoints, stacks. It never
+ *    sets a sentence a person wrote. Without that split, the engineering half of
+ *    Poetic Engineering is asserted in copy but absent from the typography.
  */
 
 :root,
@@ -71,6 +80,9 @@
   /* ── Type — typography is the visual hero ──────────────────── */
   --font-display: var(--font-plex-thai), "IBM Plex Sans Thai", system-ui, sans-serif;
   --font-body: var(--font-plex-thai), "IBM Plex Sans Thai", system-ui, sans-serif;
+  /* the machine voice — never sets human sentences */
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+  --tracking-mono: 0.01em;
 
   --display-weight: 700;
   --tracking-display: -0.01em;

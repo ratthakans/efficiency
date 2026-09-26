@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Band, SectionHead } from '@/components/ui/Section';
 import { AdaptiveLightDemo, TypeRhythmDemo, FluidCanvasDemo, MotionIntentDemo } from '@/components/Demos';
+import { SchemaPrint, TypeScalePrint } from '@/components/RealSource';
 import { DISCIPLINES, CONTACT } from '@/lib/content';
 
 export const metadata = {
@@ -15,6 +16,7 @@ const DEMOS = {
   'type-rhythm': TypeRhythmDemo,
   'fluid-canvas': FluidCanvasDemo,
   'motion-intent': MotionIntentDemo,
+  semantic: SchemaPrint,
 };
 
 export default function StandardPage() {
@@ -44,6 +46,7 @@ export default function StandardPage() {
                   <h2 style={{ fontSize: 'var(--text-4xl)' }}>{d.title}</h2>
                 </div>
                 <p className="label mt-3">{d.sub}</p>
+                <p className="annotation mt-2">{d.token}</p>
                 <p className="prose mt-7">{d.body}</p>
 
                 <ul className="defs mt-8" style={{ borderTopColor: 'var(--color-rule-ink)' }}>
@@ -72,7 +75,14 @@ export default function StandardPage() {
                 }
               >
                 {Demo ? (
-                  <Demo />
+                  <>
+                    <Demo />
+                    {d.key === 'type' && (
+                      <div className="mt-10">
+                        <TypeScalePrint />
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <div>
                     <p className="label">Proof</p>

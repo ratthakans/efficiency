@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { CONTACT } from '@/lib/content';
 import ThemeToggle from '@/components/ThemeToggle';
+import { OPEN_EVENT } from '@/components/CommandPalette';
 
 /**
  * NavBar — N7 Brutal slab
@@ -68,6 +69,23 @@ export default function NavBar() {
           </nav>
 
           <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event(OPEN_EVENT))}
+              aria-label="เปิดแผงคำสั่งเพื่อข้ามไปหน้าอื่น"
+              title="⌘K"
+              className="mono hidden lg:flex items-center justify-center"
+              style={{
+                minHeight: 34,
+                paddingInline: 10,
+                marginInlineEnd: 4,
+                fontSize: 'var(--text-label)',
+                color: 'var(--color-muted)',
+                border: 'var(--rule-hairline) solid var(--color-rule)',
+              }}
+            >
+              ⌘K
+            </button>
             <ThemeToggle />
             <a
               href={CONTACT.phoneHref}
