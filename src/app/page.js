@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Band, SectionHead, SteppedBars } from '@/components/ui/Section';
+import { Band, SectionHead } from '@/components/ui/Section';
 import ProjectCell from '@/components/ProjectCell';
 import { BRAND, PROJECTS, PRINCIPLES, DISCIPLINES, CONTACT } from '@/lib/content';
 
@@ -50,8 +50,7 @@ export default function HomePage() {
           </div>
 
           <div className="col-span-12 lg:col-span-5 lg:col-start-8 lg:self-end">
-            <SteppedBars />
-            <p className="label mt-5">{BRAND.proposition}</p>
+            <p className="label label--ink">{BRAND.proposition}</p>
             <p className="annotation mt-2">Strategy → Design → Motion → Code → Browser</p>
           </div>
         </div>
@@ -118,7 +117,7 @@ export default function HomePage() {
       </Band>
 
       {/* ── 06 · Our standard ──────────────────────────────────── */}
-      <Band tone="paper-2" rule="hair">
+      <Band rule="ink">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHead
             title="Our standard."
@@ -164,7 +163,7 @@ export default function HomePage() {
       </Band>
 
       {/* ── 08 · Proof mode ────────────────────────────────────── */}
-      <Band tone="paper-2" rule="hair" tight>
+      <Band rule="ink" tight>
         <div className="cols gap-y-8">
           <div className="col-span-12 lg:col-span-7">
             <h2 className="display-s" style={{ maxWidth: '16ch' }}>

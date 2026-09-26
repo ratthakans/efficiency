@@ -38,7 +38,7 @@ export default function StandardPage() {
         const Demo = DEMOS[d.demo];
         const flip = i % 2 === 1;
         return (
-          <Band key={d.key} rule="ink" tone={flip ? 'paper-2' : 'paper'}>
+          <Band key={d.key} rule="ink">
             <div className="cols gap-y-12">
               <div className={flip ? 'col-span-12 lg:col-span-5 lg:col-start-8' : 'col-span-12 lg:col-span-5'}>
                 <div className="flex items-baseline gap-4">

@@ -7,8 +7,15 @@
  *
  * Section eyebrows are deliberately absent. Portfolio Grid is not an ordinal
  * macrostructure, so numbered kickers would be decoration rather than structure.
+ *
+ * Numeral and SteppedBars lived here too — a giant faded number and a figure of
+ * bars standing for no data. The theme asks every section to carry an object;
+ * these two carried nothing, so on a white page they were the first to go.
  */
 
+/* `tone` survives for a section that genuinely needs a tinted ground; as of the
+   white pass nothing uses it. Alternating tints were how the long pages marked
+   rhythm, and that job moved to which column the head sits in. */
 export function Band({ children, id, tone = 'paper', rule = 'none', tight = false, className = '' }) {
   const ruleClass = rule === 'ink' ? 'rule-top' : rule === 'hair' ? 'rule-hair' : '';
   const toneStyle =
@@ -34,27 +41,6 @@ export function SectionHead({ title, lede, children, className = '' }) {
       </h2>
       {lede && <p className="lede mt-6">{lede}</p>}
       {children}
-    </div>
-  );
-}
-
-/** The cropped numeral — an object set beside a head, not a heading itself. */
-export function Numeral({ children, className = '' }) {
-  return (
-    <span className={`numeral block ${className}`} aria-hidden="true">
-      {children}
-    </span>
-  );
-}
-
-/** Stepped bars — a constructed figure used as texture beside a claim. */
-export function SteppedBars({ className = '' }) {
-  return (
-    <div className={`mark-steps ${className}`} aria-hidden="true">
-      <span />
-      <span />
-      <span />
-      <span />
     </div>
   );
 }

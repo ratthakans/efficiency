@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Band, SectionHead, Numeral } from '@/components/ui/Section';
+import { Band, SectionHead } from '@/components/ui/Section';
 import { BRAND, PERSONALITY, MANIFESTO, PROJECTS, CONTACT } from '@/lib/content';
 
 export const metadata = {
@@ -29,9 +29,11 @@ export default function StudioPage() {
               {CONTACT.companyTh} · ทะเบียน <span className="num">{CONTACT.registrationNo}</span>
             </p>
           </div>
-          <div className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end" style={{ overflow: 'clip' }}>
-            <Numeral>{PROJECTS.length}</Numeral>
-            <p className="label mt-4">projects live</p>
+          <div className="col-span-12 lg:col-span-3 lg:col-start-10 lg:self-end">
+            <p className="label label--ink num" style={{ fontSize: 'var(--text-4xl)', letterSpacing: '-0.01em' }}>
+              {PROJECTS.length}
+            </p>
+            <p className="label mt-2">projects live</p>
           </div>
         </div>
       </Band>
@@ -62,7 +64,7 @@ export default function StudioPage() {
         </div>
       </Band>
 
-      <Band tone="paper-2" rule="hair">
+      <Band rule="ink">
         <SectionHead title="Personality" lede={BRAND.tone} />
         <div className="mt-12 grid gap-0 md:grid-cols-2 xl:grid-cols-3">
           {PERSONALITY.map((p, i) => (

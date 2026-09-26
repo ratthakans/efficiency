@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Band, SectionHead, Numeral } from '@/components/ui/Section';
+import { Band, SectionHead } from '@/components/ui/Section';
 import { CONTACT } from '@/lib/content';
 
 export const metadata = {
@@ -99,9 +99,6 @@ export default function ContactPage() {
               title="รู้เรื่องพวกนี้ไว้จะคุยได้เร็วขึ้น"
               lede="ยังตอบไม่ได้ทุกข้อก็โทรมาได้ เราถามทีละข้อให้เอง"
             />
-            <div className="mt-8" style={{ overflow: 'clip' }}>
-              <Numeral>05</Numeral>
-            </div>
           </div>
           <div className="col-span-12 lg:col-span-6 lg:col-start-7">
             <ol className="defs" style={{ borderTopColor: 'var(--color-rule-ink)' }}>

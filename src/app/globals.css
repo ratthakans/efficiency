@@ -115,8 +115,11 @@
   padding-block: clamp(var(--space-2xl), 7vw, var(--space-4xl));
 }
 
+/* Sections divide on a single ink hairline. The theme's 2px rule was heavier
+   than a white page wants, and with the tinted bands gone these rules carry
+   the structure on their own. */
 .rule-top {
-  border-top: var(--rule-solid) solid var(--color-rule-ink);
+  border-top: var(--rule-hairline) solid var(--color-rule-ink);
 }
 
 .rule-hair {
@@ -223,14 +226,6 @@
   margin-inline-start: 0.1em;
 }
 
-/* the bar — a signal rule over a head, cut to a column width */
-.mark-bar {
-  display: block;
-  width: min(120px, 22vw);
-  height: var(--rule-bar);
-  background: var(--color-ink);
-}
-
 /* the quarter-disc — answers the pointer with a snapped 90° turn.
    Kept only where the turn itself is the point; it is not a decoration
    to hang on every row. */
@@ -267,42 +262,6 @@
   inset-block: -4px;
   left: 50%;
   width: 1px;
-}
-
-/* the stepped bars — a data-less figure used as texture beside a claim */
-.mark-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.mark-steps span {
-  display: block;
-  height: 10px;
-  background: var(--color-ink);
-  opacity: 0.16;
-}
-.mark-steps span:nth-child(1) { width: 100%; }
-.mark-steps span:nth-child(2) { width: 72%; }
-.mark-steps span:nth-child(3) { width: 84%; }
-.mark-steps span:nth-child(4) { width: 46%; }
-.mark-steps span:first-child { background: var(--color-ink); opacity: 1; }
-
-/* the cropped numeral — art, not a heading */
-.numeral {
-  font-size: var(--numeral-object);
-  font-weight: var(--display-weight);
-  line-height: 0.78;
-  letter-spacing: -0.05em;
-  color: var(--color-ink);
-  opacity: 0.07;
-  user-select: none;
-}
-
-/* the dot module — ground texture inside one figure cell */
-.dots {
-  background-image: radial-gradient(var(--color-ink) 1px, transparent 1px);
-  background-size: 12px 12px;
-  opacity: 0.14;
 }
 
 /* ─────────────────────────────────────────────────────────────

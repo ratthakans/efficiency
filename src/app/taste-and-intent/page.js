@@ -51,7 +51,7 @@ export default function TasteAndIntentPage() {
       </Band>
 
       {/* Generated vs Crafted — a ruled matrix, the Grid theme's table voice */}
-      <Band tone="paper-2" rule="hair">
+      <Band rule="ink">
         <SectionHead title="Generated vs Crafted" />
         <div className="mt-12 overflow-x-auto">
           <table style={{ width: '100%', minWidth: 640, borderCollapse: 'collapse' }}>
@@ -138,7 +138,7 @@ export default function TasteAndIntentPage() {
         </div>
       </Band>
 
-      <Band tone="paper-2" rule="hair" tight>
+      <Band rule="ink" tight>
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHead title="What should we build?" lede="คำถามนี้ยังเป็นของมนุษย์ และเป็นงานที่เราทำ" />
           <div className="flex flex-wrap gap-3">

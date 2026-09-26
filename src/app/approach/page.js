@@ -24,8 +24,9 @@ export default function ApproachPage() {
         </div>
       </Band>
 
+      {/* alternation is carried by which side the head sits on, not by a tint */}
       {PRINCIPLES.map((p, i) => (
-        <Band key={p.key} rule="ink" tone={i % 2 === 1 ? 'paper-2' : 'paper'}>
+        <Band key={p.key} rule="ink">
           <div className="cols gap-y-8">
             <div className={i % 2 === 1 ? 'col-span-12 lg:col-span-5 lg:col-start-8' : 'col-span-12 lg:col-span-5'}>
               <h2 className="display-s">{p.title}</h2>
@@ -61,7 +62,7 @@ export default function ApproachPage() {
         </div>
       </Band>
 
-      <Band tone="paper-2" rule="hair" tight>
+      <Band rule="ink" tight>
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHead title="Our standard of craft." lede="หลักสามข้อนี้ถูกแปลเป็นมาตรฐานหกด้านที่ตรวจได้จริง" />
           <Link href="/standard" className="btn btn--signal">ดู Our Standard</Link>
