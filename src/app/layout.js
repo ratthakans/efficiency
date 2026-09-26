@@ -9,7 +9,9 @@ import { CONTACT, PROJECTS, FAQS } from '@/lib/content';
    IBM Plex Sans Thai stands in for Archivo because it carries Thai. */
 const plexThai = IBM_Plex_Sans_Thai({
   subsets: ['thai', 'latin'],
-  weight: ['400', '500', '600', '700'],
+  /* 500 is only ever set in the mono; loading it here preloaded two unused
+     files on every page */
+  weight: ['400', '600', '700'],
   display: 'swap',
   variable: '--font-plex-thai',
 });

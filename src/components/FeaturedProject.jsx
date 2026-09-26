@@ -1,13 +1,13 @@
 import Image from 'next/image';
-import { scrollSeconds } from '@/lib/scroll';
 import { WORK_KINDS } from '@/lib/content';
+import ScrollPreview from '@/components/ScrollPreview';
 
 /**
  * One project set beside the home headline, so the first screen shows work
- * and not only words. A tall frame holds the full-page capture; hovering reads
- * the site top to bottom. Unlike the grid cards the capture is here from the
- * first paint — it is the hero image — so the scroll needs no client code:
- * the same .scroll-preview CSS drives it.
+ * and not only words. The frame paints a small 4:5 cover (the top of the site,
+ * ~30 KB) — it is the page's LCP image, so it must stay light. The full-page
+ * capture (~100 KB) arrives only when a mouse or focus ring reaches the frame,
+ * exactly like the grid cards, and then scrolls top to bottom.
  */
 export default function FeaturedProject({ project }) {
   const kind = WORK_KINDS.find((k) => k.key === project.kind)?.label;
@@ -22,20 +22,15 @@ export default function FeaturedProject({ project }) {
       aria-label={`เปิดเว็บไซต์ ${project.name} ในแท็บใหม่`}
     >
       <figure className="work-figure featured__frame">
-        <div
-          className="scroll-preview"
-          data-ready
-          style={{ '--scroll-dur': `${scrollSeconds(project.full.height)}s` }}
-        >
-          <Image
-            src={project.full.src}
-            alt={`หน้าเว็บไซต์ ${project.name}`}
-            width={800}
-            height={project.full.height}
-            priority
-            sizes="(max-width: 60rem) 100vw, 34vw"
-          />
-        </div>
+        <Image
+          src={project.full.src.replace('/work/full/', '/work/cover/')}
+          alt={`หน้าเว็บไซต์ ${project.name}`}
+          fill
+          priority
+          sizes="(max-width: 60rem) 100vw, 34vw"
+          style={{ objectFit: 'cover', objectPosition: 'top' }}
+        />
+        <ScrollPreview src={project.full.src} height={project.full.height} />
       </figure>
       <div className="mt-4 flex items-baseline justify-between gap-4">
         <p className="work-cell__name" style={{ fontSize: 'var(--text-lg)', fontWeight: 700 }}>
