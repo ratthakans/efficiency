@@ -44,17 +44,9 @@ export default function ApproachPage() {
           title="The enemy."
           lede="เราไม่ได้ต่อต้านความซับซ้อน บางระบบจำเป็นต้องซับซ้อน สิ่งที่เราต่อต้านคือแรงเสียดทานที่ไม่มีเหตุผล"
         />
-        <div className="mt-12 grid gap-0 md:grid-cols-2 xl:grid-cols-3">
-          {FRICTIONS.map((f, i) => (
-            <div
-              key={f.title}
-              className="py-8 md:px-7"
-              style={{
-                borderTop: 'var(--rule-solid) solid var(--color-rule-ink)',
-                borderInlineStart: i % 3 === 0 ? undefined : 'var(--rule-hairline) solid var(--color-rule)',
-                paddingInlineStart: i % 3 === 0 ? 0 : undefined,
-              }}
-            >
+        <div className="ruled-grid mt-12">
+          {FRICTIONS.map((f) => (
+            <div key={f.title} className="ruled-cell">
               <h3 style={{ fontSize: 'var(--text-xl)' }}>{f.title}</h3>
               <p className="prose mt-3" style={{ fontSize: 'var(--text-sm)' }}>{f.body}</p>
             </div>

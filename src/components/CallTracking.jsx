@@ -19,7 +19,9 @@ export default function CallTracking() {
 
       const region = link.closest('header')
         ? 'navbar'
-        : link.closest('footer')
+        : link.closest('.callbar')
+          ? 'callbar'
+          : link.closest('footer')
           ? 'footer'
           : link.closest('[data-proof]')
             ? 'proof'

@@ -120,17 +120,9 @@ export default function TasteAndIntentPage() {
         <SectionHead
           title="สามคุณค่าที่ AI ทำให้มีค่ามากขึ้น ไม่ใช่น้อยลง"
         />
-        <div className="mt-12 grid gap-0 md:grid-cols-3">
-          {PRINCIPLES.map((p, i) => (
-            <div
-              key={p.key}
-              className="py-9 md:px-8"
-              style={{
-                borderTop: 'var(--rule-solid) solid var(--color-rule-ink)',
-                borderInlineStart: i === 0 ? undefined : 'var(--rule-hairline) solid var(--color-rule)',
-                paddingInlineStart: i === 0 ? 0 : undefined,
-              }}
-            >
+        <div className="ruled-grid mt-12">
+          {PRINCIPLES.map((p) => (
+            <div key={p.key} className="ruled-cell">
               <h3 style={{ fontSize: 'var(--text-3xl)' }}>{p.title}</h3>
               <p className="label mt-3">{p.sub}</p>
             </div>

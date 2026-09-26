@@ -85,7 +85,11 @@ export default function NavBar() {
             >
               ⌘K
             </button>
-            <ThemeToggle />
+            {/* on phones the switch lives in the menu sheet, so the header
+                keeps its width for the wordmark and the menu */}
+            <div className="hidden md:flex">
+              <ThemeToggle />
+            </div>
             <a
               href={CONTACT.phoneHref}
               className="label hidden lg:flex items-center whitespace-nowrap num"
@@ -131,9 +135,16 @@ export default function NavBar() {
                 <span style={{ fontSize: 'var(--text-lg)', fontWeight: 600 }}>{l.label}</span>
               </Link>
             ))}
+            <div
+              className="flex items-center justify-between"
+              style={{ minHeight: 56, borderBottom: 'var(--rule-hairline) solid var(--color-rule)' }}
+            >
+              <span className="label">โหมดหน้าจอ</span>
+              <ThemeToggle />
+            </div>
             <a
               href={CONTACT.phoneHref}
-              className="btn btn--signal w-full"
+              className="btn btn--call w-full"
               style={{ marginBlock: 'var(--space-lg)' }}
             >
               โทร {CONTACT.phone}

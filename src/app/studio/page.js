@@ -89,17 +89,9 @@ export default function StudioPage() {
 
       <Band rule="ink">
         <SectionHead title="Personality" lede={BRAND.tone} />
-        <div className="mt-12 grid gap-0 md:grid-cols-2 xl:grid-cols-3">
-          {PERSONALITY.map((p, i) => (
-            <div
-              key={p.title}
-              className="py-8 md:px-7"
-              style={{
-                borderTop: 'var(--rule-solid) solid var(--color-rule-ink)',
-                borderInlineStart: i % 3 === 0 ? undefined : 'var(--rule-hairline) solid var(--color-rule)',
-                paddingInlineStart: i % 3 === 0 ? 0 : undefined,
-              }}
-            >
+        <div className="ruled-grid mt-12">
+          {PERSONALITY.map((p) => (
+            <div key={p.title} className="ruled-cell">
               <h3 style={{ fontSize: 'var(--text-xl)' }}>{p.title}</h3>
               <p className="prose mt-3" style={{ fontSize: 'var(--text-sm)' }}>{p.body}</p>
             </div>

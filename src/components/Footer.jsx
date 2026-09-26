@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { CONTACT } from '@/lib/content';
 import PerformanceFolio from '@/components/PerformanceFolio';
 import StudioClock from '@/components/StudioClock';
+import { ProofModeLink } from '@/components/ProofMode';
 
 /**
  * Footer — Ft4 Dense colophon
@@ -127,6 +128,7 @@ export default function Footer() {
             <Link href="/terms" className="whitespace-nowrap hover:text-[var(--color-signal)]">
               เงื่อนไขบริการ
             </Link>
+            <ProofModeLink className="label whitespace-nowrap hover:text-[var(--color-signal)]" />
           </p>
         </div>
 

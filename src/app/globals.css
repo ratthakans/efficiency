@@ -331,14 +331,16 @@
 /* Benefits and steps: rows of hairlines, no vertical rules — so nothing is
    left dangling when the columns stack on a phone. */
 .benefits,
-.steps {
+.steps,
+.ruled-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   column-gap: var(--space-2xl);
   border-top: var(--rule-hairline) solid var(--color-rule-ink);
 }
 .benefit,
-.step {
+.step,
+.ruled-cell {
   padding-block: var(--space-xl);
   border-bottom: var(--rule-hairline) solid var(--color-rule);
 }
@@ -360,12 +362,14 @@
 
 @media (min-width: 40rem) {
   .benefits,
-  .steps {
+  .steps,
+  .ruled-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (min-width: 60rem) {
-  .benefits {
+  .benefits,
+  .ruled-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .steps {
@@ -375,6 +379,26 @@
 @media (max-width: 60rem) {
   .featured__frame {
     aspect-ratio: 16 / 10;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Call bar — phones only, pinned under the thumb
+   ───────────────────────────────────────────────────────────── */
+.callbar {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 50;
+  padding: var(--space-sm) var(--gutter) calc(var(--space-sm) + env(safe-area-inset-bottom));
+  background: var(--color-paper);
+  border-top: var(--rule-hairline) solid var(--color-rule-ink);
+}
+/* leave the bar's height free at the foot of every page, so the footer's
+   last line is never under it */
+@media (max-width: 47.99rem) {
+  .has-callbar {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
   }
 }
 

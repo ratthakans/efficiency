@@ -52,6 +52,21 @@ function readSemantics() {
   };
 }
 
+export const PROOF_EVENT = 'efficiency:proof';
+
+/** A plain text control that opens Proof Mode — used in the footer. */
+export function ProofModeLink({ className = '' }) {
+  return (
+    <button
+      type="button"
+      className={className}
+      onClick={() => window.dispatchEvent(new Event(PROOF_EVENT))}
+    >
+      Proof Mode
+    </button>
+  );
+}
+
 export default function ProofMode() {
   const [open, setOpen] = useState(false);
   const [view, setView] = useState('metrics');
@@ -106,6 +121,13 @@ export default function ProofMode() {
     setOpen(true);
   }, [sample]);
 
+  /* The footer link (and anything else) opens the panel by event, so phones
+     can still reach it now that the floating chip is desktop-only. */
+  useEffect(() => {
+    window.addEventListener(PROOF_EVENT, openPanel);
+    return () => window.removeEventListener(PROOF_EVENT, openPanel);
+  }, [openPanel]);
+
   useEffect(() => {
     if (!open) return undefined;
 
@@ -157,12 +179,15 @@ export default function ProofMode() {
 
   return (
     <>
+      {/* A developer's instrument: on phones it would sit on top of the reading
+          column and collide with the call bar, so the chip is desktop-only. */}
+      {!open && (
       <button
         type="button"
         onClick={openPanel}
         aria-expanded={open}
         aria-controls="proof-panel"
-        className="label label--ink"
+        className="label label--ink hidden md:inline-flex"
         style={{
           position: 'fixed',
           insetInlineEnd: 0,
@@ -174,7 +199,6 @@ export default function ProofMode() {
           background: 'var(--color-paper)',
           borderTop: 'var(--rule-solid) solid var(--color-rule-ink)',
           borderInlineStart: 'var(--rule-solid) solid var(--color-rule-ink)',
-          display: open ? 'none' : 'inline-flex',
           alignItems: 'center',
           gap: 8,
         }}
@@ -182,6 +206,7 @@ export default function ProofMode() {
         <span className="mark-square" aria-hidden="true" style={{ marginInlineStart: 0 }} />
         Proof mode
       </button>
+      )}
 
       {open && (
         <aside

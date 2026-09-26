@@ -6,11 +6,12 @@ import Footer from '@/components/Footer';
 import ProofMode from '@/components/ProofMode';
 import CallTracking from '@/components/CallTracking';
 import CommandPalette from '@/components/CommandPalette';
+import CallBar from '@/components/CallBar';
 
 export default function SiteLayout({ children }) {
   return (
     <div className="relative min-h-screen">
-      <div className="relative z-10 flex min-h-screen flex-col">
+      <div className="relative z-10 flex min-h-screen flex-col has-callbar">
         <a href="#main" className="skip-link">
           ข้ามไปยังเนื้อหาหลัก
         </a>
@@ -23,6 +24,7 @@ export default function SiteLayout({ children }) {
       <ProofMode />
       <CallTracking />
       <CommandPalette />
+      <CallBar />
     </div>
   );
 }
